@@ -1,0 +1,94 @@
+<nz-layout>
+    <nz-header>
+      <div class="logo">
+        Sai Traders
+      </div>
+      <!-- <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+        <li nz-menu-item>nav 1</li>
+        <li nz-menu-item nzSelected>nav 2</li>
+        <li nz-menu-item>nav 3</li>
+      </ul> -->
+    </nz-header>
+    <nz-content class="outer-content">
+      <ul nz-menu nzMode="horizontal">
+        <li nz-submenu nzTitle="Customers">
+          <ul>
+            <li nz-menu-item>
+              <a [routerLink]="['customer']">New Customer</a>
+            </li>
+            <li nz-menu-item>
+                <a [routerLink]="['bill']">Bill</a>
+            </li>
+            <li nz-menu-item>Collection</li>
+            <li nz-menu-item>Statement</li>
+            <li nz-menu-item>Balance Statement</li>
+            <li nz-menu-item>Bill print</li>
+            <li nz-menu-item>Customer Account</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Farmer">
+          <ul>
+            <li nz-menu-item>New</li>
+            <li nz-menu-item>Bill</li>
+            <li nz-menu-item>Hamali</li>
+            <li nz-menu-item>Payment</li>
+            <li nz-menu-item>Statement</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Vegetables">
+          <ul>
+            <li nz-menu-item>New</li>
+            <li nz-menu-item>View</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Settings">
+          <ul>
+            <li nz-menu-item>Account Details</li>
+            <li nz-menu-item>Delete All</li>
+            <li nz-menu-item>User Accounts</li>
+          </ul>
+        </li>
+      </ul>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+      <!-- <nz-breadcrumb>
+        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+        <nz-breadcrumb-item>List</nz-breadcrumb-item>
+        <nz-breadcrumb-item>App</nz-breadcrumb-item>
+      </nz-breadcrumb> -->
+      <!-- <nz-layout class="inner-layout">
+        <nz-sider nzWidth="200px" nzTheme="light">
+          <ul nz-menu nzMode="inline" class="sider-menu">
+            <li nz-submenu nzOpen nzTitle="Customers" nzIcon="user">
+              <ul>
+                <li nz-menu-item nzSelected>New Customer</li>
+                <li nz-menu-item>option2</li>
+                <li nz-menu-item>option3</li>
+                <li nz-menu-item>option4</li>
+              </ul>
+            </li>
+            <li nz-submenu nzTitle="subnav 2" nzIcon="laptop">
+              <ul>
+                <li nz-menu-item>option5</li>
+                <li nz-menu-item>option6</li>
+                <li nz-menu-item>option7</li>
+                <li nz-menu-item>option8</li>
+              </ul>
+            </li>
+            <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
+              <ul>
+                <li nz-menu-item>option9</li>
+                <li nz-menu-item>option10</li>
+                <li nz-menu-item>option11</li>
+                <li nz-menu-item>option12</li>
+              </ul>
+            </li>
+          </ul>
+        </nz-sider>
+        <nz-content class="inner-content">Content</nz-content>
+      </nz-layout> -->
+      <!-- <nz-back-top [nzTarget]="divTarget"></nz-back-top> -->
+      <nz-footer>Sai Traders ©2023</nz-footer>
+    </nz-content>
+  </nz-layout>
