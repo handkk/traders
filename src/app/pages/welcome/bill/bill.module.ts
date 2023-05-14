@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BillRoutingModule } from './bill-routing.module';
 import { BillComponent } from './bill.component';
+import { SharedModule } from '../shared.module';
 
 
 @NgModule({
@@ -11,7 +12,11 @@ import { BillComponent } from './bill.component';
   ],
   imports: [
     CommonModule,
-    BillRoutingModule
+    BillRoutingModule,
+    SharedModule
+  ],
+  exports: [
+    SharedModule
   ]
 })
 export class BillModule { }

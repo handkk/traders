@@ -9,7 +9,7 @@ const routes: Routes = [
     component: CustomerComponent
   },
   {
-    path: 'bill', component: BillComponent
+    path: 'bill', loadChildren: () => import('../bill/bill.module').then(m => m.BillModule)
   },
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];

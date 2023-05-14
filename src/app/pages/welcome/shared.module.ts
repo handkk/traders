@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ReactiveFormsModule,
     NzInputModule,
     NzSelectModule,
-    NzButtonModule
+    NzButtonModule,
+    NzInputNumberModule,
+    NzDatePickerModule,
+    NzTableModule
   ],
   exports: [
     CommonModule,
@@ -37,7 +43,10 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     ReactiveFormsModule,
     NzInputModule,
     NzSelectModule,
-    NzButtonModule
+    NzButtonModule,
+    NzInputNumberModule,
+    NzDatePickerModule,
+    NzTableModule
   ]
 })
 export class SharedModule { }

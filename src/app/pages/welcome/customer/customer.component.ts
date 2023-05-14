@@ -10,28 +10,6 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 })
 export class CustomerComponent implements OnInit {
   validateForm!: UntypedFormGroup;
-  captchaTooltipIcon: NzFormTooltipIcon = {
-    type: 'info-circle',
-    theme: 'twotone'
-  };
-
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    // Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
-  }
-
-  // confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
-  //   if (!control.value) {
-  //     return { required: true };
-  //   } else if (control.value !== this.validateForm.controls.password.value) {
-  //     return { confirm: true, error: true };
-  //   }
-  //   return {};
-  // };
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
-  }
 
   constructor(private fb: UntypedFormBuilder) {}
 
