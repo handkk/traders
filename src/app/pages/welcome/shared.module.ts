@@ -13,6 +13,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzButtonModule,
     NzInputNumberModule,
     NzDatePickerModule,
-    NzTableModule
+    NzTableModule,
+    NzMessageModule
   ],
   exports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzButtonModule,
     NzInputNumberModule,
     NzDatePickerModule,
-    NzTableModule
+    NzTableModule,
+    NzMessageModule
   ]
 })
 export class SharedModule { }

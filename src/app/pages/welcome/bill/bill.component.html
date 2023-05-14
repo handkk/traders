@@ -1,7 +1,7 @@
 <div class="customer-form">
     <div nz-row>
         <div nz-col nzSpan="12">
-            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" appFocus>
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -10,11 +10,11 @@
                 </nz-form-item>
         
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="customer" nzRequired>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
                         <span>Customer</span>
                     </nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <nz-select formControlName="customer" class="phone-selects">
+                    <nz-form-control [nzSm]="14" [nzXs]="24" id="customer">
+                        <nz-select formControlName="customer" id="customers">
                             <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c.name"></nz-option>
                         </nz-select>
                     </nz-form-control>

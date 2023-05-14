@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-bill',
@@ -67,7 +68,7 @@ export class BillComponent implements OnInit {
   total = 9;
   pageSize = 5;
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -77,7 +78,7 @@ export class BillComponent implements OnInit {
       vegetables: [null, [Validators.required]],
       farmer: [null, [Validators.required]],
       date: [this.date, [Validators.required]],
-      notes: [null, [Validators.required]]
+      notes: [null]
     });
     this.total = this.billsData.length;
   }
@@ -95,6 +96,16 @@ export class BillComponent implements OnInit {
         rate: this.validateForm.value.rate,
         quantity: this.validateForm.value.quantity
       });
+      this.validateForm.controls['quantity'].reset();
+      this.validateForm.controls['rate'].reset();
+      this.validateForm.controls['notes'].reset();
+      this.message.create('success', `Bill added Successfully`);
+      // this.validateForm.controls['customer'].markAsTouched();
+      // this.validateForm.controls['customer'].updateValueAndValidity();
+      // const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="rate"]');
+      // console.log('quantity element ', document.getElementById('quantity'));
+      // document.getElementById('quantity')?.focus();
+
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
