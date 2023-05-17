@@ -67,7 +67,7 @@ export class FarmerComponent {
         address: this.validateForm.value.address,
         notes: this.validateForm.value.notes
       });
-      this.message.create('success', `${this.validateForm.value.name} Customer added Successfully`);
+      this.message.create('success', `${this.validateForm.value.name} farmer added Successfully`);
       this.validateForm.controls['name'].reset();
       this.validateForm.controls['phoneNumber'].reset();
       this.validateForm.controls['address'].reset();

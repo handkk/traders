@@ -17,6 +17,9 @@ const routes: Routes = [
   {
     path: 'vegetables', loadChildren: () => import('../vegetables/vegetables.module').then(m => m.VegetablesModule)
   },
+  {
+    path: 'customer-collection', loadChildren: () => import('../customer-collection/customer-collection.module').then(m => m.CustomerCollectionModule)
+  },
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];
 
