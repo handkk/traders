@@ -85,12 +85,16 @@
             <nz-table #basicTable [nzData]="billsData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
             [nzFrontPagination]="false">
                 <thead>
-                    <tr>
-                        <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="true">Name</th>
+                        <tr>
+                            <th>Name</th>
+                            <th>Item</th>
+                            <th>Rate</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <!-- <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="true">Name</th> -->
                         <!-- <th>Item</th>
                             <th>Rate</th>
                             <th>Quantity</th> -->
-                        </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of billsData">

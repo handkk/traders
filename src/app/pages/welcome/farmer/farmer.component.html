@@ -1,0 +1,94 @@
+<div class="customer-form">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <h2 class="text-center">Farmer</h2>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col nzSpan="12">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>
+                        <span>Name</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
+                        <input nz-input id="name" formControlName="name" placeholder="Name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber">Phone Number</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['phoneNumber']"
+                        nzErrorTip="Please input your phone number!">
+                        <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+                            <ng-template #addOnBeforeTemplate>
+                                <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+                                    <nz-option nzLabel="+91" nzValue="+91"></nz-option>
+                                </nz-select>
+                            </ng-template>
+                            <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [maxlength]="10" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address">Address</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['address']"
+                        nzErrorTip="Please input your address!">
+                        <nz-input-group [nzSuffix]="textAreaClearTpl"
+                            class="ant-input-affix-wrapper-textarea-with-clear-btn">
+                            <textarea nz-input formControlName="address" placeholder="Address"></textarea>
+                        </nz-input-group>
+                        <ng-template #textAreaClearTpl>
+                            <span nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                                *ngIf="validateForm.controls['address'].value" (click)="clearfield('address')"></span>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notes">Notes</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['notes']"
+                        nzErrorTip="Please input your notes!">
+                        <nz-input-group [nzSuffix]="textAreaClearNotes"
+                            class="ant-input-affix-wrapper-textarea-with-clear-btn">
+                            <textarea nz-input formControlName="notes" placeholder="Notes"></textarea>
+                        </nz-input-group>
+                        <ng-template #textAreaClearNotes>
+                            <span nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                                *ngIf="validateForm.controls['notes'].value" (click)="clearfield('notes')"></span>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row class="register-area">
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                        <button nz-button nzType="primary">Submit</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <div nz-col nzSpan="12">
+            <nz-table #basicTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index"
+                [nzTotal]="total" [nzPageSize]="pageSize" [nzFrontPagination]="false" [nzLoading]="loading">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of customersData">
+                        <td>{{ data.name }}</td>
+                        <td>{{ data.phoneNumber }}</td>
+                        <td>{{ data.address }}</td>
+                        <td>{{ data.notes }}</td>
+                        <!-- <td> -->
+                        <!-- <a>Action 一 {{ data.name }}</a> -->
+                        <!-- <nz-divider nzType="vertical"></nz-divider> -->
+                        <!-- <a>Delete</a> -->
+                        <!-- </td> -->
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>

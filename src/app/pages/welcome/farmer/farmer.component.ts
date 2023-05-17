@@ -3,13 +3,12 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
-
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  selector: 'app-farmer',
+  templateUrl: './farmer.component.html',
+  styleUrls: ['./farmer.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class FarmerComponent {
   validateForm!: UntypedFormGroup;
   customersData: any[] = [
     {

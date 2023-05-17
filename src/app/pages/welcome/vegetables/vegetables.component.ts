@@ -3,19 +3,17 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
-
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  selector: 'app-vegetables',
+  templateUrl: './vegetables.component.html',
+  styleUrls: ['./vegetables.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class VegetablesComponent {
   validateForm!: UntypedFormGroup;
-  customersData: any[] = [
+  vegetablesData: any[] = [
     {
-      name: 'Rajesh',
-      phoneNumber: '9533993043',
-      address: 'PDPL',
+      number: 1,
+      name: 'Potato',
       notes: ''
     }
   ];
@@ -44,14 +42,13 @@ export class CustomerComponent implements OnInit {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
-      phoneNumberPrefix: ['+91'],
-      phoneNumber: [null],
-      // phoneNumber: [null, [Validators.required, Validators.maxLength(10), Validators.pattern('[7-9]{1}[0-9]{9}')]],
-      address: [null],
+      number: [null, [Validators.required]],
       notes: [null]
     });
     setTimeout(() => {
       this.loading = false;
+      const number = this.vegetablesData.length + 1;
+      this.validateForm.controls['number'].setValue(number);
     }, 3500);
   }
 
@@ -62,17 +59,17 @@ export class CustomerComponent implements OnInit {
   submitForm(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
-      this.customersData.push({
+      this.vegetablesData.push({
         name: this.validateForm.value.name,
-        phoneNumber: this.validateForm.value.phoneNumber,
-        address: this.validateForm.value.address,
+        number: this.validateForm.value.number,
         notes: this.validateForm.value.notes
       });
-      this.message.create('success', `${this.validateForm.value.name} Customer added Successfully`);
+      this.message.create('success', `${this.validateForm.value.name} vegetable added Successfully`);
       this.validateForm.controls['name'].reset();
-      this.validateForm.controls['phoneNumber'].reset();
-      this.validateForm.controls['address'].reset();
+      this.validateForm.controls['number'].reset();
       this.validateForm.controls['notes'].reset();
+      const number = this.vegetablesData.length + 1;
+      this.validateForm.controls['number'].setValue(number);
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {

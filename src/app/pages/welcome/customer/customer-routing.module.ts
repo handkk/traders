@@ -11,6 +11,12 @@ const routes: Routes = [
   {
     path: 'bill', loadChildren: () => import('../bill/bill.module').then(m => m.BillModule)
   },
+  {
+    path: 'farmer', loadChildren: () => import('../farmer/farmer.module').then(m => m.FarmerModule)
+  },
+  {
+    path: 'vegetables', loadChildren: () => import('../vegetables/vegetables.module').then(m => m.VegetablesModule)
+  },
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];
 

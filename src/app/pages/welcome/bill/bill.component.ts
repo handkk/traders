@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./bill.component.css']
 })
 export class BillComponent implements OnInit {
+  // @ViewChild('quantity') quantity: ElementRef;
   validateForm!: UntypedFormGroup;
   customers: any[] = [
     { name: 'Srinivas', id: 'c1' },
@@ -67,7 +68,7 @@ export class BillComponent implements OnInit {
   index = 1;
   total = 9;
   pageSize = 5;
-
+  
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService) {}
 
   ngOnInit(): void {
@@ -100,6 +101,7 @@ export class BillComponent implements OnInit {
       this.validateForm.controls['rate'].reset();
       this.validateForm.controls['notes'].reset();
       this.message.create('success', `Bill added Successfully`);
+      // this.quantity.nativeElement.focus();
       // this.validateForm.controls['customer'].markAsTouched();
       // this.validateForm.controls['customer'].updateValueAndValidity();
       // const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="rate"]');
