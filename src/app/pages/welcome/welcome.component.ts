@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-welcome',
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
 export class WelcomeComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private message: NzMessageService
   ) { }
 
   ngOnInit() {
@@ -18,6 +20,7 @@ export class WelcomeComponent implements OnInit {
 
   logout() {
     sessionStorage.clear();
+    this.message.create('success', 'User logged out successfully');
     this.router.navigateByUrl('/login');
   }
 

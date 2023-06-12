@@ -33,13 +33,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   submitForm(): void {
     if (this.loginForm.valid) {
       console.log('submit', this.loginForm.value);
-      this.message.create('success', `${this.loginForm.value.name} Login success`);
-      sessionStorage.setItem('username', this.loginForm.value.name);
-      this.router.navigateByUrl('/customer');
-      // this.loginForm.controls['name'].reset();
-      // this.loginForm.controls['phoneNumber'].reset();
-      // this.loginForm.controls['address'].reset();
-      // this.loginForm.controls['notes'].reset();
+      const username = this.loginForm.value.name;
+      const password = this.loginForm.value.password;
+      if (username === 'admin' && password === 'admin') {
+        sessionStorage.setItem('username', this.loginForm.value.name);
+        this.router.navigateByUrl('/customer');
+      } else {
+        this.message.create('error', 'invalid credentials');
+      }
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
         if (control.invalid) {
