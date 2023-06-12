@@ -21,7 +21,7 @@
                         nzErrorTip="Please input your phone number!">
                         <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
                             <ng-template #addOnBeforeTemplate>
-                                <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+                                <nz-select nzShowSearch nzAllowClear formControlName="phoneNumberPrefix" class="phone-select">
                                     <nz-option nzLabel="+91" nzValue="+91"></nz-option>
                                 </nz-select>
                             </ng-template>

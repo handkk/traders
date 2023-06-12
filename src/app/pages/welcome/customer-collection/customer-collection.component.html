@@ -14,7 +14,7 @@
                         <span>Customer</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" id="customer">
-                        <nz-select formControlName="customer" id="customers">
+                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="customers">
                             <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c.name"></nz-option>
                         </nz-select>
                     </nz-form-control>

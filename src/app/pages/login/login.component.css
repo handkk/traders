@@ -1,0 +1,20 @@
+/* [nz-form] {
+    max-width: 600px;
+  } */
+
+  nz-form-item.ant-form-item {
+    transition: none;
+    width: 100%;
+    margin-left: 20%;
+}
+
+.login-form {
+    margin-top: 10%;
+}
+
+
+nz-form-item.ant-form-item,.register-area {
+    transition: none;
+    width: 100%;
+    /* margin-left: 20%; */
+}

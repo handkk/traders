@@ -35,19 +35,22 @@ export class BillComponent implements OnInit {
       name: 'Srinivas',
       item: 'Potato',
       rate: 200,
-      quantity: 1
+      quantity: 1,
+      total: 400
     },
     {
       name: 'Srinivas',
       item: 'Potato',
       rate: 200,
-      quantity: 1
+      quantity: 1,
+      total: 400
     },
     {
       name: 'Rajesh',
       item: 'Tomato',
       rate: 200,
-      quantity: 1
+      quantity: 1,
+      total: 200
     }
   ];
   sort = ['ascend'];
@@ -95,7 +98,8 @@ export class BillComponent implements OnInit {
         name: this.validateForm.value.customer,
         item: this.validateForm.value.vegetables,
         rate: this.validateForm.value.rate,
-        quantity: this.validateForm.value.quantity
+        quantity: this.validateForm.value.quantity,
+        total: 410
       });
       this.validateForm.controls['quantity'].reset();
       this.validateForm.controls['rate'].reset();
