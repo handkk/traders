@@ -65,7 +65,7 @@
             </form>
         </div>
         <div nz-col nzSpan="12">
-            <nz-table #basicTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index"
+            <nz-table *ngIf="customersData" #basicTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index"
                 [nzTotal]="total" [nzPageSize]="pageSize" [nzFrontPagination]="false" [nzLoading]="loading">
                 <thead>
                     <tr>
@@ -78,7 +78,7 @@
                 <tbody>
                     <tr *ngFor="let data of customersData">
                         <td>{{ data.name }}</td>
-                        <td>{{ data.phoneNumber }}</td>
+                        <td>{{ data.phone_number }}</td>
                         <td>{{ data.address }}</td>
                         <td>{{ data.notes }}</td>
                         <!-- <td> -->

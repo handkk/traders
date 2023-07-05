@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FarmerService } from './farmer.service';
 
 @Component({
   selector: 'app-farmer',
@@ -10,14 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class FarmerComponent {
   validateForm!: UntypedFormGroup;
-  customersData: any[] = [
-    {
-      name: 'Rajesh',
-      phoneNumber: '9533993043',
-      address: 'PDPL',
-      notes: ''
-    }
-  ];
+  customersData: any[] = [];
   sort = ['ascend'];
   listOfColumns = [
     {
@@ -38,7 +32,8 @@ export class FarmerComponent {
   pageSize = 5;
   loading = true;
 
-  constructor(private fb: UntypedFormBuilder, private message: NzMessageService) {}
+  constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
+    private farmerService: FarmerService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -49,9 +44,19 @@ export class FarmerComponent {
       address: [null],
       notes: [null]
     });
-    setTimeout(() => {
-      this.loading = false;
-    }, 3500);
+    this.farmerService.getFarmers().subscribe(
+      (data: any) => {
+        console.log('get farmers ', data);
+        const farmers = data;
+        this.customersData = farmers;
+        this.loading = false;
+      },
+      err => {
+        console.log('get farmers err ', err);
+        this.customersData = [];
+        this.loading = false;
+      }
+    );
   }
 
   clearfield(input: string) {

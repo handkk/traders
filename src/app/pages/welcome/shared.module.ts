@@ -14,6 +14,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzInputNumberModule,
     NzDatePickerModule,
     NzTableModule,
-    NzMessageModule
+    NzMessageModule,
+    HttpClientModule
   ],
   exports: [
     CommonModule,

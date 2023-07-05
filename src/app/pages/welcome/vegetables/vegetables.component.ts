@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { MainService } from '../../main.service';
 
 @Component({
   selector: 'app-vegetables',
@@ -10,13 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class VegetablesComponent {
   validateForm!: UntypedFormGroup;
-  vegetablesData: any[] = [
-    {
-      number: 1,
-      name: 'Potato',
-      notes: ''
-    }
-  ];
+  vegetablesData: any[] = [];
   sort = ['ascend'];
   listOfColumns = [
     {
@@ -37,7 +32,8 @@ export class VegetablesComponent {
   pageSize = 5;
   loading = true;
 
-  constructor(private fb: UntypedFormBuilder, private message: NzMessageService) {}
+  constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
+    private mainService: MainService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -45,11 +41,24 @@ export class VegetablesComponent {
       number: [null, [Validators.required]],
       notes: [null]
     });
-    setTimeout(() => {
-      this.loading = false;
-      const number = this.vegetablesData.length + 1;
-      this.validateForm.controls['number'].setValue(number);
-    }, 3500);
+    this.mainService.getVegetables().subscribe(
+      (data: any) => {
+        // console.log('get farmers ', data);
+        const vegetables = data;
+        this.vegetablesData = vegetables;
+        this.loading = false;
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.vegetablesData = [];
+        this.loading = false;
+      }
+    );
+    // setTimeout(() => {
+    //   this.loading = false;
+    //   const number = this.vegetablesData.length + 1;
+    //   this.validateForm.controls['number'].setValue(number);
+    // }, 3500);
   }
 
   clearfield(input: string) {

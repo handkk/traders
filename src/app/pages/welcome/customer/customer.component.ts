@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { MainService } from '../../main.service';
 
 
 @Component({
@@ -11,14 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class CustomerComponent implements OnInit {
   validateForm!: UntypedFormGroup;
-  customersData: any[] = [
-    {
-      name: 'Rajesh',
-      phoneNumber: '9533993043',
-      address: 'PDPL',
-      notes: ''
-    }
-  ];
+  customersData: any[] = [];
   sort = ['ascend'];
   listOfColumns = [
     {
@@ -39,7 +33,8 @@ export class CustomerComponent implements OnInit {
   pageSize = 5;
   loading = true;
 
-  constructor(private fb: UntypedFormBuilder, private message: NzMessageService) {}
+  constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
+    private mainService: MainService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -50,9 +45,19 @@ export class CustomerComponent implements OnInit {
       address: [null],
       notes: [null]
     });
-    setTimeout(() => {
-      this.loading = false;
-    }, 3500);
+    this.mainService.getCustomers().subscribe(
+      (data: any) => {
+        // console.log('get farmers ', data);
+        const customers = data;
+        this.customersData = customers;
+        this.loading = false;
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.customersData = [];
+        this.loading = false;
+      }
+    );
   }
 
   clearfield(input: string) {

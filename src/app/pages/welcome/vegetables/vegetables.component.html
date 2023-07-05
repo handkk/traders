@@ -47,7 +47,7 @@
             </form>
         </div>
         <div nz-col nzSpan="12">
-            <nz-table #basicTable [nzData]="vegetablesData" [nzShowPagination]="true" [nzPageIndex]="index"
+            <nz-table *ngIf="vegetablesData" #basicTable [nzData]="vegetablesData" [nzShowPagination]="true" [nzPageIndex]="index"
                 [nzTotal]="total" [nzPageSize]="pageSize" [nzFrontPagination]="false" [nzLoading]="loading">
                 <thead>
                     <tr>
