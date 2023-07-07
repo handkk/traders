@@ -3,6 +3,11 @@ import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-vegetables',
@@ -31,22 +36,31 @@ export class VegetablesComponent {
   total = 9;
   pageSize = 5;
   loading = true;
+  edit = false;
+  vegId: string = '';
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
+      name: ['', [Validators.required]],
       number: [null, [Validators.required]],
       notes: [null]
     });
+    this.getAllVegetables();
+  }
+
+  getAllVegetables() {
+    this.loading = true;
     this.mainService.getVegetables().subscribe(
       (data: any) => {
-        // console.log('get farmers ', data);
         const vegetables = data;
         this.vegetablesData = vegetables;
         this.loading = false;
+        const number = this.vegetablesData.length + 1;
+        this.validateForm.controls['number'].setValue(number);
+        document.getElementById('vegetableName')?.focus();
       },
       err => {
         console.log('get customers err ', err);
@@ -54,11 +68,6 @@ export class VegetablesComponent {
         this.loading = false;
       }
     );
-    // setTimeout(() => {
-    //   this.loading = false;
-    //   const number = this.vegetablesData.length + 1;
-    //   this.validateForm.controls['number'].setValue(number);
-    // }, 3500);
   }
 
   clearfield(input: string) {
@@ -67,18 +76,50 @@ export class VegetablesComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-      this.vegetablesData.push({
+      const requestBody = {
         name: this.validateForm.value.name,
         number: this.validateForm.value.number,
         notes: this.validateForm.value.notes
-      });
-      this.message.create('success', `${this.validateForm.value.name} vegetable added Successfully`);
-      this.validateForm.controls['name'].reset();
-      this.validateForm.controls['number'].reset();
-      this.validateForm.controls['notes'].reset();
-      const number = this.vegetablesData.length + 1;
-      this.validateForm.controls['number'].setValue(number);
+      };
+      // this.vegetablesData.push();
+      if (this.edit) {
+        this.mainService.updateVegetable(this.vegId, requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `${this.validateForm.value.name} vegetable updated Successfully`);
+            this.validateForm.controls['name'].reset();
+            this.validateForm.controls['number'].reset();
+            this.validateForm.controls['notes'].reset();
+            const number = this.vegetablesData.length + 1;
+            this.validateForm.controls['number'].setValue(number);
+            this.loading = true;
+            this.edit = false;
+            this.getAllVegetables();
+          },
+          err => {
+            console.log('get customers err ', err);
+            this.loading = false;
+            this.getAllVegetables();
+          }
+        );
+      } else {
+        this.mainService.addVegetable(requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `${this.validateForm.value.name} vegetable added Successfully`);
+            this.validateForm.controls['name'].reset();
+            this.validateForm.controls['number'].reset();
+            this.validateForm.controls['notes'].reset();
+            const number = this.vegetablesData.length + 1;
+            this.validateForm.controls['number'].setValue(number);
+            this.loading = true;
+            this.getAllVegetables();
+          },
+          err => {
+            console.log('get customers err ', err);
+            this.loading = false;
+            this.getAllVegetables();
+          }
+        );
+      }
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -87,5 +128,70 @@ export class VegetablesComponent {
         }
       });
     }
+  }
+
+  reset() {
+    this.validateForm.controls['name'].setValue(null);
+    this.validateForm.controls['name'].updateValueAndValidity();
+    this.validateForm.controls['notes'].reset();
+    const number = this.vegetablesData.length + 1;
+    this.validateForm.controls['number'].setValue(number);
+  }
+
+  public exportJsonAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  public exportTableAsExcelFile(table: HTMLElement, excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + new Date().getTime() + EXCEL_EXTENSION);
+  }
+
+  exportToPDF() {
+    let data: any = [];
+    this.vegetablesData.forEach(veg => {
+      data.push({
+        'Number': veg.number,
+        'Name': veg.name,
+        'Notes': veg.notes
+      })
+    })
+    this.exportJsonAsExcelFile(data, 'vegetables');
+  }
+
+  confirm(id: string) {
+    this.mainService.removeVegetable(id).subscribe(
+      (data: any) => {
+        this.loading = false;
+        if (data && data.success) {
+          this.message.create('success', data.message);
+          this.getAllVegetables();
+        }
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.loading = false;
+      }
+    );
+  }
+
+  cancel() {}
+
+  editVeg(data: any) {
+    this.edit = true;
+    this.vegId = data._id;
+    this.validateForm.controls['number'].setValue(data.number);
+    this.validateForm.controls['name'].setValue(data.name);
+    this.validateForm.controls['notes'].setValue(data.notes);
   }
 }

@@ -15,6 +15,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { HttpClientModule } from '@angular/common/http';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { HttpClientModule } from '@angular/common/http';
     NzDatePickerModule,
     NzTableModule,
     NzMessageModule,
-    HttpClientModule
+    HttpClientModule,
+    NzPopconfirmModule,
+    NzIconModule
   ],
   exports: [
     CommonModule,
@@ -51,7 +55,9 @@ import { HttpClientModule } from '@angular/common/http';
     NzInputNumberModule,
     NzDatePickerModule,
     NzTableModule,
-    NzMessageModule
+    NzMessageModule,
+    NzPopconfirmModule,
+    NzIconModule
   ]
 })
 export class SharedModule { }

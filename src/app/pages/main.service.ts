@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MainService {
 
+  // api_host = 'http://localhost:3000/';
   api_host = 'https://api.srisainathtraders.com/';
 
   constructor(
@@ -13,22 +14,16 @@ export class MainService {
   ) { }
 
   login(body: any) {
-    let new_headers = {
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-      'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE',
-      'Access-Control-Allow-Headers': '*'
-    }
     const url = this.api_host + 'login';
     return this.http.post(url, body);
-    // return this.http.post(url, body, {headers: new_headers});
+  }
+
+  logout(body: any) {
+    const url = this.api_host + 'logout';
+    return this.http.post(url, body);
   }
 
   getCustomers() {
-    let new_headers = {
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-      'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE',
-      'Access-Control-Allow-Headers': '*'
-    }
     const url = this.api_host + 'customers';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
@@ -40,11 +35,6 @@ export class MainService {
   }
 
   getVegetables() {
-    let new_headers = {
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-      'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE',
-      'Access-Control-Allow-Headers': '*'
-    }
     const url = this.api_host + 'vegetables';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
@@ -53,5 +43,61 @@ export class MainService {
       sessionId: userinfo.sessionId
     };
     return this.http.post(url, payload);
+  }
+
+  addVegetable(body: any) {
+    const url = this.api_host + 'vegetable';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
+
+  removeVegetable(id: string) {
+    const url = this.api_host + 'vegetable/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    let requestBody: any = {};
+    requestBody['userId'] = userinfo.userId;
+    requestBody['sessionId'] = userinfo.sessionId;
+    return this.http.delete(url, { body: requestBody });
+  }
+
+  updateVegetable(id: string, body: any) {
+    const url = this.api_host + 'vegetable/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.put(url, body);
+  }
+
+  createFarmer(body: any) {
+    const url = this.api_host + 'farmer';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
+
+  removeFarmer(id: string) {
+    const url = this.api_host + 'farmer/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    let requestBody: any = {};
+    requestBody['userId'] = userinfo.userId;
+    requestBody['sessionId'] = userinfo.sessionId;
+    return this.http.delete(url, { body: requestBody });
+  }
+
+  updateFarmer(id: string, body: any) {
+    const url = this.api_host + 'farmer/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.put(url, body);
   }
 }

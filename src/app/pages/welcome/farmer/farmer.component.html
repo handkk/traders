@@ -8,11 +8,11 @@
         <div nz-col nzSpan="12">
             <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="farmerName" nzRequired>
                         <span>Name</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
-                        <input nz-input id="name" formControlName="name" placeholder="Name" />
+                        <input nz-input id="farmerName" formControlName="name" placeholder="Name" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
@@ -59,13 +59,17 @@
                 </nz-form-item>
                 <nz-form-item nz-row class="register-area">
                     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                        <button nz-button nzType="primary">Submit</button>
+                        <button nz-button nzType="default" (click)="reset()">Reset</button>&nbsp;
+                        <button nz-button nzType="primary">{{edit ? 'Update' : 'Create'}}</button>
                     </nz-form-control>
                 </nz-form-item>
             </form>
         </div>
         <div nz-col nzSpan="12">
-            <nz-table *ngIf="customersData" #basicTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index"
+            <div>
+                <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
+            </div>
+            <nz-table *ngIf="farmersData" #basicTable [nzData]="farmersData" [nzShowPagination]="true" [nzPageIndex]="index"
                 [nzTotal]="total" [nzPageSize]="pageSize" [nzFrontPagination]="false" [nzLoading]="loading">
                 <thead>
                     <tr>
@@ -73,19 +77,21 @@
                         <th>Phone Number</th>
                         <th>Address</th>
                         <th>Notes</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of customersData">
+                    <tr *ngFor="let data of farmersData">
                         <td>{{ data.name }}</td>
                         <td>{{ data.phone_number }}</td>
                         <td>{{ data.address }}</td>
                         <td>{{ data.notes }}</td>
-                        <!-- <td> -->
-                        <!-- <a>Action 一 {{ data.name }}</a> -->
-                        <!-- <nz-divider nzType="vertical"></nz-divider> -->
-                        <!-- <a>Delete</a> -->
-                        <!-- </td> -->
+                        <td>
+                            <a (click)="editFarmer(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Farmer" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()">
+                                <span nz-icon nzType="delete" nzTheme="fill"></span>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </nz-table>

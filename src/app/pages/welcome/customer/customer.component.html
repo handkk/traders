@@ -1,5 +1,10 @@
 <div class="customer-form">
   <div nz-row>
+    <div nz-col nzSpan="24">
+        <h2 class="text-center">Customers</h2>
+    </div>
+</div>
+  <div nz-row>
     <div nz-col nzSpan="12">
       <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
         <nz-form-item>
@@ -87,7 +92,10 @@
       </form>
     </div>
     <div nz-col nzSpan="12">
-      <nz-table *ngIf="customersData" #basicTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
+      <div>
+        <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
+      </div>
+      <nz-table *ngIf="customersData" #customerTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
             [nzFrontPagination]="false" [nzLoading]="loading">
                 <thead>
                     <tr>
