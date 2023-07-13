@@ -17,3 +17,11 @@
 nz-date-picker {
   margin: 0 8px 12px 0;
 }
+
+input[type=number] {
+  border: 1px solid #d9d9d9 !important;
+}
+
+input[type=number]:focus {
+  border: 1px solid #40a9ff !important;
+}

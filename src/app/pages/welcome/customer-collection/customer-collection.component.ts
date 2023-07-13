@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { MainService } from '../../main.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-customer-collection',
@@ -30,14 +32,7 @@ export class CustomerCollectionComponent {
   ];
   date = new Date();
   defaultDate = new Date();
-  collectionsData: any[] = [
-    {
-      date: '2023-05-18',
-      customerName: 'Srinivas',
-      amount: 200,
-      notes: ''
-    }
-  ];
+  collectionsData: any[] = [];
   sort = ['ascend'];
   listOfColumns = [
     {
@@ -56,8 +51,10 @@ export class CustomerCollectionComponent {
   index = 1;
   total = 9;
   pageSize = 5;
+  loading: boolean = false;
   
-  constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService) {}
+  constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
+    private mainService: MainService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -66,6 +63,38 @@ export class CustomerCollectionComponent {
       date: [this.date, [Validators.required]],
       notes: [null]
     });
+    this.getCustomers();
+    this.getCollections();
+  }
+
+  getCollections() {
+    document.getElementById('amountCollection')?.focus();
+    this.loading = true;
+    this.mainService.getCollections().subscribe(
+      (data: any) => {
+        const collections = data;
+        this.collectionsData = collections;
+        this.loading = false;
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.collectionsData = [];
+        this.loading = false;
+      }
+    );
+  }
+
+  getCustomers() {
+    this.mainService.getCustomers().subscribe(
+      (data: any) => {
+        const customers = data;
+        this.customers = customers;
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.customers = [];
+      }
+    );
   }
 
   clearfield(input: string) {
@@ -75,15 +104,27 @@ export class CustomerCollectionComponent {
   submitForm(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
-      this.collectionsData.push({
-        customerName: this.validateForm.value.customer,
+      const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DDTHH:mm:ss.000');
+      const requestBody = {
+        customer_name: this.validateForm.value.customer.name,
+        customer_id: this.validateForm.value.customer._id,
         notes: this.validateForm.value.notes,
         amount: this.validateForm.value.amount,
-        date: this.validateForm.value.date
-      });
-      this.validateForm.controls['amount'].reset();
-      this.validateForm.controls['notes'].reset();
-      this.message.create('success', `Collection added Successfully`);
+        collection_date: billdate
+      };
+      this.mainService.createCollection(requestBody).subscribe(
+        (data: any) => {
+          this.message.create('success', `Collection added Successfully`);
+          this.reset();
+          this.loading = true;
+          this.getCollections();
+        },
+        err => {
+          console.log('get customers err ', err);
+          this.loading = false;
+          this.getCollections();
+        }
+      );
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -92,6 +133,11 @@ export class CustomerCollectionComponent {
         }
       });
     }
+  }
+
+  reset() {
+    this.validateForm.controls['amount'].reset();
+    this.validateForm.controls['notes'].reset();
   }
 
   onChange(result: Date): void {

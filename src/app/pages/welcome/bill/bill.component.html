@@ -14,18 +14,18 @@
                         <span>Customer</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" id="customer">
-                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="customers">
-                            <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c.name"></nz-option>
+                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="customersLists">
+                            <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
         
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="quantity" nzRequired>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="quantityNumber" nzRequired>
                         <span>Quantity</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Add quantity!">
-                        <nz-input-number id="quantity" formControlName="quantity" [nzMin]="1" [nzStep]="1"></nz-input-number>
+                        <input id="quantityNumber" formControlName="quantity" [min]="1" [step]="1">
                     </nz-form-control>
                 </nz-form-item>
         
@@ -37,6 +37,15 @@
                         <nz-input-number id="rate" formControlName="rate" [nzMin]="1" [nzStep]="1"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
+                        <span>Unit wise</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24">
+                        <nz-switch [(ngModel)]="switchValue" [ngModelOptions]="{standalone: true}"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                
                 
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="vegetables" nzRequired>
@@ -44,7 +53,7 @@
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
                         <nz-select nzShowSearch nzAllowClear formControlName="vegetables" class="phone-selects">
-                            <nz-option *ngFor="let v of vegetablesList;index as CI;" [nzLabel]="v.name" [nzValue]="v.name"></nz-option>
+                            <nz-option *ngFor="let v of vegetablesList;index as CI;" [nzLabel]="v.name" [nzValue]="v"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -55,13 +64,13 @@
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
                         <nz-select nzShowSearch nzAllowClear formControlName="farmer" class="phone-selects">
-                            <nz-option *ngFor="let f of farmersList;index as CI;" [nzLabel]="f.name" [nzValue]="f.name"></nz-option>
+                            <nz-option *ngFor="let f of farmersList;index as CI;" [nzLabel]="f.name" [nzValue]="f"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
                 
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notes" nzRequired>Notes</nz-form-label>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notes">Notes</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['notes']"
                         nzErrorTip="Please input your notes!">
                         <nz-input-group [nzSuffix]="textAreaClearNotes" class="ant-input-affix-wrapper-textarea-with-clear-btn">
@@ -76,14 +85,15 @@
         
                 <nz-form-item nz-row class="register-area">
                     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                        <button nz-button nzType="primary">Submit</button>
+                        <button nz-button nzType="primary">{{ edit ? 'Update' : 'Create' }}</button>&nbsp;
+                        <button nz-button nzType="default" (click)="reset()">Reset</button>
                     </nz-form-control>
                 </nz-form-item>
             </form>
         </div>
         <div nz-col nzSpan="12">
             <nz-table #basicTable [nzData]="billsData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
-            [nzFrontPagination]="false">
+            [nzFrontPagination]="false" [nzLoading]="loading">
                 <thead>
                         <tr>
                             <th>Name</th>
@@ -91,24 +101,22 @@
                             <th>Quantity</th>
                             <th>Rate</th>
                             <th>Total</th>
+                            <th>Actions</th>
                         </tr>
-                        <!-- <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="true">Name</th> -->
-                        <!-- <th>Item</th>
-                            <th>Rate</th>
-                            <th>Quantity</th> -->
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of billsData">
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.item }}</td>
+                            <td>{{ data.customer_name }}</td>
+                            <td>{{ data.vegetable_name }}</td>
                             <td>{{ data.quantity }}</td>
                             <td>{{ data.rate }}</td>
-                            <td>{{ data.total }}</td>
-                            <!-- <td> -->
-                                <!-- <a>Action 一 {{ data.name }}</a> -->
-                                <!-- <nz-divider nzType="vertical"></nz-divider> -->
-                                <!-- <a>Delete</a> -->
-                                <!-- </td> -->
+                            <td>{{ data.total_amount }}</td>
+                            <td>
+                                <!-- <a (click)="editCustomer(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp; -->
+                                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Bill" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()">
+                                    <span nz-icon nzType="delete" nzTheme="fill"></span>
+                                </a>
+                              </td>
                             </tr>
                         </tbody>
                     </nz-table>

@@ -17,7 +17,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { HttpClientModule } from '@angular/common/http';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @NgModule({
   imports: [
@@ -38,7 +38,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzMessageModule,
     HttpClientModule,
     NzPopconfirmModule,
-    NzIconModule
+    NzIconModule,
+    NzSwitchModule
   ],
   exports: [
     CommonModule,
@@ -57,7 +58,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzTableModule,
     NzMessageModule,
     NzPopconfirmModule,
-    NzIconModule
+    NzIconModule,
+    NzSwitchModule
   ]
 })
 export class SharedModule { }

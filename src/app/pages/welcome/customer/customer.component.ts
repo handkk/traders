@@ -36,6 +36,8 @@ export class CustomerComponent implements OnInit {
   total = 9;
   pageSize = 5;
   loading = true;
+  edit: boolean = false;
+  customerId: any;
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService) {}
@@ -49,6 +51,11 @@ export class CustomerComponent implements OnInit {
       address: [null],
       notes: [null]
     });
+    this.getCustomers();
+  }
+
+  getCustomers() {
+    document.getElementById('customerName')?.focus();
     this.mainService.getCustomers().subscribe(
       (data: any) => {
         // console.log('get farmers ', data);
@@ -70,18 +77,43 @@ export class CustomerComponent implements OnInit {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-      this.customersData.push({
+      const requestBody = {
         name: this.validateForm.value.name,
-        phoneNumber: this.validateForm.value.phoneNumber,
+        phone_number: this.validateForm.value.phoneNumber,
         address: this.validateForm.value.address,
-        notes: this.validateForm.value.notes
-      });
-      this.message.create('success', `${this.validateForm.value.name} Customer added Successfully`);
-      this.validateForm.controls['name'].reset();
-      this.validateForm.controls['phoneNumber'].reset();
-      this.validateForm.controls['address'].reset();
-      this.validateForm.controls['notes'].reset();
+        notes: this.validateForm.value.notes,
+        email: 'admin@traders.com'
+      };
+      if (this.edit) {
+        this.mainService.updateCustomer(this.customerId, requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `${this.validateForm.value.name} customer updated Successfully`);
+            this.reset();
+            this.loading = true;
+            this.edit = false;
+            this.getCustomers();
+          },
+          err => {
+            console.log('get customers err ', err);
+            this.loading = false;
+            this.getCustomers();
+          }
+        );
+      } else {
+        this.mainService.createCustomer(requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `${this.validateForm.value.name} Customer added Successfully`);
+            this.reset();
+            this.loading = true;
+            this.getCustomers();
+          },
+          err => {
+            console.log('get customers err ', err);
+            this.loading = false;
+            this.getCustomers();
+          }
+        );
+      }
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -123,4 +155,40 @@ export class CustomerComponent implements OnInit {
     })
     this.exportJsonAsExcelFile(data, 'customers');
   }
+
+  reset() {
+    this.validateForm.controls['name'].reset();
+    this.validateForm.controls['phoneNumber'].reset();
+    this.validateForm.controls['address'].reset();
+    this.validateForm.controls['notes'].reset();
+    this.edit = false;
+    document.getElementById('customerName')?.focus();
+  }
+
+  editCustomer(data: any) {
+    this.edit = true;
+    this.customerId = data._id;
+    this.validateForm.controls['phoneNumber'].setValue(data.phone_number);
+    this.validateForm.controls['name'].setValue(data.name);
+    this.validateForm.controls['notes'].setValue(data.notes);
+    this.validateForm.controls['address'].setValue(data.address);
+  }
+
+  deleteConfirm(id: string) {
+    this.mainService.removeCustomer(id).subscribe(
+      (data: any) => {
+        this.loading = false;
+        if (data && data.success) {
+          this.message.create('success', data.message);
+          this.getCustomers();
+        }
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.loading = false;
+      }
+    );
+  }
+
+  cancel() {}
 }
