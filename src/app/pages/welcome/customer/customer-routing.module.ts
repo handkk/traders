@@ -20,6 +20,9 @@ const routes: Routes = [
   {
     path: 'customer-collection', loadChildren: () => import('../customer-collection/customer-collection.module').then(m => m.CustomerCollectionModule)
   },
+  {
+    path: 'user_settings', loadChildren: () => import('../user-settings/user-settings.module').then(m => m.UserSettingsModule)
+  }
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];
 

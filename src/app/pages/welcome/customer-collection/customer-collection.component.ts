@@ -10,7 +10,6 @@ import * as moment from 'moment';
   styleUrls: ['./customer-collection.component.css']
 })
 export class CustomerCollectionComponent {
-  // @ViewChild('quantity') quantity: ElementRef;
   validateForm!: UntypedFormGroup;
   customers: any[] = [
     { name: 'Srinivas', id: 'c1' },
@@ -49,8 +48,8 @@ export class CustomerCollectionComponent {
     }
   ];
   index = 1;
-  total = 9;
-  pageSize = 5;
+  total = 0;
+  pageSize = 10;
   loading: boolean = false;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
@@ -68,12 +67,17 @@ export class CustomerCollectionComponent {
   }
 
   getCollections() {
+    const requestBody = {
+      'skip': this.index,
+      'limit': this.pageSize
+    };
     document.getElementById('amountCollection')?.focus();
     this.loading = true;
-    this.mainService.getCollections().subscribe(
+    this.mainService.getCollections(requestBody).subscribe(
       (data: any) => {
-        const collections = data;
+        const collections = data.data;
         this.collectionsData = collections;
+        this.total = data.total;
         this.loading = false;
       },
       err => {
@@ -85,9 +89,10 @@ export class CustomerCollectionComponent {
   }
 
   getCustomers() {
-    this.mainService.getCustomers().subscribe(
+    const requestBody = {};
+    this.mainService.getCustomers(requestBody).subscribe(
       (data: any) => {
-        const customers = data;
+        const customers = data.data;
         this.customers = customers;
       },
       err => {
@@ -103,7 +108,6 @@ export class CustomerCollectionComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
       const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DDTHH:mm:ss.000');
       const requestBody = {
         customer_name: this.validateForm.value.customer.name,
@@ -140,7 +144,34 @@ export class CustomerCollectionComponent {
     this.validateForm.controls['notes'].reset();
   }
 
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
+  onChange(result: Date): void {}
+
+  deleteConfirm(id: string) {
+    this.loading = true;
+    this.mainService.removeCollection(id).subscribe(
+      (data: any) => {
+        this.loading = false;
+        if (data && data.success) {
+          this.message.create('success', data.message);
+          this.getCollections();
+        }
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.loading = false;
+      }
+    );
+  }
+
+  cancel() {}
+
+  onPageSizeChange(event: any) {
+    this.pageSize = event;
+    this.getCollections();
+  }
+
+  onPageChange(event: any) {
+    this.index = event;
+    this.getCollections();
   }
 }

@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submitForm(): void {
     if (this.loginForm.valid) {
-      console.log('submit', this.loginForm.value);
       const username = this.loginForm.value.name;
       const password = this.loginForm.value.password;
       let requestBody = {
@@ -43,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       };
       this.mainService.login(requestBody).subscribe(
         (data: any) => {
-          console.log('login success ', data);
           const userinfo = {
             userId: data.userId,
             sessionId: data.sessionId,
@@ -57,12 +55,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.message.create('error', 'invalid credentials');
         }
       );
-      // if (username === 'admin' && password === 'admin') {
-      //   sessionStorage.setItem('username', this.loginForm.value.name);
-      //   this.router.navigateByUrl('/customer');
-      // } else {
-      //   this.message.create('error', 'invalid credentials');
-      // }
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
         if (control.invalid) {

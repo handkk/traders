@@ -30,7 +30,7 @@
           >
             <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
               <ng-template #addOnBeforeTemplate>
-                <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+                <nz-select formControlName="phoneNumberPrefix" class="phone-select" nzDisabled>
                   <nz-option nzLabel="+91" nzValue="+91"></nz-option>
                 </nz-select>
               </ng-template>
@@ -96,8 +96,7 @@
       <div>
         <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
       </div>
-      <nz-table *ngIf="customersData" #customerTable [nzData]="customersData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
-            [nzFrontPagination]="false" [nzLoading]="loading">
+      <nz-table *ngIf="customersData" #customerTable [nzData]="customersData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -122,6 +121,11 @@
                             </tr>
                         </tbody>
                     </nz-table>
+                    <div class="text-right">
+                      <br />
+                      <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true" [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
+                      <br />
+                    </div>
     </div>
     </div>
     

@@ -11,7 +11,6 @@ import * as moment from 'moment';
   styleUrls: ['./bill.component.css']
 })
 export class BillComponent implements OnInit {
-  // @ViewChild('quantity') quantity: ElementRef;
   validateForm!: UntypedFormGroup;
   customers: any[] = [];
   vegetablesList: any[] = [];
@@ -35,8 +34,8 @@ export class BillComponent implements OnInit {
     }
   ];
   index = 1;
-  total = 9;
-  pageSize = 5;
+  total = 0;
+  pageSize = 10;
   loading = true;
   edit: boolean = false;
   billId: any;
@@ -72,11 +71,16 @@ export class BillComponent implements OnInit {
   }
 
   getBills() {
+    const requestBody = {
+      'skip': this.index,
+      'limit': this.pageSize
+    };
     this.loading = true;
-    this.mainService.getBills().subscribe(
+    this.mainService.getBills(requestBody).subscribe(
       (data: any) => {
-        const bills = data;
+        const bills = data.data;
         this.billsData = bills;
+        this.total = data.total;
         document.getElementById('quantityNumber')?.focus();
         this.loading = false;
       },
@@ -90,67 +94,53 @@ export class BillComponent implements OnInit {
   }
 
   getCustomers() {
-    // document.getElementById('customerName')?.focus();
-    this.mainService.getCustomers().subscribe(
+    const requestBody = {};
+    this.mainService.getCustomers(requestBody).subscribe(
       (data: any) => {
-        // console.log('get farmers ', data);
-        const customers = data;
+        const customers = data.data;
         this.customers = customers;
-        // this.loading = false;
       },
       err => {
         console.log('get customers err ', err);
         this.customers = [];
-        // this.loading = false;
       }
     );
   }
 
   getAllFarmers() {
-    // this.loading = true;
-    // document.getElementById('farmerName')?.focus();
-    this.farmerService.getFarmers().subscribe(
+    const requestBody = {};
+    this.farmerService.getFarmers(requestBody).subscribe(
       (data: any) => {
-        const farmers = data;
+        const farmers = data.data;
         this.farmersList = farmers;
-        // this.loading = false;
       },
       err => {
         console.log('get farmers err ', err);
         this.farmersList = [];
-        // this.loading = false;
       }
     );
   }
 
   getAllVegetables() {
-    // this.loading = true;
-    this.mainService.getVegetables().subscribe(
+    const requestBody = {};
+    this.mainService.getVegetables(requestBody).subscribe(
       (data: any) => {
-        const vegetables = data;
+        const vegetables = data.data;
         this.vegetablesList = vegetables;
-        // this.loading = false;
-        // const number = this.vegetablesData.length + 1;
-        // this.validateForm.controls['number'].setValue(number);
-        // document.getElementById('vegetableName')?.focus();
       },
       err => {
         console.log('get customers err ', err);
         this.vegetablesList = [];
-        // this.loading = false;
       }
     );
   }
 
   clickSwitch() {
-    console.log('switch conesole ');
     this.switchValue = !this.switchValue;
-    console.log('switch conesole value ', this.switchValue);
   }
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
       const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DDTHH:mm:ss.000')
       const requestBody = {
         bill_date: billdate,
@@ -165,7 +155,6 @@ export class BillComponent implements OnInit {
         unit_wise: this.switchValue,
         notes: this.validateForm.value.notes
       };
-      console.log('requestBody', requestBody);
       this.mainService.createBill(requestBody).subscribe(
         (data: any) => {
           this.message.create('success', `Bill added Successfully`);
@@ -187,9 +176,7 @@ export class BillComponent implements OnInit {
     }
   }
 
-  onChange(result: Date): void {
-    console.log('onChange: ', result);
-  }
+  onChange(result: Date): void {}
 
   reset() {
     this.validateForm.controls['quantity'].reset();
@@ -217,4 +204,14 @@ export class BillComponent implements OnInit {
   }
 
   cancel() {}
+
+  onPageSizeChange(event: any) {
+    this.pageSize = event;
+    this.getBills();
+  }
+
+  onPageChange(event: any) {
+    this.index = event;
+    this.getBills();
+  }
 }

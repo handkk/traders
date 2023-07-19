@@ -10,6 +10,8 @@ import { MainService } from '../main.service';
 })
 export class WelcomeComponent implements OnInit {
 
+  loggedInUser: any;
+
   constructor(
     private router: Router,
     private message: NzMessageService,
@@ -17,7 +19,9 @@ export class WelcomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('welcome component');
+    let userinfo: any = sessionStorage.getItem('userinfo');
+    const user = JSON.parse(userinfo);
+    this.loggedInUser = user;
   }
 
   logout() {

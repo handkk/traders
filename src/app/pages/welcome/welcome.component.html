@@ -3,8 +3,8 @@
       <div class="logo">
         Sai Traders
         
-        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="logout">
-          <span nz-icon nzType="user" nzTheme="outline"></span>
+        <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="logout" *ngIf="loggedInUser">
+          {{loggedInUser.username}} <span nz-icon nzType="user" nzTheme="outline"></span>
         </a>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu>
@@ -50,19 +50,14 @@
           </ul>
         </li>
         <li nz-submenu nzTitle="Vegetables" [routerLink]="['vegetables']">
-          <!-- <a >Vegetables</a> -->
-          <!-- <ul>
-            <li nz-menu-item>
-              <a [routerLink]="['vegetables']">New Vegetables</a>
-            </li>
-            <li nz-menu-item>View</li>
-          </ul> -->
         </li>
         <li nz-submenu nzTitle="Settings">
           <ul>
+            <li nz-menu-item>
+              <a [routerLink]="['user_settings']">User Accounts</a>
+            </li>
             <li nz-menu-item>Account Details</li>
             <li nz-menu-item>Delete All</li>
-            <li nz-menu-item>User Accounts</li>
           </ul>
         </li>
       </ul>

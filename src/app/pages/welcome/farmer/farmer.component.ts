@@ -34,8 +34,8 @@ export class FarmerComponent {
     }
   ];
   index = 1;
-  total = 9;
-  pageSize = 5;
+  total = 0;
+  pageSize = 10;
   loading = true;
   edit = false;
   farmerId: string = '';
@@ -50,7 +50,6 @@ export class FarmerComponent {
       name: [null, [Validators.required]],
       phoneNumberPrefix: ['+91'],
       phoneNumber: [null],
-      // phoneNumber: [null, [Validators.required, Validators.maxLength(10), Validators.pattern('[7-9]{1}[0-9]{9}')]],
       address: [null],
       notes: [null]
     });
@@ -59,11 +58,16 @@ export class FarmerComponent {
 
   getAllFarmers() {
     this.loading = true;
+    const requestBody = {
+      'skip': this.index,
+      'limit': this.pageSize
+    };
     document.getElementById('farmerName')?.focus();
-    this.farmerService.getFarmers().subscribe(
+    this.farmerService.getFarmers(requestBody).subscribe(
       (data: any) => {
-        const farmers = data;
+        const farmers = data.data;
         this.farmersData = farmers;
+        this.total = data.total;
         this.loading = false;
       },
       err => {
@@ -191,5 +195,15 @@ export class FarmerComponent {
     this.validateForm.controls['address'].reset();
     this.validateForm.controls['notes'].reset();
     this.edit = false;
+  }
+
+  onPageSizeChange(event: any) {
+    this.pageSize = event;
+    this.getAllFarmers();
+  }
+
+  onPageChange(event: any) {
+    this.index = event;
+    this.getAllFarmers();
   }
 }

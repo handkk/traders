@@ -25,3 +25,7 @@ input[type=number] {
 input[type=number]:focus {
   border: 1px solid #40a9ff !important;
 }
+
+.text-right {
+  text-align: right !important;
+}

@@ -33,8 +33,8 @@ export class VegetablesComponent {
     }
   ];
   index = 1;
-  total = 9;
-  pageSize = 5;
+  total = 0;
+  pageSize = 10;
   loading = true;
   edit = false;
   vegId: string = '';
@@ -52,14 +52,19 @@ export class VegetablesComponent {
   }
 
   getAllVegetables() {
+    this.vegetablesData = [];
     this.loading = true;
-    this.mainService.getVegetables().subscribe(
+    const requestBody = {
+      'skip': this.index,
+      'limit': this.pageSize
+    };
+    this.mainService.getVegetables(requestBody).subscribe(
       (data: any) => {
-        const vegetables = data;
+        const vegetables = data.data;
         this.vegetablesData = vegetables;
+        this.total = data.total;
         this.loading = false;
-        const number = this.vegetablesData.length + 1;
-        this.validateForm.controls['number'].setValue(number);
+        this.validateForm.controls['number'].setValue(this.total + 1);
         document.getElementById('vegetableName')?.focus();
       },
       err => {
@@ -81,7 +86,6 @@ export class VegetablesComponent {
         number: this.validateForm.value.number,
         notes: this.validateForm.value.notes
       };
-      // this.vegetablesData.push();
       if (this.edit) {
         this.mainService.updateVegetable(this.vegId, requestBody).subscribe(
           (data: any) => {
@@ -193,5 +197,15 @@ export class VegetablesComponent {
     this.validateForm.controls['number'].setValue(data.number);
     this.validateForm.controls['name'].setValue(data.name);
     this.validateForm.controls['notes'].setValue(data.notes);
+  }
+
+  onPageSizeChange(event: any) {
+    this.pageSize = event;
+    this.getAllVegetables();
+  }
+
+  onPageChange(event: any) {
+    this.index = event;
+    this.getAllVegetables();
   }
 }

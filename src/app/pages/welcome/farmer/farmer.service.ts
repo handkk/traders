@@ -12,20 +12,12 @@ export class FarmerService {
     private http: HttpClient
   ) { }
 
-  getFarmers() {
-    let new_headers = {
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-      'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE',
-      'Access-Control-Allow-Headers': '*'
-    }
+  getFarmers(body: any) {
     const url = this.api_host + 'farmers';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    const payload = {
-      userId: userinfo.userId,
-      sessionId: userinfo.sessionId
-    };
-    return this.http.post(url, payload);
-    // return this.http.post(url, payload, {headers: new_headers});
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
   }
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as FileSaver from 'file-saver';
@@ -10,13 +9,13 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  selector: 'app-user-settings',
+  templateUrl: './user-settings.component.html',
+  styleUrls: ['./user-settings.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class UserSettingsComponent {
   validateForm!: UntypedFormGroup;
-  customersData: any[] = [];
+  usersData: any[] = [];
   sort = ['ascend'];
   listOfColumns = [
     {
@@ -36,39 +35,40 @@ export class CustomerComponent implements OnInit {
   total = 0;
   pageSize = 10;
   loading = true;
-  edit: boolean = false;
-  customerId: any;
+  edit = false;
+  userId: string = '';
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
-    private mainService: MainService) {}
+    private mainService: MainService
+    ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
+      username: [null, [Validators.required]],
+      password: [null, [Validators.required]],
       phoneNumberPrefix: ['+91'],
       phoneNumber: [null],
+      email: [null],
       address: [null],
       notes: [null]
     });
-    this.getCustomers();
+    this.getAllUsers();
   }
 
-  getCustomers() {
-    const requestBody = {
-      'skip': this.index,
-      'limit': this.pageSize
-    };
-    document.getElementById('customerName')?.focus();
-    this.mainService.getCustomers(requestBody).subscribe(
+  getAllUsers() {
+    this.loading = true;
+    document.getElementById('userFullName')?.focus();
+    this.mainService.getAllUsers().subscribe(
       (data: any) => {
-        const customers = data.data;
-        this.customersData = customers;
+        const users = data.data;
+        this.usersData = users;
         this.total = data.total;
         this.loading = false;
       },
       err => {
-        console.log('get customers err ', err);
-        this.customersData = [];
+        console.log('get users err ', err);
+        this.usersData = [];
         this.loading = false;
       }
     );
@@ -80,40 +80,44 @@ export class CustomerComponent implements OnInit {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const requestBody = {
+      let requestBody: any = {
         name: this.validateForm.value.name,
-        phone_number: this.validateForm.value.phoneNumber,
+        phone_number: this.validateForm.value.phoneNumber ? parseInt(this.validateForm.value.phoneNumber) : null,
         address: this.validateForm.value.address,
         notes: this.validateForm.value.notes,
-        email: 'admin@traders.com'
+        email: this.validateForm.value.email
       };
+      if (!this.edit) {
+        requestBody['password'] = this.validateForm.value.password;
+        requestBody['username'] = this.validateForm.value.username;
+      }
       if (this.edit) {
-        this.mainService.updateCustomer(this.customerId, requestBody).subscribe(
+        this.mainService.updateUser(this.userId, requestBody).subscribe(
           (data: any) => {
-            this.message.create('success', `${this.validateForm.value.name} customer updated Successfully`);
+            this.message.create('success', `${this.validateForm.value.name} user updated Successfully`);
             this.reset();
             this.loading = true;
             this.edit = false;
-            this.getCustomers();
+            this.getAllUsers();
           },
           err => {
             console.log('get customers err ', err);
             this.loading = false;
-            this.getCustomers();
+            this.getAllUsers();
           }
         );
       } else {
-        this.mainService.createCustomer(requestBody).subscribe(
+        this.mainService.createUser(requestBody).subscribe(
           (data: any) => {
-            this.message.create('success', `${this.validateForm.value.name} Customer added Successfully`);
+            this.message.create('success', `User created successfully`);
             this.reset();
             this.loading = true;
-            this.getCustomers();
+            this.getAllUsers();
           },
           err => {
             console.log('get customers err ', err);
             this.loading = false;
-            this.getCustomers();
+            this.message.create('success', err.error.message);
           }
         );
       }
@@ -126,6 +130,36 @@ export class CustomerComponent implements OnInit {
       });
     }
   }
+
+  editUser(data: any) {
+    this.edit = true;
+    this.userId = data._id;
+    this.validateForm.controls['phoneNumber'].setValue(data.phone_number);
+    this.validateForm.controls['name'].setValue(data.name);
+    this.validateForm.controls['notes'].setValue(data.notes);
+    this.validateForm.controls['address'].setValue(data.address);
+    this.validateForm.controls['username'].setValue(data.username);
+    this.validateForm.controls['email'].setValue(data.email);
+    this.validateForm.controls['password'].setValue(data.password);
+  }
+
+  confirm(id: any) {
+    this.mainService.removeUser(id).subscribe(
+      (data: any) => {
+        this.loading = false;
+        if (data && data.success) {
+          this.message.create('success', data.message);
+          this.getAllUsers();
+        }
+      },
+      err => {
+        console.log('get customers err ', err);
+        this.loading = false;
+      }
+    );
+  }
+
+  cancel() {}
 
   public exportJsonAsExcelFile(json: any[], excelFileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
@@ -148,15 +182,16 @@ export class CustomerComponent implements OnInit {
 
   exportToExcel() {
     let data: any = [];
-    this.customersData.forEach(customer => {
+    this.usersData.forEach(f => {
       data.push({
-        'Name': customer.name,
-        'Phone Number': customer.phone_number,
-        'Address': customer.address,
-        'Notes': customer.notes
+        'Name': f.name,
+        'Phone Number': f.phone_number,
+        'Email': f.email,
+        'Address': f.address,
+        'Notes': f.notes
       })
     })
-    this.exportJsonAsExcelFile(data, 'customers');
+    this.exportJsonAsExcelFile(data, 'users');
   }
 
   reset() {
@@ -164,44 +199,19 @@ export class CustomerComponent implements OnInit {
     this.validateForm.controls['phoneNumber'].reset();
     this.validateForm.controls['address'].reset();
     this.validateForm.controls['notes'].reset();
+    this.validateForm.controls['username'].reset();
+    this.validateForm.controls['email'].reset();
+    this.validateForm.controls['password'].reset();
     this.edit = false;
-    document.getElementById('customerName')?.focus();
   }
-
-  editCustomer(data: any) {
-    this.edit = true;
-    this.customerId = data._id;
-    this.validateForm.controls['phoneNumber'].setValue(data.phone_number);
-    this.validateForm.controls['name'].setValue(data.name);
-    this.validateForm.controls['notes'].setValue(data.notes);
-    this.validateForm.controls['address'].setValue(data.address);
-  }
-
-  deleteConfirm(id: string) {
-    this.mainService.removeCustomer(id).subscribe(
-      (data: any) => {
-        this.loading = false;
-        if (data && data.success) {
-          this.message.create('success', data.message);
-          this.getCustomers();
-        }
-      },
-      err => {
-        console.log('get customers err ', err);
-        this.loading = false;
-      }
-    );
-  }
-
-  cancel() {}
 
   onPageSizeChange(event: any) {
     this.pageSize = event;
-    this.getCustomers();
+    this.getAllUsers();
   }
 
   onPageChange(event: any) {
     this.index = event;
-    this.getCustomers();
+    this.getAllUsers();
   }
 }

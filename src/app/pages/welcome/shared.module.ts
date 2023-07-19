@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     HttpClientModule,
     NzPopconfirmModule,
     NzIconModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzPaginationModule
   ],
   exports: [
     CommonModule,
@@ -59,7 +61,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzMessageModule,
     NzPopconfirmModule,
     NzIconModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzPaginationModule
   ]
 })
 export class SharedModule { }

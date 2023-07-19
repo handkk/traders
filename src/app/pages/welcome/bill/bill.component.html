@@ -92,8 +92,7 @@
             </form>
         </div>
         <div nz-col nzSpan="12">
-            <nz-table #basicTable [nzData]="billsData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
-            [nzFrontPagination]="false" [nzLoading]="loading">
+            <nz-table #basicTable [nzData]="billsData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                         <tr>
                             <th>Name</th>
@@ -120,7 +119,11 @@
                             </tr>
                         </tbody>
                     </nz-table>
-                    <!-- <p style="border: 3px solid;">List</p> -->
+                    <div class="text-right">
+                        <br />
+                        <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true" [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
+                        <br />
+                    </div>
         </div>
     </div>
     

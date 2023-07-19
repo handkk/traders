@@ -1,18 +1,42 @@
 <div class="customer-form">
     <div nz-row>
         <div nz-col nzSpan="24">
-            <h2 class="text-center">Farmer</h2>
+            <h2 class="text-center">Users</h2>
         </div>
     </div>
     <div nz-row>
         <div nz-col nzSpan="12">
             <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="farmerName" nzRequired>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="userFullName" nzRequired>
                         <span>Name</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
-                        <input nz-input id="farmerName" formControlName="name" placeholder="Name" />
+                        <input nz-input id="userFullName" formControlName="name" placeholder="Name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="!edit">
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="userName" nzRequired>
+                        <span>Username</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your username!">
+                        <input nz-input type="text" id="userName" formControlName="username" placeholder="Username" [disabled]="true" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="!edit">
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>
+                        <span>Password</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+                        <input nz-input type="password" id="password" [disabled]="true" formControlName="password" placeholder="Password" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email">
+                        <span>E-mail</span>
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your email!">
+                        <input nz-input type="email" id="email" formControlName="email" placeholder="E-mail" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
@@ -69,25 +93,27 @@
             <div>
                 <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
             </div>
-            <nz-table *ngIf="farmersData" #basicTable [nzData]="farmersData" [nzShowPagination]="false" [nzLoading]="loading">
+            <nz-table *ngIf="usersData" #basicTable [nzData]="usersData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Phone Number</th>
+                        <th>Email</th>
                         <th>Address</th>
                         <th>Notes</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of farmersData">
+                    <tr *ngFor="let data of usersData">
                         <td>{{ data.name }}</td>
                         <td>{{ data.phone_number }}</td>
+                        <td>{{ data.email }}</td>
                         <td>{{ data.address }}</td>
                         <td>{{ data.notes }}</td>
                         <td>
-                            <a (click)="editFarmer(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
-                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Farmer" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()">
+                            <a (click)="editUser(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this User" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()">
                                 <span nz-icon nzType="delete" nzTheme="fill"></span>
                             </a>
                         </td>

@@ -52,35 +52,34 @@
             </form>
         </div>
         <div nz-col nzSpan="12">
-            <nz-table #basicTable [nzData]="collectionsData" [nzShowPagination]="true" [nzPageIndex]="index" [nzTotal]="total" [nzPageSize]="pageSize"
-            [nzFrontPagination]="false" [nzLoading]="loading">
+            <nz-table #basicTable [nzData]="collectionsData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                         <tr>
-                            <!-- <th>Date</th> -->
                             <th>Customer Name</th>
                             <th>Amount</th>
                             <th>Notes</th>
+                            <th>Actions</th>
                         </tr>
-                        <!-- <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="true">Name</th> -->
-                        <!-- <th>Item</th>
-                            <th>Rate</th>
-                            <th>Quantity</th> -->
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of collectionsData">
-                            <!-- <td>{{ data.date }}</td> -->
                             <td>{{ data.customer_name }}</td>
                             <td>{{ data.amount }}</td>
                             <td>{{ data.notes }}</td>
-                            <!-- <td> -->
-                                <!-- <a>Action 一 {{ data.name }}</a> -->
-                                <!-- <nz-divider nzType="vertical"></nz-divider> -->
-                                <!-- <a>Delete</a> -->
-                                <!-- </td> -->
-                            </tr>
+                            <td>
+                                <!-- <a (click)="editCustomer(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp; -->
+                                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Collection" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()">
+                                    <span nz-icon nzType="delete" nzTheme="fill"></span>
+                                </a>
+                            </td>
+                        </tr>
                         </tbody>
                     </nz-table>
-                    <!-- <p style="border: 3px solid;">List</p> -->
+                    <div class="text-right">
+                        <br />
+                        <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true" [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
+                        <br />
+                    </div>
         </div>
     </div>
     

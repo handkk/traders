@@ -23,26 +23,22 @@ export class MainService {
     return this.http.post(url, body);
   }
 
-  getCustomers() {
+  getCustomers(body: any) {
     const url = this.api_host + 'customers';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    const payload = {
-      userId: userinfo.userId,
-      sessionId: userinfo.sessionId
-    };
-    return this.http.post(url, payload);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
   }
 
-  getVegetables() {
+  getVegetables(body: any) {
     const url = this.api_host + 'vegetables';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    const payload = {
-      userId: userinfo.userId,
-      sessionId: userinfo.sessionId
-    };
-    return this.http.post(url, payload);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
   }
 
   addVegetable(body: any) {
@@ -129,15 +125,13 @@ export class MainService {
     return this.http.put(url, body);
   }
 
-  getBills() {
+  getBills(body: any) {
     const url = this.api_host + 'bills';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    const payload = {
-      userId: userinfo.userId,
-      sessionId: userinfo.sessionId
-    };
-    return this.http.post(url, payload);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
   }
 
   createBill(body: any) {
@@ -159,15 +153,13 @@ export class MainService {
     return this.http.delete(url, { body: requestBody });
   }
 
-  getCollections() {
+  getCollections(body: any) {
     const url = this.api_host + 'collections';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    const payload = {
-      userId: userinfo.userId,
-      sessionId: userinfo.sessionId
-    };
-    return this.http.post(url, payload);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
   }
 
   createCollection(body: any) {
@@ -177,5 +169,54 @@ export class MainService {
     body['userId'] = userinfo.userId;
     body['sessionId'] = userinfo.sessionId;
     return this.http.post(url, body);
+  }
+
+  removeCollection(id: string) {
+    const url = this.api_host + 'collection/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    let requestBody: any = {};
+    requestBody['userId'] = userinfo.userId;
+    requestBody['sessionId'] = userinfo.sessionId;
+    return this.http.delete(url, { body: requestBody });
+  }
+
+  getAllUsers() {
+    const url = this.api_host + 'allusers';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    const payload = {
+      userId: userinfo.userId,
+      sessionId: userinfo.sessionId
+    };
+    return this.http.get(url);
+  }
+
+  createUser(body: any) {
+    const url = this.api_host + 'create_user';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
+
+  removeUser(id: string) {
+    const url = this.api_host + 'remove_user/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    let requestBody: any = {};
+    requestBody['userId'] = userinfo.userId;
+    requestBody['sessionId'] = userinfo.sessionId;
+    return this.http.delete(url, { body: requestBody });
+  }
+
+  updateUser(id: string, body: any) {
+    const url = this.api_host + 'update_user/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.put(url, body);
   }
 }
