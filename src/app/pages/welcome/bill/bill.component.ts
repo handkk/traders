@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
@@ -40,13 +40,17 @@ export class BillComponent implements OnInit {
   edit: boolean = false;
   billId: any;
   switchValue: boolean = false;
+  dateDisable = false;
   
   constructor(private fb: UntypedFormBuilder, 
     public el: ElementRef, 
     private message: NzMessageService,
     private mainService: MainService,
     private farmerService: FarmerService
-    ) {}
+  ) { }
+
+  ngAfterViewInit() {
+  }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -59,6 +63,11 @@ export class BillComponent implements OnInit {
       notes: [null]
     });
     this.total = this.billsData.length;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    if (userinfo.username !== 'admin') {
+      this.dateDisable = true;
+    }
     this.getCustomers();
     this.getAllFarmers();
     this.getAllVegetables();
@@ -81,13 +90,17 @@ export class BillComponent implements OnInit {
         const bills = data.data;
         this.billsData = bills;
         this.total = data.total;
-        document.getElementById('quantityNumber')?.focus();
         this.loading = false;
+        setTimeout(() => {
+          const select = document.getElementById('customerSelection');
+          const select1 = select?.children[0].children[0];
+          select1?.children[0].setAttribute('id', 'customerselect')
+          document.getElementById('customerselect')?.focus();
+        }, 500);
       },
       err => {
         console.log('get customers err ', err);
         this.billsData = [];
-        document.getElementById('rate')?.focus();
         this.loading = false;
       }
     );
@@ -159,7 +172,11 @@ export class BillComponent implements OnInit {
         (data: any) => {
           this.message.create('success', `Bill added Successfully`);
           this.loading = false;
-          this.ngOnInit();
+          this.validateForm.controls['quantity'].reset();
+          this.validateForm.controls['notes'].reset();
+          this.index = 1;
+          this.pageSize = 10;
+          this.getBills();
         },
         err => {
           console.log('get customers err ', err);

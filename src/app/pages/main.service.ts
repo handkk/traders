@@ -219,4 +219,14 @@ export class MainService {
     body['sessionId'] = userinfo.sessionId;
     return this.http.put(url, body);
   }
+
+  getCurrentUser() {
+    let userinfo: any = sessionStorage.getItem('userinfo');
+    if (!userinfo) {
+      return null;
+    } else {
+      const user = JSON.parse(userinfo);
+      return user;
+    }
+  }
 }

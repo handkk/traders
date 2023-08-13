@@ -19,7 +19,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-
+import { ExportAsModule } from 'ngx-export-as';
 @NgModule({
   imports: [
     CommonModule,
@@ -41,7 +41,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzPopconfirmModule,
     NzIconModule,
     NzSwitchModule,
-    NzPaginationModule
+    NzPaginationModule,
+    ExportAsModule
   ],
   exports: [
     CommonModule,
@@ -62,7 +63,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzPopconfirmModule,
     NzIconModule,
     NzSwitchModule,
-    NzPaginationModule
+    NzPaginationModule,
+    ExportAsModule
   ]
 })
 export class SharedModule { }

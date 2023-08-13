@@ -18,6 +18,10 @@ nz-date-picker {
   margin: 0 8px 12px 0;
 }
 
+.text-center {
+  text-align: center !important;
+}
+
 .text-right {
   text-align: right !important;
 }

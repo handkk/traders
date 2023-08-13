@@ -112,8 +112,8 @@
                         <td>{{ data.address }}</td>
                         <td>{{ data.notes }}</td>
                         <td>
-                            <a (click)="editUser(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
-                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this User" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()">
+                            <a (click)="editUser(data)" *ngIf="loggedInUser && loggedInUser.username !== data.username"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this User" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()" *ngIf="loggedInUser && loggedInUser.username !== data.username">
                                 <span nz-icon nzType="delete" nzTheme="fill"></span>
                             </a>
                         </td>

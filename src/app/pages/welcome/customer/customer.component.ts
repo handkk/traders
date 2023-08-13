@@ -5,9 +5,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { jsPDF } from "jspdf";
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
+import {
+  ExportAsService,
+  ExportAsConfig,
+  SupportedExtensions,
+} from 'ngx-export-as';
 
 @Component({
   selector: 'app-customer',
@@ -38,9 +44,15 @@ export class CustomerComponent implements OnInit {
   loading = true;
   edit: boolean = false;
   customerId: any;
+  downloadAs: SupportedExtensions = 'pdf';
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: 'sampleTable', // the id of html/table element
+  };
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
-    private mainService: MainService) {}
+    private mainService: MainService,
+    private exportAsService: ExportAsService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -156,8 +168,63 @@ export class CustomerComponent implements OnInit {
         'Notes': customer.notes
       })
     })
-    this.exportJsonAsExcelFile(data, 'customers');
+    // this.exportJsonAsExcelFile(data, 'customers');
+    let file_res = '<table><thead><tr><th>Name</th><th>Balance Amount</th><th>Paid Amount</th></tr></thead><tbody><tr><td>Rajesh</td><td>1500</td><td>500</td></tr><tr><td>Customer1</td><td>0</td><td>0</td></tr></tbody></table>';
+    // let fileResponseData = 'PHRhYmxlPjx0aGVhZD48dHI+PHRoPk5hbWU8L3RoPjx0aD5CYWxhbmNlIEFtb3VudDwvdGg+PHRoPlBhaWQgQW1vdW50PC90aD48L3RyPjwvdGhlYWQ+PHRib2R5Pjx0cj48dGQ+UmFqZXNoPC90ZD48dGQ+MTUwMDwvdGQ+PHRkPjUwMDwvdGQ+PC90cj48dHI+PHRkPkN1c3RvbWVyMTwvdGQ+PHRkPjA8L3RkPjx0ZD4wPC90ZD48L3RyPjwvdGJvZHk+PC90YWJsZT4=';
+    // const binaryString = window.atob(fileResponseData);
+    // const bytes = new Uint8Array(binaryString.length);
+    // const binaryToBlob = bytes.map((byte, i) => binaryString.charCodeAt(i));
+    // const blob = new Blob([binaryToBlob], { type: 'application/pdf' });
+    // this.downloadFile(blob, 'customer');
+    // const doc = new jsPDF('p', 'pt', 'a4');
+    // var source = document.getElementById('customerTable')?.innerHTML
+    // var margins = {
+    //   top: 10,
+    //   bottom: 10,
+    //   left: 10,
+    //   width: 595
+    // }
+    // doc.html(file_res);
+    // doc.text(file_res, 10, 10);
+    // doc.save('customers.pdf');
+    this.exportAsConfig.type = this.downloadAs;
+    this.exportAsConfig.elementIdOrContent = file_res;
+    this.exportAsConfig.options = {
+      margins: {
+        top: '50'
+      }
+    }
+    // download the file using old school javascript method
+    this.exportAsService
+      .save(this.exportAsConfig, 'customers')
+      .subscribe(() => {
+        // save started
+      });
+    // get the data as base64 or json object for json type - this will be helpful in ionic or SSR
+    // this.exportAsService.get(this.exportAsConfig).subscribe((content) => {
+    //   console.log(content);
+    // });
   }
+
+  private downloadFile(blob: any, fileName: string): void {
+    // IE Browser
+    // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //  window.navigator.msSaveOrOpenBlob(blob, fileName);
+    //  return;
+    // }
+    // Other Browsers
+    const url = (window.URL || window.webkitURL).createObjectURL(blob);
+    var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName + '.pdf';
+        link.click();
+        // window.URL.revokeObjectURL(link.href);
+    
+    setTimeout(() => {
+     window.URL.revokeObjectURL(url);
+    }, 1000);
+  }
+    
 
   reset() {
     this.validateForm.controls['name'].reset();

@@ -45,7 +45,6 @@ export class VegetablesComponent {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       name: ['', [Validators.required]],
-      number: [null, [Validators.required]],
       notes: [null]
     });
     this.getAllVegetables();
@@ -64,7 +63,6 @@ export class VegetablesComponent {
         this.vegetablesData = vegetables;
         this.total = data.total;
         this.loading = false;
-        this.validateForm.controls['number'].setValue(this.total + 1);
         document.getElementById('vegetableName')?.focus();
       },
       err => {
@@ -83,7 +81,6 @@ export class VegetablesComponent {
     if (this.validateForm.valid) {
       const requestBody = {
         name: this.validateForm.value.name,
-        number: this.validateForm.value.number,
         notes: this.validateForm.value.notes
       };
       if (this.edit) {
@@ -91,10 +88,7 @@ export class VegetablesComponent {
           (data: any) => {
             this.message.create('success', `${this.validateForm.value.name} vegetable updated Successfully`);
             this.validateForm.controls['name'].reset();
-            this.validateForm.controls['number'].reset();
             this.validateForm.controls['notes'].reset();
-            const number = this.vegetablesData.length + 1;
-            this.validateForm.controls['number'].setValue(number);
             this.loading = true;
             this.edit = false;
             this.getAllVegetables();
@@ -110,10 +104,7 @@ export class VegetablesComponent {
           (data: any) => {
             this.message.create('success', `${this.validateForm.value.name} vegetable added Successfully`);
             this.validateForm.controls['name'].reset();
-            this.validateForm.controls['number'].reset();
             this.validateForm.controls['notes'].reset();
-            const number = this.vegetablesData.length + 1;
-            this.validateForm.controls['number'].setValue(number);
             this.loading = true;
             this.getAllVegetables();
           },
@@ -138,8 +129,6 @@ export class VegetablesComponent {
     this.validateForm.controls['name'].setValue(null);
     this.validateForm.controls['name'].updateValueAndValidity();
     this.validateForm.controls['notes'].reset();
-    const number = this.vegetablesData.length + 1;
-    this.validateForm.controls['number'].setValue(number);
   }
 
   public exportJsonAsExcelFile(json: any[], excelFileName: string): void {
@@ -194,7 +183,6 @@ export class VegetablesComponent {
   editVeg(data: any) {
     this.edit = true;
     this.vegId = data._id;
-    this.validateForm.controls['number'].setValue(data.number);
     this.validateForm.controls['name'].setValue(data.name);
     this.validateForm.controls['notes'].setValue(data.notes);
   }

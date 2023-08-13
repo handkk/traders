@@ -37,6 +37,7 @@ export class UserSettingsComponent {
   loading = true;
   edit = false;
   userId: string = '';
+  loggedInUser: any;
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService
@@ -53,6 +54,8 @@ export class UserSettingsComponent {
       address: [null],
       notes: [null]
     });
+    this.loggedInUser = this.mainService.getCurrentUser();
+    console.log('loggedInUser ', this.loggedInUser);
     this.getAllUsers();
   }
 
