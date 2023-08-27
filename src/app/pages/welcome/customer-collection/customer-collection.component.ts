@@ -71,7 +71,12 @@ export class CustomerCollectionComponent {
       'skip': this.index,
       'limit': this.pageSize
     };
-    document.getElementById('amountCollection')?.focus();
+    setTimeout(() => {
+      const select = document.getElementById('collectionCustomerInput');
+      const select1 = select?.children[0].children[0];
+      select1?.children[0].setAttribute('id', 'collectionCustIn')
+      document.getElementById('collectionCustIn')?.focus();
+    }, 500);
     this.loading = true;
     this.mainService.getCollections(requestBody).subscribe(
       (data: any) => {

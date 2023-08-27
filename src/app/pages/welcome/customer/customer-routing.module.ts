@@ -24,6 +24,10 @@ const routes: Routes = [
   {
     path: 'user_settings', loadChildren: () => import('../user-settings/user-settings.module').then(m => m.UserSettingsModule),
     title: 'S S T | Users'
+  },
+  {
+    path: 'today_bills', loadChildren: () => import('../day-collections/day-collections.module').then(m => m.DayCollectionsModule),
+    title: 'S S T | Today Bills'
   }
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];

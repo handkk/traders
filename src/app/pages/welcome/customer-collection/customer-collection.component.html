@@ -19,7 +19,7 @@
                         <span>Customer</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="customersCollection">
+                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="collectionCustomerInput">
                             <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c"></nz-option>
                         </nz-select>
                     </nz-form-control>
@@ -30,7 +30,8 @@
                         <span>Amount</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Add amount!">
-                        <input id="amountCollection" type="number" formControlName="amount" [min]="1" [step]="1">
+                        <nz-input-number id="amountCollection" formControlName="amount" [nzMin]="1"
+                                    [nzStep]="1"></nz-input-number>
                     </nz-form-control>
                 </nz-form-item>
                 
