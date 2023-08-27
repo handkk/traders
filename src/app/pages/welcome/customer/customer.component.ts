@@ -96,8 +96,7 @@ export class CustomerComponent implements OnInit {
         name: this.validateForm.value.name,
         phone_number: this.validateForm.value.phoneNumber,
         address: this.validateForm.value.address,
-        notes: this.validateForm.value.notes,
-        email: 'admin@traders.com'
+        notes: this.validateForm.value.notes
       };
       if (this.edit) {
         this.mainService.updateCustomer(this.customerId, requestBody).subscribe(
