@@ -41,6 +41,7 @@ export class BillComponent implements OnInit {
   billId: any;
   switchValue: boolean = false;
   dateDisable = false;
+  bill_data: any;
   
   constructor(private fb: UntypedFormBuilder, 
     public el: ElementRef, 
@@ -156,7 +157,7 @@ export class BillComponent implements OnInit {
     if (this.validateForm.valid) {
       const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DDTHH:mm:ss.000')
       const requestBody = {
-        bill_date: billdate,
+        bill_date: this.edit ? this.bill_data.bill_date : billdate,
         customer_name: this.validateForm.value.customer.name,
         customer_id: this.validateForm.value.customer._id,
         vegetable_name: this.validateForm.value.vegetables.name,
@@ -168,21 +169,39 @@ export class BillComponent implements OnInit {
         unit_wise: this.switchValue,
         notes: this.validateForm.value.notes
       };
-      this.mainService.createBill(requestBody).subscribe(
-        (data: any) => {
-          this.message.create('success', `Bill added Successfully`);
-          this.loading = false;
-          this.validateForm.controls['quantity'].reset();
-          this.validateForm.controls['notes'].reset();
-          this.index = 1;
-          this.pageSize = 10;
-          this.getBills();
-        },
-        err => {
-          console.log('get customers err ', err);
-          this.loading = false;
-        }
-      );
+      if (!this.edit) {
+        this.mainService.createBill(requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `Bill added Successfully`);
+            this.loading = false;
+            this.validateForm.controls['quantity'].reset();
+            this.validateForm.controls['notes'].reset();
+            this.index = 1;
+            this.pageSize = 10;
+            this.getBills();
+          },
+          err => {
+            console.log('get customers err ', err);
+            this.loading = false;
+          }
+        );
+      } else {
+        this.mainService.updateBill(this.bill_data._id, requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `Bill updated Successfully`);
+            this.loading = false;
+            this.validateForm.controls['quantity'].reset();
+            this.validateForm.controls['notes'].reset();
+            this.index = 1;
+            this.pageSize = 10;
+            this.getBills();
+          },
+          err => {
+            console.log('get customers err ', err);
+            this.loading = false;
+          }
+        );
+      }
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -230,5 +249,21 @@ export class BillComponent implements OnInit {
   onPageChange(event: any) {
     this.index = event;
     this.getBills();
+  }
+
+  editBill(data: any) {
+    this.edit = true;
+    this.bill_data = data;
+    this.billId = data._id;
+    let customer = this.customers.find((element) => element._id === data.customer_id);
+    let vegetable = this.vegetablesList.find((veg) => veg._id === data.vegetable_id);
+    let farmerData = this.farmersList.find((farmer) => farmer._id === data.farmer_id);
+    this.validateForm.controls['customer'].setValue(customer);
+    this.validateForm.controls['notes'].setValue(data.notes);
+    this.validateForm.controls['quantity'].setValue(data.quantity);
+    this.validateForm.controls['rate'].setValue(data.rate);
+    this.validateForm.controls['vegetables'].setValue(vegetable);
+    this.validateForm.controls['farmer'].setValue(farmerData);
+    this.switchValue = data.unit_wise;
   }
 }

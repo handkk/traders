@@ -229,4 +229,13 @@ export class MainService {
       return user;
     }
   }
+
+  updateBill(id: string, body: any) {
+    const url = this.api_host + 'update-bill/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.put(url, body);
+  }
 }

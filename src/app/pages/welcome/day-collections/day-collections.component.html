@@ -1,1 +1,73 @@
-<p>Today Bills works!</p>
+<div class="customer-form">
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <h2 class="text-center">Customer Collections</h2>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col nzSpan="24">
+            <form nz-form [formGroup]="dayCollectionForm" (ngSubmit)="submitForm()" appFocus>
+                <div nz-row>
+                    <div nz-col nzSpan="8">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24">
+                                <nz-date-picker formControlName="date" [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="8">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
+                                <span>Customer</span>
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="14" [nzXs]="24">
+                                <nz-select nzShowSearch nzAllowClear formControlName="customer" id="collectionCustomerInput">
+                                    <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col nzSpan="8">
+                        <nz-form-item nz-row class="register-area">
+                            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                                <button nz-button nzType="primary" disabled="true">Submit</button>&nbsp;
+                                <!-- <button nz-button nzType="default" (click)="reset()">Reset</button> -->
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- <div nz-col nzSpan="12">
+            <nz-table #basicTable [nzData]="collectionsData" [nzLoading]="loading" [nzShowPagination]="false">
+                <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Amount</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of collectionsData">
+                            <td>{{ data.customer_name }}</td>
+                            <td>{{ data.amount }}</td>
+                            <td>{{ data.notes }}</td>
+                            <td>
+                                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Collection" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()">
+                                    <span nz-icon nzType="delete" nzTheme="fill"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                    <div class="text-right">
+                        <br />
+                        <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true" [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
+                        <br />
+                    </div>
+        </div> -->
+    </div>
+    
+</div>
