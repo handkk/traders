@@ -194,6 +194,8 @@ export class BillComponent implements OnInit {
             this.validateForm.controls['notes'].reset();
             this.index = 1;
             this.pageSize = 10;
+            this.edit = false;
+            this.date = new Date();
             this.getBills();
           },
           err => {
@@ -255,6 +257,7 @@ export class BillComponent implements OnInit {
     this.edit = true;
     this.bill_data = data;
     this.billId = data._id;
+    this.date = data.bill_date;
     let customer = this.customers.find((element) => element._id === data.customer_id);
     let vegetable = this.vegetablesList.find((veg) => veg._id === data.vegetable_id);
     let farmerData = this.farmersList.find((farmer) => farmer._id === data.farmer_id);

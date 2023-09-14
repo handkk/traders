@@ -152,10 +152,10 @@
                         <td>{{ data.rate }}</td>
                         <td>{{ data.total_amount }}</td>
                         <td>
-                            <a (click)="editBill(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                            <a (click)="editBill(data)" nz-tooltip nzTooltipTitle="Edit Bill" nzTooltipPlacement="left"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
                             <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Bill"
                                 nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)"
-                                (nzOnCancel)="cancel()">
+                                (nzOnCancel)="cancel()" nz-tooltip nzTooltipTitle="Remove Bill" nzTooltipPlacement="right">
                                 <span nz-icon nzType="delete" nzTheme="fill"></span>
                             </a>
                         </td>
