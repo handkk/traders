@@ -45,7 +45,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           const userinfo = {
             userId: data.userId,
             sessionId: data.sessionId,
-            username: data.username
+            username: data.username,
+            name: data.name
           };
           sessionStorage.setItem('userinfo', JSON.stringify(userinfo));
           this.router.navigateByUrl('/customer');

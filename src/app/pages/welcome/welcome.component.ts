@@ -41,6 +41,8 @@ export class WelcomeComponent implements OnInit {
         err => {
           console.log('login err ', err);
           this.message.create('error', 'invalid credentials');
+          sessionStorage.clear();
+          this.router.navigateByUrl('/login');
         }
       );
     } else {

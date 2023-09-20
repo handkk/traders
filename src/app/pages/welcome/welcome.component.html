@@ -4,7 +4,7 @@
         Sai Traders
         
         <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="logout" *ngIf="loggedInUser">
-          {{loggedInUser.username}} <span nz-icon nzType="user" nzTheme="outline"></span>
+          {{loggedInUser.name}} <span nz-icon nzType="user" nzTheme="outline"></span>
         </a>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu>
