@@ -2,6 +2,18 @@
     max-width: 600px;
   } */
 
+  .margin-right10 {
+    margin-right: 10px;
+  }
+
+  .margin-right20 {
+    margin-right: 20px;
+  }
+
+  .margin-right25 {
+    margin-right: 25px;
+  }
+
   .phone-select {
     width: 70px;
   }
@@ -32,4 +44,53 @@ input[type=number]:focus {
 
 .text-right {
 text-align: right !important;
+}
+
+.print-container {
+  padding: 25px;
+}
+
+table
+th {
+  border:1px solid #000;
+  padding: 10px;
+  background-color: lightgray;
+}
+td {
+  border:1px solid #000;
+  padding: 10px;
+}
+
+.align-right {
+  float: right;
+}
+
+@media print {
+  /* @page {
+    margin: 2.5cm;
+  } */
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-container, .print-container * {
+    visibility: visible;
+  }
+
+  .page-header1, .page-header2 {
+    display: none;
+  }
+
+  button {
+    display: none;
+  }
+
+  .ant-menu {
+    display: none;
+  }
+
+  a {
+    display: none;
+  }
 }

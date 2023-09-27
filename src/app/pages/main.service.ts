@@ -238,4 +238,13 @@ export class MainService {
     body['sessionId'] = userinfo.sessionId;
     return this.http.put(url, body);
   }
+
+  getDayBills(body: any) {
+    const url = this.api_host + 'day_bills';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
 }

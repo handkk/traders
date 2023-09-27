@@ -1,8 +1,8 @@
 <nz-layout>
     <nz-header>
       <div class="logo">
-        Sai Traders
-        
+        <img src=".../../../../../assets/images/SST.jpg" class="welcome-page-logo" alt="Sri Sainath Traders" />
+        Sri Sainath Traders
         <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="logout" *ngIf="loggedInUser">
           {{loggedInUser.name}} <span nz-icon nzType="user" nzTheme="outline"></span>
         </a>
@@ -13,11 +13,6 @@
           </ul>
         </nz-dropdown-menu>
       </div>
-      <!-- <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
-        <li nz-menu-item>nav 1</li>
-        <li nz-menu-item nzSelected>nav 2</li>
-        <li nz-menu-item>nav 3</li>
-      </ul> -->
     </nz-header>
     <nz-content class="outer-content">
       <ul nz-menu nzMode="horizontal">
@@ -32,7 +27,7 @@
             <li nz-menu-item>
               <a [routerLink]="['customer-collection']">Collection</a>
             </li>
-            <li nz-menu-item>
+            <li nz-menu-item nzDisabled>
               <a [routerLink]="['today_bills']">Today Bills</a>
             </li>
             <li nz-menu-item>Statement</li>

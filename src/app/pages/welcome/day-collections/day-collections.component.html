@@ -1,10 +1,10 @@
 <div class="customer-form">
-    <div nz-row>
+    <div nz-row class="page-header1">
         <div nz-col nzSpan="24">
             <h2 class="text-center">Customer Collections</h2>
         </div>
     </div>
-    <div nz-row>
+    <div nz-row class="page-header2">
         <div nz-col nzSpan="24">
             <form nz-form [formGroup]="dayCollectionForm" (ngSubmit)="submitForm()" appFocus>
                 <div nz-row>
@@ -18,7 +18,7 @@
                     </div>
                     <div nz-col nzSpan="8">
                         <nz-form-item>
-                            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
+                            <nz-form-label [nzSm]="6" [nzXs]="24">
                                 <span>Customer</span>
                             </nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -31,7 +31,7 @@
                     <div nz-col nzSpan="8">
                         <nz-form-item nz-row class="register-area">
                             <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                                <button nz-button nzType="primary" disabled="true">Submit</button>&nbsp;
+                                <button nz-button nzType="primary">Submit</button>&nbsp;
                                 <!-- <button nz-button nzType="default" (click)="reset()">Reset</button> -->
                             </nz-form-control>
                         </nz-form-item>
@@ -39,26 +39,52 @@
                 </div>
             </form>
         </div>
-        <!-- <div nz-col nzSpan="12">
-            <nz-table #basicTable [nzData]="collectionsData" [nzLoading]="loading" [nzShowPagination]="false">
+    </div>
+        <div nz-row>
+        <div nz-col nzSpan="24">
+            <a (click)="downloadPDF()" class="align-right margin-right25" *ngIf="dayBillsList && dayBillsList.length > 0"><span nz-icon nzType="file-pdf" nzTheme="fill"></span></a>
+            <a (click)="printTable()" class="align-right margin-right10" *ngIf="dayBillsList && dayBillsList.length > 0"><span nz-icon nzType="printer" nzTheme="fill"></span></a>
+            <div #dayBillTable class="print-container">
+                <table style="width: 100%;" *ngIf="dayBillsList && dayBillsList.length > 0">
+                    <tr style="text-align: left;">
+                        <th>Customer Name</th>
+                        <th>Today Bill</th>
+                        <th>Balance</th>
+                        <th>Paid</th>
+                    </tr>
+                    <tr *ngFor="let data of dayBillsList" style="text-align: left;">
+                        <td>{{ data.customer_name }}</td>
+                        <td>{{ data.total_amount }}</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                </table>
+                <h3 class="text-center" *ngIf="dayBillsList.length === 0">No Bills</h3>
+            </div>
+            
+            <nz-table style="display: none;" [nzData]="dayBillsList" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                         <tr>
                             <th>Customer Name</th>
-                            <th>Amount</th>
-                            <th>Notes</th>
-                            <th>Actions</th>
+                            <th>Today Bill</th>
+                            <th>Balance</th>
+                            <th>Paid</th>
+                            <!-- <th>Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of collectionsData">
+                        <tr *ngFor="let data of dayBillsList">
                             <td>{{ data.customer_name }}</td>
-                            <td>{{ data.amount }}</td>
-                            <td>{{ data.notes }}</td>
-                            <td>
+                            <td>{{ data.total_amount }}</td>
+                            <td>0
+                                <!-- {{ data.balance }} -->
+                            </td>
+                            <td></td>
+                            <!-- <td>
                                 <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Collection" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()">
                                     <span nz-icon nzType="delete" nzTheme="fill"></span>
                                 </a>
-                            </td>
+                            </td> -->
                         </tr>
                         </tbody>
                     </nz-table>
@@ -67,7 +93,7 @@
                         <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true" [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
                         <br />
                     </div>
-        </div> -->
+        </div>
     </div>
     
 </div>

@@ -5,16 +5,31 @@
   nz-form-item.ant-form-item {
     transition: none;
     width: 100%;
-    margin-left: 20%;
 }
 
 .login-form {
-    margin-top: 10%;
+    margin-top: 25px;
+    margin-left: 25%;
 }
 
 
 nz-form-item.ant-form-item,.register-area {
     transition: none;
     width: 100%;
-    /* margin-left: 20%; */
+}
+
+.img-logo-login {
+    width: 150px;
+    height: auto;
+}
+
+.login-card {
+    border-radius: 8px;
+    margin-top: 10%;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.forgot-password:hover {
+    border: 1px solid #1890ff;
 }

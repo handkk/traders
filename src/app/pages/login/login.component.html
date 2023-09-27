@@ -1,41 +1,31 @@
 <div>
     <div nz-row>
-        <div nz-col nzSpan="8">
-            <!-- <p>First</p> -->
-        </div>
-        <div nz-col nzSpan="8" style="border-radius: 8px;margin-top: 10%;background-color: #fff;">
+        <div nz-col nzSpan="8"></div>
+        <div nz-col nzSpan="8" class="login-card">
+            <div style="text-align: center;">
+                <img src="../../../assets/images/SST.jpg" alt="Sri Sainath Traders" class="img-logo-login" />
+            </div>
             <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="login-form">
                 <nz-form-item>
-                    <!-- <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>
-                        <span>Username</span>
-                    </nz-form-label> -->
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="username required">
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="username required">
                         <input nz-input type="text" id="name" formControlName="name" placeholder="Username" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <!-- <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="pwd" nzRequired>
-                        <span>Password</span>
-                    </nz-form-label> -->
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="password required">
+                    <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="password required">
                         <input nz-input type="password" id="pwd" formControlName="password" placeholder="Password" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item nz-row class="register">
-                    <nz-form-control [nzSpan]="24" [nzOffset]="4">
+                    <nz-form-control [nzSpan]="30" [nzOffset]="5">
                       <button nz-button nzType="primary" [disabled]="!loginForm.valid">Login</button>
                     </nz-form-control>
                   </nz-form-item>
-                  <!-- <nz-form-item nz-row class="register-area">
-                    <nz-form-control [nzSpan]="24" [nzOffset]="4">
-                        <a>Sign up</a>
-                    </nz-form-control>
-                </nz-form-item> -->
-                <!-- <button nz-button nzType="primary">Login</button> -->
             </form>
+            <!-- <div style="text-align: center;">
+                <a class="forgot-password" nz-button nzType="link">Forgot password ?</a>
+            </div> -->
         </div>
-        <div nz-col nzSpan="8">
-            <!-- <p>Third</p> -->
-        </div>
+        <div nz-col nzSpan="8"></div>
     </div>
 </div>

@@ -1,0 +1,5 @@
+@media print {
+    ul .ant-menu {
+        display: none;
+    }
+}
