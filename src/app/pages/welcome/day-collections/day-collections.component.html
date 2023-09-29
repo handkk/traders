@@ -1,7 +1,7 @@
 <div class="customer-form">
     <div nz-row class="page-header1">
         <div nz-col nzSpan="24">
-            <h2 class="text-center">Customer Collections</h2>
+            <h2 class="text-center">Day-wise Bills</h2>
         </div>
     </div>
     <div nz-row class="page-header2">
@@ -55,7 +55,7 @@
                     <tr *ngFor="let data of dayBillsList" style="text-align: left;">
                         <td>{{ data.customer_name }}</td>
                         <td>{{ data.total_amount }}</td>
-                        <td>0</td>
+                        <td>{{ data.customer_balance_amount }}</td>
                         <td></td>
                     </tr>
                 </table>

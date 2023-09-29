@@ -2,8 +2,11 @@
     <div nz-row>
         <div nz-col nzSpan="8"></div>
         <div nz-col nzSpan="8" class="login-card">
-            <div style="text-align: center;">
+            <div class="text-center">
                 <img src="../../../assets/images/SST.jpg" alt="Sri Sainath Traders" class="img-logo-login" />
+            </div>
+            <div class="text-center">
+                <h2>Sign in</h2>
             </div>
             <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="login-form">
                 <nz-form-item>
@@ -13,18 +16,18 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-control [nzSm]="16" [nzXs]="24" nzErrorTip="password required">
-                        <input nz-input type="password" id="pwd" formControlName="password" placeholder="Password" />
+                        <input nz-input type="password" id="pwd" formControlName="password" placeholder="Password" minlength="5" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item nz-row class="register">
                     <nz-form-control [nzSpan]="30" [nzOffset]="5">
-                      <button nz-button nzType="primary" [disabled]="!loginForm.valid">Login</button>
+                      <button nz-button nzType="primary" [disabled]="!loginForm.valid">Sign in</button>
                     </nz-form-control>
                   </nz-form-item>
             </form>
-            <!-- <div style="text-align: center;">
-                <a class="forgot-password" nz-button nzType="link">Forgot password ?</a>
-            </div> -->
+            <div class="text-center">
+                <a class="forgot-password" nz-button nzType="link" (click)="forgotPassword()">Forgot password ?</a>
+            </div>
         </div>
         <div nz-col nzSpan="8"></div>
     </div>

@@ -49,8 +49,7 @@ export class DayCollectionsComponent {
       customer: [null],
       date: [this.date, [Validators.required]]
     });
-    // this.getDayCollections();
-    // this.getCollections();
+    this.getCustomers();
   }
 
   downloadPDF() {
@@ -130,16 +129,19 @@ export class DayCollectionsComponent {
   submitForm(): void {
     if (this.dayCollectionForm.valid) {
       const billdate = moment(this.dayCollectionForm.value.date).format('YYYY-MM-DD');
-      const requestBody = {
-        // customer_name: this.dayCollectionForm.value.customer.name,
-        // customer_id: this.dayCollectionForm.value.customer._id,
+      let requestBody: any = {
         bill_date: billdate
       };
+      console.log('this.dayCollectionForm.value.customer === ', this.dayCollectionForm.value.customer);
+      if (this.dayCollectionForm.value.customer) {
+        requestBody['customer_name'] = this.dayCollectionForm.value.customer.name;
+        requestBody['customer_id'] = this.dayCollectionForm.value.customer._id;
+      }
       console.log('requestBody: ', requestBody);
       this.mainService.getDayBills(requestBody).subscribe(
         (data: any) => {
           console.log('getDayBills data: === ', data);
-          this.dayBillsList = [];
+          this.dayBillsList = data;
           this.loading = false;
           // this.message.create('success', `Collection added Successfully`);
           // this.reset();

@@ -18,6 +18,11 @@ export class MainService {
     return this.http.post(url, body);
   }
 
+  resetpassword(body: any) {
+    const url = this.api_host + 'reset_password';
+    return this.http.post(url, body);
+  }
+
   logout(body: any) {
     const url = this.api_host + 'logout';
     return this.http.post(url, body);

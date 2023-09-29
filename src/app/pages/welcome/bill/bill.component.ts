@@ -81,9 +81,11 @@ export class BillComponent implements OnInit {
   }
 
   getBills() {
+    const date = new Date();
     const requestBody = {
       'skip': this.index,
-      'limit': this.pageSize
+      'limit': this.pageSize,
+      'bill_date': moment(date).format('YYYY-MM-DD')
     };
     this.loading = true;
     this.mainService.getBills(requestBody).subscribe(
@@ -92,6 +94,7 @@ export class BillComponent implements OnInit {
         this.billsData = bills;
         this.total = data.total;
         this.loading = false;
+        this.getCustomers();
         setTimeout(() => {
           const select = document.getElementById('customerSelection');
           const select1 = select?.children[0].children[0];
@@ -167,7 +170,8 @@ export class BillComponent implements OnInit {
         farmer_name: this.validateForm.value.farmer.name,
         farmer_id: this.validateForm.value.farmer._id,
         unit_wise: this.switchValue,
-        notes: this.validateForm.value.notes
+        notes: this.validateForm.value.notes,
+        customer_balance_amount: this.validateForm.value.customer.balance_amount
       };
       if (!this.edit) {
         this.mainService.createBill(requestBody).subscribe(
