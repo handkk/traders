@@ -16,7 +16,14 @@ export class WelcomeComponent implements OnInit {
     private router: Router,
     private message: NzMessageService,
     private mainService: MainService
-  ) { }
+  ) {
+    let userinfo: any = sessionStorage.getItem('userinfo');
+    if (!userinfo) {
+      sessionStorage.clear();
+      this.message.create('warning', 'User session expired please login');
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngOnInit() {
     let userinfo: any = sessionStorage.getItem('userinfo');

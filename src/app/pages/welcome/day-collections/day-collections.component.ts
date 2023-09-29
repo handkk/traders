@@ -5,6 +5,7 @@ import { MainService } from '../../main.service';
 import * as moment from 'moment';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-day-collections',
@@ -42,7 +43,14 @@ export class DayCollectionsComponent {
   @ViewChild('dayBillTable') dayBillTable!: ElementRef;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
-    private mainService: MainService) {}
+    private mainService: MainService, private router: Router) {
+      let userinfo: any = sessionStorage.getItem('userinfo');
+      if (!userinfo) {
+        sessionStorage.clear();
+        this.message.create('warning', 'User session expired please login');
+        this.router.navigateByUrl('/login');
+      }
+    }
 
   ngOnInit(): void {
     this.dayCollectionForm = this.fb.group({

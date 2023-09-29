@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import { FarmerService } from '../farmer/farmer.service';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bill',
@@ -47,8 +48,16 @@ export class BillComponent implements OnInit {
     public el: ElementRef, 
     private message: NzMessageService,
     private mainService: MainService,
-    private farmerService: FarmerService
-  ) { }
+    private farmerService: FarmerService,
+    private router: Router
+  ) {
+    let userinfo: any = sessionStorage.getItem('userinfo');
+    if (!userinfo) {
+      sessionStorage.clear();
+      this.message.create('warning', 'User session expired please login');
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngAfterViewInit() {
   }
@@ -85,7 +94,7 @@ export class BillComponent implements OnInit {
     const requestBody = {
       'skip': this.index,
       'limit': this.pageSize,
-      'bill_date': moment(date).format('YYYY-MM-DD')
+      // 'bill_date': moment(date).format('YYYY-MM-DD')
     };
     this.loading = true;
     this.mainService.getBills(requestBody).subscribe(

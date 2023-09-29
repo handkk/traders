@@ -14,6 +14,7 @@ import {
   ExportAsConfig,
   SupportedExtensions,
 } from 'ngx-export-as';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer',
@@ -52,7 +53,15 @@ export class CustomerComponent implements OnInit {
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService,
-    private exportAsService: ExportAsService) {}
+    private exportAsService: ExportAsService,
+    private router: Router) {
+      let userinfo: any = sessionStorage.getItem('userinfo');
+      if (!userinfo) {
+        sessionStorage.clear();
+        this.message.create('warning', 'User session expired please login');
+        this.router.navigateByUrl('/login');
+      }
+    }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

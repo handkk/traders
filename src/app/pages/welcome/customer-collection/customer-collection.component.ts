@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-collection',
@@ -53,7 +54,14 @@ export class CustomerCollectionComponent {
   loading: boolean = false;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
-    private mainService: MainService) {}
+    private mainService: MainService, private router: Router) {
+      let userinfo: any = sessionStorage.getItem('userinfo');
+      if (!userinfo) {
+        sessionStorage.clear();
+        this.message.create('warning', 'User session expired please login');
+        this.router.navigateByUrl('/login');
+      }
+    }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

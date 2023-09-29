@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { Router } from '@angular/router';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -40,8 +41,15 @@ export class UserSettingsComponent {
   loggedInUser: any;
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
-    private mainService: MainService
-    ) {}
+    private mainService: MainService, private router: Router
+    ) {
+      let userinfo: any = sessionStorage.getItem('userinfo');
+      if (!userinfo) {
+        sessionStorage.clear();
+        this.message.create('warning', 'User session expired please login');
+        this.router.navigateByUrl('/login');
+      }
+    }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

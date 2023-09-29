@@ -17,7 +17,9 @@ export class ForgotpasswordComponent {
     private message: NzMessageService,
     private router: Router,
     private mainService: MainService
-  ) {}
+  ) {
+    sessionStorage.clear();
+  }
 
   ngOnInit(): void {
     this.forgotPasswordForm = this.fb.group({
