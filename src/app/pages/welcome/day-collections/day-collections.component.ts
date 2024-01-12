@@ -146,11 +146,13 @@ export class DayCollectionsComponent {
         requestBody['customer_id'] = this.dayCollectionForm.value.customer._id;
       }
       console.log('requestBody: ', requestBody);
+      this.mainService.spinning.emit(true);
       this.mainService.getDayBills(requestBody).subscribe(
         (data: any) => {
           console.log('getDayBills data: === ', data);
           this.dayBillsList = data;
           this.loading = false;
+          this.mainService.spinning.emit(false);
           // this.message.create('success', `Collection added Successfully`);
           // this.reset();
           // this.loading = true;
@@ -159,6 +161,7 @@ export class DayCollectionsComponent {
         err => {
           console.log('get customers err ', err);
           this.loading = false;
+          this.mainService.spinning.emit(false);
           // this.getDayCollections();
         }
       );

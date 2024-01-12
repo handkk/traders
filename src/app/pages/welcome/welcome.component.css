@@ -53,3 +53,13 @@
     margin-right: 10px;
     border-radius: 20px;
   }
+
+
+  @media print {
+    nz-header {
+      display: none;
+    }
+    ul {
+      display: none;
+    }
+  }

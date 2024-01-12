@@ -80,15 +80,18 @@ export class CustomerComponent implements OnInit {
       'limit': this.pageSize
     };
     document.getElementById('customerName')?.focus();
+    this.mainService.spinning.emit(true);
     this.mainService.getCustomers(requestBody).subscribe(
       (data: any) => {
         const customers = data.data;
+        this.mainService.spinning.emit(false);
         this.customersData = customers;
         this.total = data.total;
         this.loading = false;
       },
       err => {
         console.log('get customers err ', err);
+        this.mainService.spinning.emit(false);
         this.customersData = [];
         this.loading = false;
       }
@@ -107,6 +110,7 @@ export class CustomerComponent implements OnInit {
         address: this.validateForm.value.address,
         notes: this.validateForm.value.notes
       };
+      this.mainService.spinning.emit(true);
       if (this.edit) {
         this.mainService.updateCustomer(this.customerId, requestBody).subscribe(
           (data: any) => {
@@ -114,11 +118,13 @@ export class CustomerComponent implements OnInit {
             this.reset();
             this.loading = true;
             this.edit = false;
+            this.mainService.spinning.emit(false);
             this.getCustomers();
           },
           err => {
             console.log('get customers err ', err);
             this.loading = false;
+            this.mainService.spinning.emit(false);
             this.getCustomers();
           }
         );
@@ -128,16 +134,19 @@ export class CustomerComponent implements OnInit {
             this.message.create('success', `${this.validateForm.value.name} Customer added Successfully`);
             this.reset();
             this.loading = true;
+            this.mainService.spinning.emit(false);
             this.getCustomers();
           },
           err => {
             console.log('get customers err ', err);
             this.loading = false;
+            this.mainService.spinning.emit(false);
             this.getCustomers();
           }
         );
       }
     } else {
+      this.mainService.spinning.emit(false);
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();

@@ -20,6 +20,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { ExportAsModule } from 'ngx-export-as';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -42,7 +45,9 @@ import { ExportAsModule } from 'ngx-export-as';
     NzIconModule,
     NzSwitchModule,
     NzPaginationModule,
-    ExportAsModule
+    ExportAsModule,
+    NzSpinModule,
+    NzModalModule
   ],
   exports: [
     CommonModule,
@@ -64,7 +69,9 @@ import { ExportAsModule } from 'ngx-export-as';
     NzIconModule,
     NzSwitchModule,
     NzPaginationModule,
-    ExportAsModule
+    ExportAsModule,
+    NzSpinModule,
+    NzModalModule
   ]
 })
 export class SharedModule { }

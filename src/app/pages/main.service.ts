@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ export class MainService {
 
   // api_host = 'http://localhost:3000/';
   api_host = 'https://api.srisainathtraders.com/';
+  spinning = new EventEmitter();
 
   constructor(
     private http: HttpClient
@@ -246,6 +247,15 @@ export class MainService {
 
   getDayBills(body: any) {
     const url = this.api_host + 'day_bills';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
+
+  get_balance_statement(body: any) {
+    const url = this.api_host + 'balance_statement';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
     body['userId'] = userinfo.userId;

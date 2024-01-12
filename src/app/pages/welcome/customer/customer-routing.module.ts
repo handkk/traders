@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'today_bills', loadChildren: () => import('../day-collections/day-collections.module').then(m => m.DayCollectionsModule),
     title: 'S S T | Today Bills'
+  },
+  {
+    path: 'bill_print', loadChildren: () => import('../bill-print/bill-print.module').then(m => m.BillPrintModule),
+    title: 'S S T | Bill Print'
   }
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];

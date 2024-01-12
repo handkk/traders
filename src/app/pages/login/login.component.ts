@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         "username": username,
         "password": password
       };
+      this.mainService.spinning.emit(true);
       this.mainService.login(requestBody).subscribe(
         (data: any) => {
           const userinfo = {
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         err => {
           console.log('login err ', err);
           this.message.create('error', 'invalid credentials');
+          this.mainService.spinning.emit(false);
         }
       );
     } else {

@@ -103,6 +103,26 @@ export class BillComponent implements OnInit {
         this.billsData = bills;
         this.total = data.total;
         this.loading = false;
+        let allbills = this.billsData;
+        console.log('allbills: ', allbills);
+        let allcustomers: any[] = [];
+        allbills.forEach(a => {
+          allcustomers.push({
+            'customer_name': a.customer_name,
+            'customer_id': a.customer_id,
+            'bills': []
+          })
+          allcustomers = this.removeDuplicates(allcustomers, (it: any) => it.customer_id)
+        })
+
+        allcustomers.forEach(a => {
+          let id = allbills.findIndex(al => al.customer_id === a.customer_id)
+          if (allbills.find(al => al.customer_id === a.customer_id)) {
+            a.bills.push(allbills[id]);
+          }
+        })
+        console.log('allcustomers: ', allcustomers);
+
         this.getCustomers();
         setTimeout(() => {
           const select = document.getElementById('customerSelection');
@@ -117,6 +137,10 @@ export class BillComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  removeDuplicates(data: any, key: any) {
+    return [...new Map(data.map((x: any) => [key(x), x])).values()]
   }
 
   getCustomers() {

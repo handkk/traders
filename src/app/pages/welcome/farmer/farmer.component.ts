@@ -99,6 +99,7 @@ export class FarmerComponent {
         address: this.validateForm.value.address,
         notes: this.validateForm.value.notes
       };
+      this.mainService.spinning.emit(true);
       if (this.edit) {
         this.mainService.updateFarmer(this.farmerId, requestBody).subscribe(
           (data: any) => {
@@ -106,11 +107,13 @@ export class FarmerComponent {
             this.reset();
             this.loading = true;
             this.edit = false;
+            this.mainService.spinning.emit(false);
             this.getAllFarmers();
           },
           err => {
             console.log('get customers err ', err);
             this.loading = false;
+            this.mainService.spinning.emit(false);
             this.getAllFarmers();
           }
         );
@@ -120,16 +123,19 @@ export class FarmerComponent {
             this.message.create('success', `${this.validateForm.value.name} farmer added Successfully`);
             this.reset();
             this.loading = true;
+            this.mainService.spinning.emit(false);
             this.getAllFarmers();
           },
           err => {
             console.log('get customers err ', err);
             this.loading = false;
+            this.mainService.spinning.emit(false);
             this.getAllFarmers();
           }
         );
       }
     } else {
+      this.mainService.spinning.emit(false);
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
