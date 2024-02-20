@@ -4,14 +4,14 @@
 <div [innerHTML]="tablestring"></div>
 <br> -->
 <div class="container">
-    <div class="bill">
+    <div class="bill" *ngFor="let print of printData;">
 
         <table style="width: 100%;">
             <tr>
-                <td class="shop-title text-center" colspan="4">Sri Sainath Traders</td>
+                <td class="text-center" colspan="4"><span class="shop-title">Sri Sainath Traders</span> (9640443322)</td>
             </tr>
             <tr>
-                <td colspan="2">Rajesh K</td>
+                <td colspan="2">{{print.name}}</td>
                 <td colspan="2"><span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' :
                         (day === 4 ? 'Thu,' : (day === 5 ? 'Fri,' : (day === 6 ? 'Sat,' : ''))))))}}</span> {{todayDate}}
                 </td>
@@ -19,13 +19,13 @@
             <tr>
                 <td colspan="4" style="width: 100%;"><hr style="border: 1px dashed #000;" /></td>
             </tr>
-            <tr>
-                <td>KAKARA</td>
-                <td>10</td>
-                <td class="number">150.00</td>
-                <td class="number">1500.00</td>
+            <tr *ngFor="let bill of print.bills;">
+                <td>{{bill.vegetable_name}}</td>
+                <td>{{bill.quantity}}</td>
+                <td class="number">{{bill.rate}}</td>
+                <td class="number">{{bill.total_amount}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>BEERA</td>
                 <td>15</td>
                 <td class="number">300.00</td>
@@ -36,7 +36,7 @@
                 <td>10</td>
                 <td class="number">150.00</td>
                 <td class="number">1500.00</td>
-            </tr>
+            </tr> -->
             <tr>
                 <td></td>
                 <td></td>
@@ -47,31 +47,19 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="number">7500.00</td>
+                <td class="number">{{print.bill_amount}}</td>
             </tr>
             <tr>
                 <td>Op. Bal</td>
                 <td></td>
-                <td class="number">12500.00</td>
+                <td class="number">{{print.collected_amount}}</td>
                 <td></td>
             </tr>
             <tr>
-                <td>05/01/2024</td>
+                <td>Cash</td>
                 <td></td>
-                <td class="number">10000.00</td>
+                <td class="number">{{print.last_amount_updated}}</td>
                 <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><hr style="border: 1px dashed #000;" /></td>
-                <td><hr style="border: 1px dashed #000;" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td class="number">2500.00</td>
-                <td class="number">2500.00</td>
             </tr>
             <tr>
                 <td></td>
@@ -82,12 +70,24 @@
             <tr>
                 <td></td>
                 <td></td>
+                <td class="number">{{print.balance}}</td>
+                <td class="number">{{print.balance}}</td>
+            </tr>
+            <tr>
                 <td></td>
-                <td class="number">10000.00</td>
+                <td></td>
+                <td><hr style="border: 1px dashed #000;" /></td>
+                <td><hr style="border: 1px dashed #000;" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="number">{{print.total_bill}}</td>
             </tr>
         </table>
     </div>
-    <div class="bill">
+    <!-- <div class="bill">
         <table style="width: 100%;">
             <tr>
                 <td class="shop-title text-center" colspan="4">Sri Sainath Traders</td>
@@ -496,7 +496,7 @@
                 <td class="number">10000.00</td>
             </tr>
         </table>
-    </div>
+    </div> -->
 </div>
 
 <!-- <div class="container">

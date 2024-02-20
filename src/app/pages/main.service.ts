@@ -262,4 +262,13 @@ export class MainService {
     body['sessionId'] = userinfo.sessionId;
     return this.http.post(url, body);
   }
+
+  printCustomerBills(body: any) {
+    const url = this.api_host + 'customer_bills';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
 }

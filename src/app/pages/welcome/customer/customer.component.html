@@ -17,7 +17,7 @@
             <span>Name</span>
           </nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
-            <input nz-input id="customerName" formControlName="name" placeholder="Name" />
+            <input nz-input id="customerName" formControlName="name" placeholder="Name" autocomplete="off" />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -34,7 +34,7 @@
                   <nz-option nzLabel="+91" nzValue="+91"></nz-option>
                 </nz-select>
               </ng-template>
-              <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [maxlength]="10" />
+              <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [maxlength]="10" autocomplete="off" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -86,7 +86,7 @@
         </nz-form-item>
         <nz-form-item nz-row class="register-area">
           <nz-form-control [nzSpan]="14" [nzOffset]="6">
-            <button nz-button nzType="primary">{{ edit ? 'Update' : 'Create' }}</button>&nbsp;
+            <button nz-button nzType="primary" [disabled]="!validateForm.valid">{{ edit ? 'Update' : 'Create' }}</button>&nbsp;
             <button nz-button nzType="default" (click)="reset()">Reset</button>
           </nz-form-control>
         </nz-form-item>

@@ -12,7 +12,7 @@
                         <span>Name</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
-                        <input nz-input id="userFullName" formControlName="name" placeholder="Name" />
+                        <input nz-input id="userFullName" formControlName="name" placeholder="Name" autocomplete="off" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item *ngIf="!edit">
@@ -20,7 +20,7 @@
                         <span>Username</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your username!">
-                        <input nz-input type="text" id="userName" formControlName="username" placeholder="Username" [disabled]="true" />
+                        <input nz-input type="text" id="userName" formControlName="username" placeholder="Username" [disabled]="true" autocomplete="off" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item *ngIf="!edit">
@@ -36,7 +36,7 @@
                         <span>E-mail</span>
                     </nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your email!">
-                        <input nz-input type="email" id="email" formControlName="email" placeholder="E-mail" />
+                        <input nz-input type="email" id="email" formControlName="email" placeholder="E-mail" autocomplete="off" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
@@ -49,7 +49,7 @@
                                     <nz-option nzLabel="+91" nzValue="+91"></nz-option>
                                 </nz-select>
                             </ng-template>
-                            <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [maxlength]="10" />
+                            <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [maxlength]="10" autocomplete="off" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
