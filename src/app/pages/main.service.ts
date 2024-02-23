@@ -14,6 +14,11 @@ export class MainService {
     private http: HttpClient
   ) { }
 
+  getLoggedInUser(): any {
+    const user: any = sessionStorage.getItem('userinfo');
+    return JSON.parse(user);
+  }
+
   login(body: any) {
     const url = this.api_host + 'login';
     return this.http.post(url, body);

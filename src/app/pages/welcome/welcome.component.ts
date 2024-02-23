@@ -17,27 +17,21 @@ export class WelcomeComponent implements OnInit {
     private message: NzMessageService,
     private mainService: MainService
   ) {
-    let userinfo: any = sessionStorage.getItem('userinfo');
-    if (!userinfo) {
+    this.loggedInUser = this.mainService.getLoggedInUser();
+    if (!this.loggedInUser) {
       sessionStorage.clear();
       this.message.create('warning', 'User session expired please login');
       this.router.navigateByUrl('/login');
     }
   }
 
-  ngOnInit() {
-    let userinfo: any = sessionStorage.getItem('userinfo');
-    const user = JSON.parse(userinfo);
-    this.loggedInUser = user;
-  }
+  ngOnInit() {}
 
   logout() {
-    let userinfo: any = sessionStorage.getItem('userinfo');
-    const user = JSON.parse(userinfo);
-    if (user) {
+    if (this.loggedInUser) {
       let requestBody = {
-        "userId": user.userId,
-        "sessionId": user.sessionId
+        "userId": this.loggedInUser.userId,
+        "sessionId": this.loggedInUser.sessionId
       };
       this.mainService.logout(requestBody).subscribe(
         (data: any) => {
