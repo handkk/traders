@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainService {
 
-  // api_host = 'http://localhost:3000/';
-  api_host = 'https://api.srisainathtraders.com/';
+  api_host = 'http://localhost:3000/';
+  // api_host = 'https://api.srisainathtraders.com/';
   spinning = new EventEmitter();
 
   constructor(
@@ -275,5 +276,19 @@ export class MainService {
     body['userId'] = userinfo.userId;
     body['sessionId'] = userinfo.sessionId;
     return this.http.post(url, body);
+  }
+
+  getCollectionsByCustomerId(id: string) {
+    const url = this.api_host + 'customer-collections/' + id;
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    let body: any = {};
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    body['customer_id'] = id;
+    return this.http.post(url, body)
+    .pipe(
+      map(data => data)
+    )
   }
 }

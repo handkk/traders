@@ -60,17 +60,18 @@ export class CustomerComponent implements OnInit {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');
-      } else if (userinfo && userinfo.apps.bill) {
-        this.router.navigateByUrl('/bill');
-      } else if (userinfo && userinfo.apps.billprint) {
-        this.router.navigateByUrl('/bill_print');
-      } else if (userinfo && userinfo.apps.collection) {
-        this.router.navigateByUrl('/customer-collection');
-      } else if (userinfo && userinfo.apps.farmer) {
-        this.router.navigateByUrl('/farmer');
-      } else if (userinfo && userinfo.apps.vegetable) {
-        this.router.navigateByUrl('/vegetables');
-      }
+      } 
+      // else if (userinfo && userinfo.apps.bill) {
+      //   this.router.navigateByUrl('/bill');
+      // } else if (userinfo && userinfo.apps.billprint) {
+      //   this.router.navigateByUrl('/bill_print');
+      // } else if (userinfo && userinfo.apps.collection) {
+      //   this.router.navigateByUrl('/customer-collection');
+      // } else if (userinfo && userinfo.apps.farmer) {
+      //   this.router.navigateByUrl('/farmer');
+      // } else if (userinfo && userinfo.apps.vegetable) {
+      //   this.router.navigateByUrl('/vegetables');
+      // }
     }
 
   ngOnInit(): void {

@@ -61,6 +61,29 @@ export class BillPrintComponent implements OnInit {
     );
   }
 
+  getCollectionsByCustomerId(id: string) {
+    this.mainService.getCollectionsByCustomerId(id).subscribe(
+      (data: any) => {
+        console.log('getCollectionsByCustomerId data: ', data);
+        let latestCollections: any = [];
+        if (data && data.length > 0) {
+          latestCollections.push(data[0]);
+          latestCollections.push(data[1]);
+        } 
+        this.printData.forEach(p => {
+          if (p.cusomer_id === id) {
+            p['collections'] = latestCollections;
+          }
+        });
+        console.log('print data === ', this.printData);
+      },
+      err => {
+        console.log('get customers err ', err);
+        return err;
+      }
+    );
+  }
+
   printCustomerBills() {
     const today_date = new Date();
     const new1 = moment(today_date).format('YYYY-MM-DD')
@@ -85,25 +108,15 @@ export class BillPrintComponent implements OnInit {
           c['total_bill'] = c['bill_amount'] - c['balance'];
         });
         customer_bills = data;
-        // req.body.bill_date + '2024-02-09T00:00:00.000Z';
-        // let updated_customers: any = customer_bills;
-        // updated_customers.forEach((cb: any) => {
-        //   const arr = cb.bills;
-        //   console.log('arr: ', arr);
-        //   arr.forEach(() => {
-        //     const index = arr.findIndex((obj: any) => {
-        //       return obj.bill_date !== '2024-02-11T00:00:00.000Z';
-        //     });
-        //     if (index !== -1) {
-        //       arr.splice(index, 1);
-        //     }
-        //   })
-        // });
         console.log('after customer_bills: ', customer_bills);
         if (customer_bills) {
           this.printData = customer_bills;
         }
         this.mainService.spinning.emit(false);
+        // this.getCollectionsByCustomerId(customer_bills[0].cusomer_id);
+        // setTimeout(() => {
+        //   console.log('getCollectionsByCustomerId collection: ', collection);
+        // }, 1000);
       },
       err => {
         console.log('get customers err ', err);
