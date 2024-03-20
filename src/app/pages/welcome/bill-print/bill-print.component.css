@@ -28,9 +28,9 @@ body {
     page-break-inside: avoid;
 }
 
-tr td {
+/* tr td {
     padding: 1px 10px;
-}
+} */
 
 .number {
     text-align: right !important;
@@ -64,4 +64,8 @@ tr td {
     .header-print {
         display: none;
     }
+}
+
+h2 {
+    text-align: center;
 }

@@ -16,32 +16,29 @@
     </nz-header>
     <nz-content class="outer-content">
       <ul nz-menu nzMode="horizontal">
-        <li nz-submenu nzTitle="Customers" *ngIf="loggedInUser && (loggedInUser.apps.customers ||
-        loggedInUser.apps.bill || loggedInUser.apps.collection ||
-        loggedInUser.apps.billprint)
-        ">
+        <li nz-submenu nzTitle="Customers">
           <ul>
-            <li nz-menu-item *ngIf="loggedInUser.apps.customers">
+            <li nz-menu-item>
               <a [routerLink]="['customer']">New Customer</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.apps.bill">
+            <li nz-menu-item>
                 <a [routerLink]="['bill']">Bill</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.apps.collection">
+            <li nz-menu-item>
               <a [routerLink]="['customer-collection']">Collection</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.apps.bill">
+            <li nz-menu-item>
               <a [routerLink]="['today_bills']">Today Bills</a>
             </li>
             <li nz-menu-item>Statement</li>
             <li nz-menu-item>Balance Statement</li>
-            <li nz-menu-item *ngIf="loggedInUser.apps.billprint">
+            <li nz-menu-item>
               <a [routerLink]="['bill_print']">Bill Print</a>
             </li>
             <li nz-menu-item>Customer Account</li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="Farmer" *ngIf="loggedInUser && loggedInUser.apps.farmer">
+        <li nz-submenu nzTitle="Farmer">
           <ul>
             <li nz-menu-item>
               <a [routerLink]="['farmer']">New Farmer</a>
@@ -52,9 +49,9 @@
             <li nz-menu-item>Statement</li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="Vegetables" [routerLink]="['vegetables']" *ngIf="loggedInUser && loggedInUser.apps.vegetable">
+        <li nz-submenu nzTitle="Vegetables" [routerLink]="['vegetables']">
         </li>
-        <li nz-submenu nzTitle="Settings" *ngIf="loggedInUser.apps.admin">
+        <li nz-submenu nzTitle="Settings">
           <ul>
             <li nz-menu-item>
               <a [routerLink]="['user_settings']">User Accounts</a>
