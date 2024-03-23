@@ -23,7 +23,7 @@ export class BillPrintComponent implements OnInit {
 
   ngOnInit() {
     const today_date: Date = new Date();
-    this.day = today_date.getDay();
+    this.day = this.date.getDay();
     this.todayDate = moment(today_date).format('DD-MM-YYYY');
     // this.todayDate = today_date.getUTCDate() + '/' + (today_date.getUTCMonth() + 1) + '/' + today_date.getUTCFullYear();
     // this.getbalance_statement();
@@ -83,6 +83,7 @@ export class BillPrintComponent implements OnInit {
 
   printCustomerBills() {
     const today_date = new Date();
+    this.day = this.date.getDay();
     const new1 = moment(this.date).format('YYYY-MM-DD')
     const requestBody = {
       'skip': 0,

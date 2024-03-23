@@ -75,9 +75,9 @@ export class BillComponent implements OnInit {
     this.total = this.billsData.length;
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    if (userinfo.username !== 'admin') {
-      this.dateDisable = true;
-    }
+    // if (userinfo.username !== 'admin') {
+    //   this.dateDisable = true;
+    // }
     this.getCustomers();
     this.getAllFarmers();
     this.getAllVegetables();
