@@ -137,32 +137,33 @@ export class DayCollectionsComponent {
   submitForm(): void {
     if (this.dayCollectionForm.valid) {
       const billdate = moment(this.dayCollectionForm.value.date).format('YYYY-MM-DD');
-      let requestBody: any = {
-        bill_date: billdate
+      let requestBody: any =  {
+        'skip': 0,
+        'limit': 1000,
+        'bill_date': billdate
       };
-      console.log('this.dayCollectionForm.value.customer === ', this.dayCollectionForm.value.customer);
-      if (this.dayCollectionForm.value.customer) {
-        requestBody['customer_name'] = this.dayCollectionForm.value.customer.name;
-        requestBody['customer_id'] = this.dayCollectionForm.value.customer._id;
-      }
       console.log('requestBody: ', requestBody);
       this.mainService.spinning.emit(true);
-      this.mainService.getDayBills(requestBody).subscribe(
+      this.mainService.printCustomerBills(requestBody).subscribe(
         (data: any) => {
           console.log('getDayBills data: === ', data);
-          this.dayBillsList = data;
-          this.loading = false;
+          this.dayBillsList = [];
           this.mainService.spinning.emit(false);
-          // this.message.create('success', `Collection added Successfully`);
-          // this.reset();
-          // this.loading = true;
-          // this.getDayCollections();
+          if (data && data.length > 0) {
+            let customer_bills = data;
+            customer_bills.forEach((c: any) => {
+              c['total_amount'] = 0;
+              c.bills.forEach((b: any) => {
+                  c['total_amount'] = c['total_amount'] + b['total_amount'];
+              })
+            });
+            this.dayBillsList = customer_bills;
+          }
         },
         err => {
           console.log('get customers err ', err);
           this.loading = false;
           this.mainService.spinning.emit(false);
-          // this.getDayCollections();
         }
       );
     } else {
