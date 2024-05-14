@@ -27,7 +27,7 @@ export class BillPrintComponent implements OnInit {
     this.todayDate = moment(today_date).format('DD-MM-YYYY');
     // this.todayDate = today_date.getUTCDate() + '/' + (today_date.getUTCMonth() + 1) + '/' + today_date.getUTCFullYear();
     // this.getbalance_statement();
-    this.getCollections();
+    this.printCustomerBills();
   }
 
   showModal(): void {
@@ -90,30 +90,35 @@ export class BillPrintComponent implements OnInit {
       'limit': 1000,
       'bill_date': new1
     };
-    this.mainService.spinning.emit(true);
+    // this.mainService.spinning.emit(true);
     this.mainService.printCustomerBills(requestBody).subscribe(
       (data: any) => {
-        let customer_bills;
-        data.forEach((c: any) => {
-          c['balance'] = c['collected_amount'] - c['last_amount_updated'];
-          c['bill_amount'] = 0;
-          c.bills.forEach((b: any) => {
-              c['bill_amount'] = c['bill_amount'] + b['total_amount']
-          })
-          c['total_bill'] = c['bill_amount'] - c['balance'];
-          c['collections'] = [];
-          this.collectionsData.forEach(col => {
-            if (c['cusomer_id'] === col['customer_id']) {
-              if (c['collections'].length < 2) {
-                c['collections'].push(col);
-              }
-            }
-          });
-        });
-        customer_bills = data;
-        if (customer_bills) {
-          this.printData = customer_bills;
+        if (data && data.length > 0) {
+          this.printData = data;
+        } else {
+          this.printData = [];
         }
+        // let customer_bills;
+        // data.forEach((c: any) => {
+        //   c['balance'] = c['collected_amount'] - c['last_amount_updated'];
+        //   c['bill_amount'] = 0;
+        //   c.bills.forEach((b: any) => {
+        //       c['bill_amount'] = c['bill_amount'] + b['total_amount']
+        //   })
+        //   c['total_bill'] = c['bill_amount'] - c['balance'];
+        //   c['collections'] = [];
+        //   this.collectionsData.forEach(col => {
+        //     if (c['cusomer_id'] === col['customer_id']) {
+        //       if (c['collections'].length < 2) {
+        //         c['collections'].push(col);
+        //       }
+        //     }
+        //   });
+        // });
+        // customer_bills = data;
+        // if (customer_bills) {
+        //   this.printData = customer_bills;
+        // }
         this.mainService.spinning.emit(false);
       },
       err => {
