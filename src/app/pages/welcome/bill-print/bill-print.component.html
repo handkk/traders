@@ -1,4 +1,5 @@
 <h2 class="header-print">Bill Print</h2>
+<button (click)="maxRecordsCount(finalArray)">check max</button>
 <div class="date-picker">
     <br />
 <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
@@ -6,7 +7,7 @@
 </div>
 <body>
     <div class="container">
-        <div class="bill" *ngFor="let print of printData;">
+        <div class="bill" *ngFor="let print of finalArray;">
     
             <table style="width: 100%;">
                 <tr>
