@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../../main.service';
 import * as moment from 'moment';
+import { concatMap, finalize, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-bill-print',
@@ -48,8 +49,7 @@ export class BillPrintComponent implements OnInit {
     window.open();
   }
 
-  getbalance_statement() {
-    const requestBody = {};
+  getbalance_statement(requestBody: any) {
     this.mainService.get_balance_statement(requestBody).subscribe(
       (data: any) => {
         if (data.table) {
@@ -97,38 +97,31 @@ export class BillPrintComponent implements OnInit {
     let maxCountreached = true
     let filteredArray: any[] = [];
     customerData.forEach((dataObject, index) => {
-      if (dataObject.records.length > this.breakCount+1) {
-        let firstPart = dataObject.records.slice(0, this.breakCount )
-        // console.log('firstPart: ', firstPart);
+
+      if (dataObject.records.length > this.breakCount + 1) {
+        let firstPart = dataObject.records.slice(0, this.breakCount)
         let secondPart = dataObject.records.slice(this.breakCount)
-        // console.log('secondPart: ', secondPart);
         let firstData = { ...dataObject }
         firstData.records = firstPart;
         let secondData = { ...dataObject }
         secondData.records = secondPart;
         secondData.total_amount = this.returnSum(secondData.records);
         firstData.total_amount = this.returnSum(firstData.records);
-        // firstData['collections'] = await collectionsController.getRecentCollections(firstData.customer_id);
-        // firstData['collections'] = [];
-        // secondData['collections'] = [];
         filteredArray.push(firstData);
         filteredArray.push(secondData);
       } else {
         dataObject['total_amount'] = this.returnSum(dataObject.records);
-        // dataObject['collections'] = [];
-        // dataObject['collections'] = await collectionsController.getRecentCollections(dataObject.customer_id);
         filteredArray.push(dataObject)
       }
 
     })
     this.finalArray = filteredArray
-    // if (index + 1 == customerData.length) {
-    let hasCollectionExceedingLimit = filteredArray.some((item) => item.records.length > this.breakCount+1);
+    let hasCollectionExceedingLimit = filteredArray.some((item) => item.records.length > this.breakCount + 1);
     console.log('hasCollectionExceedingLimit', hasCollectionExceedingLimit)
     if (hasCollectionExceedingLimit) {
       this.maxRecordsCount(this.finalArray)
-    }else{
-      
+    } else {
+
       console.log('filteredArray >>>>>', filteredArray)
 
     }
@@ -155,10 +148,32 @@ export class BillPrintComponent implements OnInit {
     // this.mainService.spinning.emit(true);
     this.mainService.printCustomerBills(requestBody).subscribe(
       (data: any) => {
-        let finalArray = []
         if (data && data.length > 0) {
           this.printData = data;
-          this.maxRecordsCount(data)
+          if (this.printData) {
+            of(...this.printData).pipe(
+              concatMap((item: any) =>
+                this.mainService.getCollectionsByCustomerId(item.customer_id).pipe(
+                  map((data: any) => ({ item, data })),
+                )
+              ),
+              finalize(() => {
+                this.maxRecordsCount(data)
+              })
+            ).subscribe((collection) => {
+              collection.item['collectionData']=collection.data
+
+            })
+            // this.printData.forEach((item, index) => {
+            //   item['fromBackend'] = true
+            //   this.mainService.getCollectionsByCustomerId(item.customer_id).subscribe((collection: any) => {
+            //     item['collectionData'] = collection
+
+            //   })
+
+            // })
+
+          }
           console.log('this.printData', this.printData)
 
         } else {

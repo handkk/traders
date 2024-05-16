@@ -49,7 +49,7 @@
                     <td></td>
                     <td class="number">{{print.total_amount}}</td>
                 </tr>
-                <tr *ngFor="let collection of print.collections;">
+                <tr *ngFor="let collection of print.collectionData;">
                     <td>{{collection.collection_date | date: 'dd/MM/yyyy'}}</td>
                     <td>{{collection.amount}}</td>
                     <td></td>

@@ -279,6 +279,7 @@ export class MainService {
   }
 
   getCollectionsByCustomerId(id: string) {
+    console.log('id', id)
     const url = this.api_host + 'customer-collections/' + id;
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
@@ -287,8 +288,20 @@ export class MainService {
     body['sessionId'] = userinfo.sessionId;
     body['customer_id'] = id;
     return this.http.post(url, body)
-    .pipe(
-      map(data => data)
-    )
+      .pipe(
+        map((data: any) => {
+          let lastcollection: any[] = [];
+          if(data.length&&data.length>0){
+            lastcollection.push(data[0]);
+            if(data.length>2||data.length==2){
+              lastcollection.push(data[1]);
+            }
+          }else{
+            lastcollection.push([])
+          }
+          
+          return lastcollection;
+        })
+      )
   }
 }
