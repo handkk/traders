@@ -144,20 +144,13 @@ export class DayCollectionsComponent {
       };
       console.log('requestBody: ', requestBody);
       this.mainService.spinning.emit(true);
-      this.mainService.printCustomerBills(requestBody).subscribe(
+      this.mainService.getDayBills(requestBody).subscribe(
         (data: any) => {
           console.log('getDayBills data: === ', data);
           this.dayBillsList = [];
           this.mainService.spinning.emit(false);
           if (data && data.length > 0) {
-            let customer_bills = data;
-            customer_bills.forEach((c: any) => {
-              c['total_amount'] = 0;
-              c.bills.forEach((b: any) => {
-                  c['total_amount'] = c['total_amount'] + b['total_amount'];
-              })
-            });
-            this.dayBillsList = customer_bills;
+            this.dayBillsList = data;
           }
         },
         err => {
