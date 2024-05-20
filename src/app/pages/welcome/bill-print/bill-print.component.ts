@@ -28,8 +28,6 @@ export class BillPrintComponent implements OnInit {
     const today_date: Date = new Date();
     this.day = this.date.getDay();
     this.todayDate = moment(today_date).format('DD-MM-YYYY');
-    // this.todayDate = today_date.getUTCDate() + '/' + (today_date.getUTCMonth() + 1) + '/' + today_date.getUTCFullYear();
-    // this.getbalance_statement();
     this.printCustomerBills();
   }
 
@@ -117,24 +115,10 @@ export class BillPrintComponent implements OnInit {
     })
     this.finalArray = filteredArray
     let hasCollectionExceedingLimit = filteredArray.some((item) => item.records.length > this.breakCount + 1);
-    console.log('hasCollectionExceedingLimit', hasCollectionExceedingLimit)
     if (hasCollectionExceedingLimit) {
       this.maxRecordsCount(this.finalArray)
     } else {
-
-      console.log('filteredArray >>>>>', filteredArray)
-
     }
-    // if (hasCollectionExceedingLimit) {
-    //   this.maxRecordsCount(filteredArray)
-    // } else {
-    //   console.log(filteredArray)
-    // }
-
-    // }
-
-
-    // console.log('filteredArray: ', filteredArray);
   }
   printCustomerBills() {
     const today_date = new Date();
@@ -174,52 +158,15 @@ export class BillPrintComponent implements OnInit {
             // })
 
           }
-          console.log('this.printData', this.printData)
 
         } else {
           this.printData = [];
         }
-        // let customer_bills;
-        // data.forEach((c: any) => {
-        //   c['balance'] = c['collected_amount'] - c['last_amount_updated'];
-        //   c['bill_amount'] = 0;
-        //   c.bills.forEach((b: any) => {
-        //       c['bill_amount'] = c['bill_amount'] + b['total_amount']
-        //   })
-        //   c['total_bill'] = c['bill_amount'] - c['balance'];
-        //   c['collections'] = [];
-        //   this.collectionsData.forEach(col => {
-        //     if (c['cusomer_id'] === col['customer_id']) {
-        //       if (c['collections'].length < 2) {
-        //         c['collections'].push(col);
-        //       }
-        //     }
-        //   });
-        // });
-        // customer_bills = data;
-        // if (customer_bills) {
-        //   this.printData = customer_bills;
-        // }
         this.mainService.spinning.emit(false);
       },
       err => {
         console.log('get customers err ', err);
         this.mainService.spinning.emit(false);
-      }
-    );
-  }
-
-  getCollections() {
-    const requestBody = {};
-    this.mainService.getCollections(requestBody).subscribe(
-      (data: any) => {
-        const collections = data.data;
-        this.collectionsData = collections;
-        this.printCustomerBills();
-      },
-      err => {
-        console.log('get customers err ', err);
-        this.collectionsData = [];
       }
     );
   }

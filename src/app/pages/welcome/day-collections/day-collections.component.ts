@@ -57,7 +57,6 @@ export class DayCollectionsComponent {
       customer: [null],
       date: [this.date, [Validators.required]]
     });
-    this.getCustomers();
   }
 
   downloadPDF() {
@@ -72,7 +71,6 @@ export class DayCollectionsComponent {
     html2canvas(this.dayBillTable.nativeElement, {}).then(
       canvas => {
         const imageData = canvas.toDataURL('image/png');
-        console.log('imageData: ', imageData);
         const pageWidth = 208;
         const pageHeight = 295;
         
@@ -84,50 +82,6 @@ export class DayCollectionsComponent {
         pdf.save('today_bills.pdf');
       }
     )
-  }
-
-  getDayCollections() {
-    let requestBody: any;
-    requestBody = {
-      'skip': this.index,
-      'limit': this.pageSize
-    };
-    // setTimeout(() => {
-    //   const select = document.getElementById('collectionCustomerInput');
-    //   const select1 = select?.children[0].children[0];
-    //   select1?.children[0].setAttribute('id', 'collectionCustIn')
-    //   document.getElementById('collectionCustIn')?.focus();
-    // }, 500);
-    this.loading = true;
-    requestBody['bill_date'] = '2023-09-22';
-    this.mainService.getDayBills(requestBody).subscribe(
-      (data: any) => {
-        console.log('getDayBills data: ', data);
-        // const collections = data.data;
-        // this.collectionsData = collections;
-        // this.total = data.total;
-        this.loading = false;
-      },
-      err => {
-        console.log('get customers err ', err);
-        this.collectionsData = [];
-        this.loading = false;
-      }
-    );
-  }
-
-  getCustomers() {
-    const requestBody = {};
-    this.mainService.getCustomers(requestBody).subscribe(
-      (data: any) => {
-        const customers = data.data;
-        this.customers = customers;
-      },
-      err => {
-        console.log('get customers err ', err);
-        this.customers = [];
-      }
-    );
   }
 
   clearfield(input: string) {
@@ -142,11 +96,9 @@ export class DayCollectionsComponent {
         'limit': 1000,
         'bill_date': billdate
       };
-      console.log('requestBody: ', requestBody);
       this.mainService.spinning.emit(true);
       this.mainService.getDayBills(requestBody).subscribe(
         (data: any) => {
-          console.log('getDayBills data: === ', data);
           this.dayBillsList = [];
           this.mainService.spinning.emit(false);
           if (data && data.length > 0) {
