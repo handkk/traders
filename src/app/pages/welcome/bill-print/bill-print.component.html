@@ -1,15 +1,15 @@
 <h2 class="header-print">Bill Print</h2>
-<!-- <button (click)="maxRecordsCount(finalArray)">check max</button> -->
 <div class="date-picker">
     <br />
-<nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
-<br />
+    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
+    <br />
 </div>
-<body>
+<h3 class="text-center" *ngIf="finalArray && finalArray.length === 0">No Bills</h3>
+
+<body *ngIf="finalArray && finalArray.length > 0">
     <div class="container">
-        <h3 class="text-center" *ngIf="finalArray && finalArray.length === 0">No Bills</h3>
         <div class="bill" *ngFor="let print of finalArray;">
-    
+
             <table style="width: 100%;">
                 <tr>
                     <td class="text-center" colspan="5"><span class="shop-title">Sri Sainath Traders</span> (9640443322)
@@ -18,8 +18,10 @@
                 <tr>
                     <td colspan="4">{{print.customer_name}}</td>
                     <td style="text-align: right;">
-                        <span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' : (day
-                            === 4 ? 'Thu,' : (day === 5 ? 'Fri,' : (day === 6 ? 'Sat,' : ''))))))}}</span> {{date | date: 'dd-MM-yyyy'}}
+                        <span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' :
+                            (day
+                            === 4 ? 'Thu,' : (day === 5 ? 'Fri,' : (day === 6 ? 'Sat,' : ''))))))}}</span> {{date |
+                        date: 'dd-MM-yyyy'}}
                     </td>
                 </tr>
                 <tr>

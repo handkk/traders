@@ -40,6 +40,8 @@ export class DayCollectionsComponent {
   pageSize = 10;
   loading: boolean = false;
   dayBillsList: any[] = [];
+  dayBillsList1: any[] = [];
+  dayBillsList2: any[] = [];
   @ViewChild('dayBillTable') dayBillTable!: ElementRef;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
@@ -103,6 +105,15 @@ export class DayCollectionsComponent {
           this.mainService.spinning.emit(false);
           if (data && data.length > 0) {
             this.dayBillsList = data;
+            if (this.dayBillsList.length <= 50) {
+              this.dayBillsList1 = this.dayBillsList;
+            } else if (this.dayBillsList.length > 50) {
+              let temp = this.dayBillsList;
+              let first = temp.slice(0, 50);
+              let second = temp.slice(50);
+              this.dayBillsList1 = first;
+              this.dayBillsList2 = second;
+            }
           }
         },
         err => {

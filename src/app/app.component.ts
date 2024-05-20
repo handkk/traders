@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
     private mainService: MainService
   ) {
     this.mainService.spinning.subscribe(loading => {
-      console.log('loading: ', loading);
       this.isSpinning = loading;
     });
   }

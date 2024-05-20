@@ -160,7 +160,7 @@ export class BillPrintComponent implements OnInit {
           }
 
         } else {
-          this.printData = [];
+          this.finalArray = [];
         }
         this.mainService.spinning.emit(false);
       },
