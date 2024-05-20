@@ -47,19 +47,6 @@ export class BillPrintComponent implements OnInit {
     window.open();
   }
 
-  getbalance_statement(requestBody: any) {
-    this.mainService.get_balance_statement(requestBody).subscribe(
-      (data: any) => {
-        if (data.table) {
-          this.tablestring = data.table;
-        }
-      },
-      err => {
-        console.log('get customers err ', err);
-      }
-    );
-  }
-
   getCollectionsByCustomerId(id: string) {
     this.mainService.getCollectionsByCustomerId(id).subscribe(
       (data: any) => {

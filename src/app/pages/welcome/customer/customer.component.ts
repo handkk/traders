@@ -279,6 +279,8 @@ export class CustomerComponent implements OnInit {
         if (data && data.success) {
           this.message.create('success', data.message);
           this.getCustomers();
+        } else if (!data.success) {
+          this.message.create('warning', data.message);
         }
       },
       err => {

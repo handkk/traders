@@ -1,0 +1,59 @@
+<h2>Statement</h2>
+<div class="date-picker">
+    <div nz-row>
+        <div nz-col nzSpan="6">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <nz-date-picker [(ngModel)]="from_date" (ngModelChange)="onChange($event)"
+                        [nzAllowClear]="false"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <nz-date-picker [(ngModel)]="to_date" (ngModelChange)="onChange($event)"
+                        [nzAllowClear]="false"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
+                    <span>Customer</span>
+                </nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <nz-select nzShowSearch nzAllowClear [nzAutoFocus]="true" [(ngModel)]="selectedCustomer"
+                        (ngModelChange)="onCustomerSelect($event)">
+                        <nz-option *ngFor="let c of customersData;index as CI;" [nzLabel]="c.name" [nzValue]="c"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-item nz-row class="register-area">
+                <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <button nz-button nzType="primary" (click)="getStatement()">Submit</button>&nbsp;
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <table style="width: 100%;" *ngIf="statement && statement.length > 0">
+        <tr style="text-align: left;">
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+        <tr *ngFor="let data of statement" style="text-align: left;">
+            <td>{{ data.bill_date | date: 'dd/MM/yy' }}</td>
+            <td>{{ data.quantity }}</td>
+            <td>{{ data.rate }}</td>
+            <td>{{ data.total_amount }}</td>
+            <td></td>
+        </tr>
+    </table>
+    
+</div>

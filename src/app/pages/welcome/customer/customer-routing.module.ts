@@ -32,6 +32,10 @@ const routes: Routes = [
   {
     path: 'bill_print', loadChildren: () => import('../bill-print/bill-print.module').then(m => m.BillPrintModule),
     title: 'S S T | Bill Print'
+  },
+  {
+    path: 'statement', loadChildren: () => import('../statement/statement.module').then(m => m.StatementModule),
+    title: 'S S T | Statement'
   }
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];

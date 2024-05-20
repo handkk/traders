@@ -260,8 +260,8 @@ export class MainService {
     return this.http.post(url, body);
   }
 
-  get_balance_statement(body: any) {
-    const url = this.api_host + 'balance_statement';
+  getStatement(body: any) {
+    const url = this.api_host + 'statement';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
     body['userId'] = userinfo.userId;
