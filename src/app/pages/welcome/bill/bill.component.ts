@@ -43,9 +43,9 @@ export class BillComponent implements OnInit {
   switchValue: boolean = false;
   dateDisable = false;
   bill_data: any;
-  
-  constructor(private fb: UntypedFormBuilder, 
-    public el: ElementRef, 
+
+  constructor(private fb: UntypedFormBuilder,
+    public el: ElementRef,
     private message: NzMessageService,
     private mainService: MainService,
     private farmerService: FarmerService,
@@ -192,7 +192,7 @@ export class BillComponent implements OnInit {
   submitForm(): void {
     if (this.validateForm.valid) {
       const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DDTHH:mm:ss.000')
-      const requestBody = {
+      const requestBody: any = {
         bill_date: this.edit ? this.bill_data.bill_date : billdate,
         customer_name: this.validateForm.value.customer.name,
         customer_id: this.validateForm.value.customer._id,
@@ -223,6 +223,9 @@ export class BillComponent implements OnInit {
           }
         );
       } else {
+          requestBody['isCustEdited'] = this.bill_data.customer_id == this.validateForm.value.customer._id ? false : true;
+          requestBody['oldCustId']=this.bill_data.customer_id 
+          console.log('requestBody', requestBody)
         this.mainService.updateBill(this.bill_data._id, requestBody).subscribe(
           (data: any) => {
             this.message.create('success', `Bill updated Successfully`);
@@ -251,7 +254,7 @@ export class BillComponent implements OnInit {
     }
   }
 
-  onChange(result: Date): void {}
+  onChange(result: Date): void { }
 
   reset() {
     this.validateForm.controls['quantity'].reset();
@@ -278,7 +281,7 @@ export class BillComponent implements OnInit {
     );
   }
 
-  cancel() {}
+  cancel() { }
 
   onPageSizeChange(event: any) {
     this.pageSize = event;
