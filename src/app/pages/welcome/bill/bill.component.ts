@@ -43,6 +43,7 @@ export class BillComponent implements OnInit {
   switchValue: boolean = false;
   dateDisable = false;
   bill_data: any;
+  disabledDate: any;
 
   constructor(private fb: UntypedFormBuilder,
     public el: ElementRef,
@@ -75,14 +76,15 @@ export class BillComponent implements OnInit {
     this.total = this.billsData.length;
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
-    // if (userinfo.username !== 'admin') {
-    //   this.dateDisable = true;
-    // }
+    if (userinfo.username !== 'admin') {
+      this.dateDisable = true;
+    }
     this.getCustomers();
     this.getAllFarmers();
     this.getAllVegetables();
     this.getBills();
     this.switchValue = false;
+
   }
 
   clearfield(input: string) {
@@ -96,33 +98,14 @@ export class BillComponent implements OnInit {
       'limit': this.pageSize,
       // 'bill_date': moment(date).format('YYYY-MM-DD')
     };
-    this.loading = true;
+    this.mainService.spinning.emit(true);
     this.mainService.getBills(requestBody).subscribe(
       (data: any) => {
         const bills = data.data;
         this.billsData = bills;
         this.total = data.total;
+        this.mainService.spinning.emit(false);
         this.loading = false;
-        let allbills = this.billsData;
-        console.log('allbills: ', allbills);
-        let allcustomers: any[] = [];
-        allbills.forEach(a => {
-          allcustomers.push({
-            'customer_name': a.customer_name,
-            'customer_id': a.customer_id,
-            'bills': []
-          })
-          allcustomers = this.removeDuplicates(allcustomers, (it: any) => it.customer_id)
-        })
-
-        allcustomers.forEach(a => {
-          let id = allbills.findIndex(al => al.customer_id === a.customer_id)
-          if (allbills.find(al => al.customer_id === a.customer_id)) {
-            a.bills.push(allbills[id]);
-          }
-        })
-        console.log('allcustomers: ', allcustomers);
-
         this.getCustomers();
         setTimeout(() => {
           const select = document.getElementById('customerSelection');
@@ -134,6 +117,7 @@ export class BillComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.billsData = [];
+        this.mainService.spinning.emit(false);
         this.loading = false;
       }
     );
@@ -206,11 +190,12 @@ export class BillComponent implements OnInit {
         notes: this.validateForm.value.notes,
         customer_balance_amount: this.validateForm.value.customer.balance_amount
       };
+      this.mainService.spinning.emit(true);
       if (!this.edit) {
         this.mainService.createBill(requestBody).subscribe(
           (data: any) => {
             this.message.create('success', `Bill added Successfully`);
-            this.loading = false;
+            this.mainService.spinning.emit(false);
             this.validateForm.controls['quantity'].reset();
             this.validateForm.controls['notes'].reset();
             this.index = 1;
@@ -219,17 +204,16 @@ export class BillComponent implements OnInit {
           },
           err => {
             console.log('get customers err ', err);
-            this.loading = false;
+            this.mainService.spinning.emit(false);
           }
         );
       } else {
           requestBody['isCustEdited'] = this.bill_data.customer_id == this.validateForm.value.customer._id ? false : true;
-          requestBody['oldCustId']=this.bill_data.customer_id 
-          console.log('requestBody', requestBody)
+          requestBody['oldCustId']=this.bill_data.customer_id;
         this.mainService.updateBill(this.bill_data._id, requestBody).subscribe(
           (data: any) => {
             this.message.create('success', `Bill updated Successfully`);
-            this.loading = false;
+            this.mainService.spinning.emit(false);
             this.validateForm.controls['quantity'].reset();
             this.validateForm.controls['notes'].reset();
             this.index = 1;
@@ -240,11 +224,12 @@ export class BillComponent implements OnInit {
           },
           err => {
             console.log('get customers err ', err);
-            this.loading = false;
+            this.mainService.spinning.emit(false);
           }
         );
       }
     } else {
+      this.mainService.spinning.emit(false);
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
@@ -308,5 +293,6 @@ export class BillComponent implements OnInit {
     this.validateForm.controls['vegetables'].setValue(vegetable);
     this.validateForm.controls['farmer'].setValue(farmerData);
     this.switchValue = data.unit_wise;
+    this.dateDisable = true;
   }
 }
