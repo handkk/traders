@@ -97,6 +97,13 @@ export class CustomerCollectionComponent {
         console.log('get customers err ', err);
         this.collectionsData = [];
         this.loading = false;
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }
@@ -139,7 +146,15 @@ export class CustomerCollectionComponent {
         err => {
           console.log('get customers err ', err);
           this.loading = false;
-          this.getCollections();
+          if (err && err.error) {
+            if (!err.error.success && err.error.code === 1000) {
+              this.message.create('error', err.error.message);
+              sessionStorage.clear();
+              this.router.navigateByUrl('/login');
+            }
+          } else {
+            this.getCollections();
+          }
         }
       );
     } else {
@@ -163,6 +178,7 @@ export class CustomerCollectionComponent {
     this.loading = true;
     this.mainService.removeCollection(id).subscribe(
       (data: any) => {
+        console.log('deleteConfirm data: ', data);
         this.loading = false;
         if (data && data.success) {
           this.message.create('success', data.message);
@@ -170,7 +186,14 @@ export class CustomerCollectionComponent {
         }
       },
       err => {
-        console.log('get customers err ', err);
+        console.log('delete collection err ', err);
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
         this.loading = false;
       }
     );
