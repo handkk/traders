@@ -116,9 +116,10 @@ export class BillPrintComponent implements OnInit {
       'limit': 1000,
       'bill_date': new1
     };
-    // this.mainService.spinning.emit(true);
+    this.mainService.spinning.emit(true);
     this.mainService.printCustomerBills(requestBody).subscribe(
       (data: any) => {
+        this.mainService.spinning.emit(false);
         if (data && data.length > 0) {
           this.printData = data;
           if (this.printData) {

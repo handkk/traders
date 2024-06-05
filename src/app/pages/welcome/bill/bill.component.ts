@@ -293,9 +293,11 @@ export class BillComponent implements OnInit {
 
   deleteConfirm(id: string) {
     this.loading = true;
+    this.mainService.spinning.emit(true);
     this.mainService.removeBill(id).subscribe(
       (data: any) => {
         this.loading = false;
+        this.mainService.spinning.emit(false);
         if (data && data.success) {
           this.message.create('success', data.message);
           this.getBills();
@@ -304,6 +306,7 @@ export class BillComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.loading = false;
+        this.mainService.spinning.emit(false);
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
             this.message.create('error', err.error.message);
