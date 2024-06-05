@@ -119,6 +119,13 @@ export class BillComponent implements OnInit {
         this.billsData = [];
         this.mainService.spinning.emit(false);
         this.loading = false;
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }
@@ -137,6 +144,13 @@ export class BillComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.customers = [];
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }
@@ -151,6 +165,13 @@ export class BillComponent implements OnInit {
       err => {
         console.log('get farmers err ', err);
         this.farmersList = [];
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }
@@ -165,6 +186,13 @@ export class BillComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.vegetablesList = [];
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }
@@ -205,6 +233,13 @@ export class BillComponent implements OnInit {
           err => {
             console.log('get customers err ', err);
             this.mainService.spinning.emit(false);
+            if (err && err.error) {
+              if (!err.error.success && err.error.code === 1000) {
+                this.message.create('error', err.error.message);
+                sessionStorage.clear();
+                this.router.navigateByUrl('/login');
+              }
+            }
           }
         );
       } else {
@@ -225,6 +260,13 @@ export class BillComponent implements OnInit {
           err => {
             console.log('get customers err ', err);
             this.mainService.spinning.emit(false);
+            if (err && err.error) {
+              if (!err.error.success && err.error.code === 1000) {
+                this.message.create('error', err.error.message);
+                sessionStorage.clear();
+                this.router.navigateByUrl('/login');
+              }
+            }
           }
         );
       }
@@ -262,6 +304,13 @@ export class BillComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.loading = false;
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }

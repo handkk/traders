@@ -18,8 +18,9 @@
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
                         <span>Customer</span>
                     </nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="collectionCustomerInput">
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzExtra="{{selectedCustomer ? 'Balance amount: ' + selectedCustomer.balance_amount : ''}}">
+                        <nz-select nzShowSearch nzAllowClear formControlName="customer" id="collectionCustomerInput" (ngModelChange)="customerSelected($event)" [(ngModel)]="selectedCustomer">
+                            <nz-option nzLabel="Select Customer" nzValue=""></nz-option>
                             <nz-option *ngFor="let c of customers;index as CI;" [nzLabel]="c.name" [nzValue]="c"></nz-option>
                         </nz-select>
                     </nz-form-control>

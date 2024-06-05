@@ -105,6 +105,13 @@ export class CustomerComponent implements OnInit {
         this.mainService.spinning.emit(false);
         this.customersData = [];
         this.loading = false;
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }
@@ -136,7 +143,15 @@ export class CustomerComponent implements OnInit {
             console.log('get customers err ', err);
             this.loading = false;
             this.mainService.spinning.emit(false);
-            this.getCustomers();
+            if (err && err.error) {
+              if (!err.error.success && err.error.code === 1000) {
+                this.message.create('error', err.error.message);
+                sessionStorage.clear();
+                this.router.navigateByUrl('/login');
+              }
+            } else {
+              this.getCustomers();
+            }
           }
         );
       } else {
@@ -152,7 +167,15 @@ export class CustomerComponent implements OnInit {
             console.log('get customers err ', err);
             this.loading = false;
             this.mainService.spinning.emit(false);
-            this.getCustomers();
+            if (err && err.error) {
+              if (!err.error.success && err.error.code === 1000) {
+                this.message.create('error', err.error.message);
+                sessionStorage.clear();
+                this.router.navigateByUrl('/login');
+              }
+            } else {
+              this.getCustomers();
+            }
           }
         );
       }
@@ -286,6 +309,13 @@ export class CustomerComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.loading = false;
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
       }
     );
   }

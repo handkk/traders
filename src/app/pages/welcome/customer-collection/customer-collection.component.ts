@@ -52,6 +52,7 @@ export class CustomerCollectionComponent {
   total = 0;
   pageSize = 10;
   loading: boolean = false;
+  selectedCustomer: any;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
@@ -141,7 +142,11 @@ export class CustomerCollectionComponent {
           this.message.create('success', `Collection added Successfully`);
           this.reset();
           this.loading = true;
+          this.selectedCustomer = '';
           this.getCollections();
+          setTimeout(() => {
+            this.getCustomers();
+          }, 200);
         },
         err => {
           console.log('get customers err ', err);
@@ -209,5 +214,9 @@ export class CustomerCollectionComponent {
   onPageChange(event: any) {
     this.index = event;
     this.getCollections();
+  }
+
+  customerSelected(event: any) {
+    this.selectedCustomer = event;
   }
 }
