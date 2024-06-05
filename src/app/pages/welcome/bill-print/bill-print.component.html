@@ -12,11 +12,11 @@
 
             <table style="width: 100%;">
                 <tr>
-                    <td class="text-center" colspan="5"><span class="shop-title">Sri Sainath Traders</span> (9640443322)
+                    <td class="text-center" colspan="5"><span class="shop-title">SRI SAINATH TRADERS</span> (9640443322)
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">{{print.customer_name}}</td>
+                    <td colspan="4">{{print.customer_name | uppercase}}<br />Ph. {{print.phone_number}}</td>
                     <td style="text-align: right;">
                         <span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' :
                             (day
