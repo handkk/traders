@@ -36,7 +36,9 @@ export class LandingComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mainService.spinning.emit(false);
+  }
 
   logout() {
     if (this.loggedInUser) {
