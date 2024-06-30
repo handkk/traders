@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private mainService: MainService) {
       if (sessionStorage.getItem('username')) {
-        this.router.navigateByUrl('/customer');
+        this.router.navigateByUrl('/main');
       }
     }
 
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             apps: data.apps
           };
           sessionStorage.setItem('userinfo', JSON.stringify(userinfo));
-          this.router.navigateByUrl('/customer');
+          this.router.navigateByUrl('/main');
         },
         err => {
           console.log('login err ', err);
