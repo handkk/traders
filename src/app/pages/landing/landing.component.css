@@ -1,0 +1,81 @@
+.logo {
+    width: 100%;
+      /* height: 31px; */
+      background: transparent;
+      /* margin: 16px 28px 16px 0; */
+      float: left;
+      /* text-align: center; */
+      color: white;
+  }
+  
+  .header-menu {
+    line-height: 64px;
+  }
+  
+  .outer-content {
+    padding: 0 50px;
+  }
+  
+  nz-breadcrumb {
+    margin: 16px 0;
+  }
+  
+  .inner-layout {
+    padding: 24px 0;
+    /* background: transparent; */
+  }
+  
+  .sider-menu {
+    height: 100%;
+  }
+  
+  .inner-content {
+    padding: 0 24px;
+    min-height: 280px;
+  }
+  
+  nz-footer {
+    text-align: center;
+    position: absolute;
+      width: 100%;
+      bottom: 0px;
+      right: 0px;
+  }
+  
+  a.logout {
+    float: right !important;
+    color: #ffffff !important;
+  }
+
+  .welcome-page-logo {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 20px;
+  }
+
+
+  @media print {
+    nz-header {
+      display: none;
+    }
+    ul {
+      display: none;
+    }
+  }
+
+  .card-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 250px;
+    font-size: 25px;
+    font-weight: bold;
+    align-content: space-around;
+    background-color: #559043;
+    border-color: #559043;
+    color: #001529;
+  }
+
+  .card-image-style {
+    width: 50px;
+  }
+  

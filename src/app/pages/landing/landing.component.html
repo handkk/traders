@@ -1,0 +1,33 @@
+<nz-layout>
+    <nz-header>
+        <div class="logo">
+            <img src=".../../../../../assets/images/SST.jpg" class="welcome-page-logo" alt="Sri Sainath Traders" />
+            Sri Sainath Traders
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="logout" *ngIf="loggedInUser">
+                {{loggedInUser.name}} <span nz-icon nzType="user" nzTheme="outline"></span>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item>Profile</li>
+                    <li nz-menu-item (click)="logout()">Logout</li>
+                </ul>
+            </nz-dropdown-menu>
+        </div>
+    </nz-header>
+    <nz-content class="outer-content">
+        <div style="padding: 30px;height: 300px;position: relative;top: 100px;">
+            <div nz-row [nzGutter]="8" nzJustify="center" nzAlign="middle">
+              <div nz-col [nzSpan]="8" class="padding-15" *ngFor="let card of cardsList;index as CI;" (click)="selectCard(card)">
+                <nz-card nzHoverable="true" class="card-shadow text-center border-radius-10">
+                    <div>
+                        <img src="../../../assets/images/bill_8685644.png" alt="{{card.name}}" *ngIf="card.name === 'Bills'" class="card-image-style" />
+                        <img src="../../../assets/images/group_121704.png" alt="{{card.name}}" *ngIf="card.name === 'Customers'" class="card-image-style" />
+                        <img src="../../../assets/images/money_4199686.png" alt="{{card.name}}" *ngIf="card.name === 'Collections'" class="card-image-style" />
+                    </div>
+                  <p>{{card.name}}</p>
+                </nz-card>
+              </div>
+            </div>
+          </div>
+    </nz-content>
+</nz-layout>

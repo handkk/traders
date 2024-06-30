@@ -3,3 +3,11 @@
 .text-center {
     text-align: center !important;
 }
+
+.padding-15 {
+    padding: 15px !important;
+}
+
+.border-radius-10 {
+    border-radius: 10px !important;
+}

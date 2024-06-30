@@ -22,6 +22,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { ExportAsModule } from 'ngx-export-as';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzPaginationModule,
     ExportAsModule,
     NzSpinModule,
-    NzModalModule
+    NzModalModule,
+    NzCardModule
   ],
   exports: [
     CommonModule,
@@ -71,7 +73,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzPaginationModule,
     ExportAsModule,
     NzSpinModule,
-    NzModalModule
+    NzModalModule,
+    NzCardModule
   ]
 })
 export class SharedModule { }
