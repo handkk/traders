@@ -279,7 +279,6 @@ export class MainService {
   }
 
   getCollectionsByCustomerId(id: string) {
-    console.log('id', id)
     const url = this.api_host + 'customer-collections/' + id;
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);

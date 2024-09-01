@@ -18,7 +18,7 @@ export class BillPrintComponent implements OnInit {
   collectionsData: any[] = [];
   date = new Date();
   maxCount = 2
-  breakCount: number = 9; // if u want max 3 set 2 , if u want 10 recourd set 9
+  breakCount: number = 10; // if u want max 3 set 2 , if u want 10 recourd set 9
   finalArray: any[] = [];
   constructor(
     private mainService: MainService
@@ -82,14 +82,53 @@ export class BillPrintComponent implements OnInit {
     let maxCountreached = true
     let filteredArray: any[] = [];
     customerData.forEach((dataObject, index) => {
-
+      dataObject.records.forEach((re: any, ind: number) => {
+        re['no'] = ind + 1;
+      })
+      // if (dataObject.records.length > 20 && dataObject.records.length < 30) {
+      //   console.log('this.breakCount: ', this.breakCount);
+      //   let firstPart = dataObject.records.slice(0, this.breakCount)
+      //   let secondPart = dataObject.records.slice(9)
+      //   let thirdPart = dataObject.records.slice(18)
+      //   let firstData = { ...dataObject }
+      //   firstData.records = firstPart;
+      //   let secondData = { ...dataObject }
+      //   secondData.records = secondPart;
+      //   let thirdData = { ...dataObject }
+      //   thirdData.records = thirdPart;
+      //   secondData.total_amount = this.returnSum(secondData.records);
+      //   firstData.total_amount = this.returnSum(firstData.records);
+      //   thirdData.total_amount = this.returnSum(thirdData.records);
+      //   // if (dataObject.records.length > 9) {
+      //   //   firstData['continue'] = 'Continue...';
+      //   // }
+      //   // if (dataObject.records.length > 18) {
+      //   //   secondData['continue'] = '';
+      //   //   secondData['second'] = '(ii)';
+      //   // }
+      //   // if (dataObject.records.length > 27) {
+      //   //   console.log('second');
+      //   //   secondData['continue'] = '';
+      //   //   secondData['second'] = '(ii)';
+      //   //   secondData['third'] = '(iii)';
+      //   // }
+      //   filteredArray.push(firstData);
+      //   filteredArray.push(secondData);
+      //   filteredArray.push(thirdData);
+      // }
       if (dataObject.records.length > this.breakCount + 1) {
         let firstPart = dataObject.records.slice(0, this.breakCount)
         let secondPart = dataObject.records.slice(this.breakCount)
         let firstData = { ...dataObject }
         firstData.records = firstPart;
+        if (dataObject.records.length > 9) {
+          firstData['continue'] = 'Continue...';
+        }
         let secondData = { ...dataObject }
         secondData.records = secondPart;
+        if (dataObject.records.length > 18) {
+          secondData['continue'] = '';
+        }
         secondData.total_amount = this.returnSum(secondData.records);
         firstData.total_amount = this.returnSum(firstData.records);
         filteredArray.push(firstData);
@@ -98,13 +137,13 @@ export class BillPrintComponent implements OnInit {
         dataObject['total_amount'] = this.returnSum(dataObject.records);
         filteredArray.push(dataObject)
       }
-
     })
     this.finalArray = filteredArray
     let hasCollectionExceedingLimit = filteredArray.some((item) => item.records.length > this.breakCount + 1);
     if (hasCollectionExceedingLimit) {
       this.maxRecordsCount(this.finalArray)
     } else {
+      this.mainService.spinning.emit(false);
     }
   }
   printCustomerBills() {
@@ -123,6 +162,7 @@ export class BillPrintComponent implements OnInit {
         if (data && data.length > 0) {
           this.printData = data;
           if (this.printData) {
+            this.mainService.spinning.emit(true);
             of(...this.printData).pipe(
               concatMap((item: any) =>
                 this.mainService.getCollectionsByCustomerId(item.customer_id).pipe(

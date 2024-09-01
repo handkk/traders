@@ -1,5 +1,6 @@
 .shop-title {
     color: rgb(6, 247, 6);
+    font-weight: 700;
 }
 
 .print-box-width {
@@ -29,6 +30,7 @@ body {
 
 tr td {
     font-size: 12px;
+    padding: 0px;
 }
 
 .number {
@@ -59,7 +61,7 @@ tr td {
 
     .bill {
         width: 396.85px;
-        height: 374.7px;
+        height: 370.7px;
         border: 1px solid #000;
         box-sizing: border-box;
         page-break-inside: avoid;
@@ -78,4 +80,18 @@ h2, h3 {
 
 .header-print {
     margin-top: 10px;
+}
+
+.bill_customer_name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.bill_item_name {
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.width_customs {
+    width: 50px;
 }

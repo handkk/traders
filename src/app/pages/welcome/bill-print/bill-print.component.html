@@ -12,31 +12,38 @@
 
             <table style="width: 100%;">
                 <tr>
-                    <td class="text-center" colspan="5"><span class="shop-title">SRI SAINATH TRADERS</span> (9640443322)
-                    </td>
+                    <td class="text-center" colspan="3"><span class="shop-title">SRI SAINATH TRADERS</span>&nbsp;&nbsp;&nbsp;&nbsp;9640443322,&nbsp;9640443322</td>
+                    <!-- <td class="text-right">&nbsp;&nbsp;&nbsp;&nbsp;9640443322,&nbsp;9640443322</td> -->
                 </tr>
                 <tr>
-                    <td colspan="4">{{print.customer_name | uppercase}}<br />Ph. {{print.phone_number}}</td>
+                    <td><span class="bill_customer_name">{{print.customer_name | uppercase}}</span><br />Ph. {{print.phone_number}}</td>
+                    <td>
+                        <span *ngIf="print.continue !== ''">{{print.continue}}</span>
+                        <span *ngIf="print.second">{{print.second}}</span>
+                        <span *ngIf="print.third">{{print.third}}</span>
+                    </td>
                     <td style="text-align: right;">
                         <span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' :
                             (day
                             === 4 ? 'Thu,' : (day === 5 ? 'Fri,' : (day === 6 ? 'Sat,' : ''))))))}}</span> {{date |
-                        date: 'dd-MM-yyyy'}}
+                        date: 'dd-MM-yyyy'}}&nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5" style="width: 100%;">
+                    <td colspan="3" style="width: 100%;">
                         <hr style="border: 1px dashed #000;" />
                     </td>
                 </tr>
+            </table>
+            <table style="width: 100%;">
                 <tr *ngFor="let bill of print.records;">
-                    <td class="upper-case">{{bill.vegetable_name}}</td>
+                    <td class="upper-case"><strong class="bill_item_name">{{bill.no}}.</strong>&nbsp;<strong class="bill_item_name">{{bill.vegetable_name}}</strong></td>
                     <td class="upper-case">{{bill.notes}}</td>
-                    <td>{{bill.quantity}}</td>
-                    <td class="number">{{bill.rate}}</td>
-                    <td class="number">{{bill.total_amount}}</td>
+                    <td class="bill_item_name">{{bill.quantity}}</td>
+                    <td class="number bill_item_name">{{bill.rate}}/-</td>
+                    <td class="number bill_item_name">{{bill.total_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -44,13 +51,13 @@
                     <td>
                         <hr style="border: 1px dashed #000;" />
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td style="text-decoration: underline;">Last 2 Collections</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="number">{{print.total_amount}}</td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.total_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr *ngFor="let collection of print.collectionData;">
                     <td>{{collection.collection_date | date: 'dd/MM/yyyy'}}</td>
@@ -59,31 +66,14 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <hr style="border: 1px dashed #000;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="number">{{print.balance}}</td>
-                    <td></td>
-                </tr>
-                <tr>
+                </tr> -->
+                <!-- <tr>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -91,13 +81,27 @@
                     <td>
                         <hr style="border: 1px dashed #000;" />
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="number">{{print.total_amount}}</td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.balance}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td></td>
+                </tr>
+                <!-- <tr>
+                    <td colspan="4"></td>
+                    <td>
+                        <hr style="border: 1px dashed #000;" />
+                    </td>
+                </tr> -->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.total_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
             </table>
         </div>
