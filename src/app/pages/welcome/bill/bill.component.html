@@ -136,6 +136,7 @@
             <nz-table #basicTable [nzData]="billsData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                     <tr>
+                        <th>S.No.</th>
                         <th>Name</th>
                         <th>Item</th>
                         <th>Quantity</th>
@@ -145,7 +146,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let data of billsData">
+                    <tr *ngFor="let data of billsData;index as i;">
+                        <td>{{ i + 1 }}</td>
                         <td>{{ data.customer_name }}</td>
                         <td>{{ data.vegetable_name }}</td>
                         <td>{{ data.quantity }}</td>
@@ -162,13 +164,13 @@
                     </tr>
                 </tbody>
             </nz-table>
-            <div class="text-right">
+            <!-- <div class="text-right">
                 <br />
                 <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true"
                     [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)"
                     (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
                 <br />
-            </div>
+            </div> -->
         </div>
     </div>
 

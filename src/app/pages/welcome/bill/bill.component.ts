@@ -36,7 +36,7 @@ export class BillComponent implements OnInit {
   ];
   index = 1;
   total = 0;
-  pageSize = 10;
+  pageSize = 20;
   loading = true;
   edit: boolean = false;
   billId: any;
@@ -94,9 +94,9 @@ export class BillComponent implements OnInit {
   getBills() {
     const date = new Date();
     const requestBody = {
-      'skip': this.index,
-      'limit': this.pageSize,
-      // 'bill_date': moment(date).format('YYYY-MM-DD')
+      // 'skip': this.index,
+      // 'limit': this.pageSize,
+      'bill_date': moment(date).format('YYYY-MM-DD')
     };
     this.mainService.spinning.emit(true);
     this.mainService.getBills(requestBody).subscribe(
