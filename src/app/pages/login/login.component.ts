@@ -16,8 +16,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private router: Router,
     private mainService: MainService) {
-      if (sessionStorage.getItem('username')) {
-        this.router.navigateByUrl('/main');
+      let userinfo: any = sessionStorage.getItem('userinfo');
+      if (!userinfo) {
+        sessionStorage.clear();
+        this.message.create('warning', 'User session expired please login');
+        this.router.navigateByUrl('/login');
+      } else {
+        this.router.navigateByUrl('/main')
       }
     }
 
