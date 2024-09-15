@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as moment from 'moment';
@@ -52,7 +52,8 @@ export class CustomerCollectionComponent {
   total = 0;
   pageSize = 10;
   loading: boolean = false;
-  selectedCustomer: any;
+  selectedCustomer: any = null;
+  total_amount: number = 0;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
@@ -95,7 +96,6 @@ export class CustomerCollectionComponent {
         this.loading = false;
       },
       err => {
-        console.log('get customers err ', err);
         this.collectionsData = [];
         this.loading = false;
         if (err && err.error) {
@@ -142,14 +142,13 @@ export class CustomerCollectionComponent {
           this.message.create('success', `Collection added Successfully`);
           this.reset();
           this.loading = true;
-          this.selectedCustomer = '';
+          this.selectedCustomer = null;
           this.getCollections();
           setTimeout(() => {
             this.getCustomers();
           }, 200);
         },
         err => {
-          console.log('get customers err ', err);
           this.loading = false;
           if (err && err.error) {
             if (!err.error.success && err.error.code === 1000) {
@@ -183,7 +182,6 @@ export class CustomerCollectionComponent {
     this.loading = true;
     this.mainService.removeCollection(id).subscribe(
       (data: any) => {
-        console.log('deleteConfirm data: ', data);
         this.loading = false;
         if (data && data.success) {
           this.message.create('success', data.message);
@@ -191,7 +189,6 @@ export class CustomerCollectionComponent {
         }
       },
       err => {
-        console.log('delete collection err ', err);
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
             this.message.create('error', err.error.message);
@@ -217,6 +214,17 @@ export class CustomerCollectionComponent {
   }
 
   customerSelected(event: any) {
+    let bill_amount = 0;
+    if (event && event.customerCollection && event.customerCollection.length > 0) {
+      if (event.customerCollection[event.customerCollection.length - 1].records.length > 0) {
+        const records = event.customerCollection[event.customerCollection.length - 1].records;
+        const bills = records[records.length - 1];
+        if (bills) {
+          bill_amount = bills['total_amount'];
+        }
+      }
+    }
     this.selectedCustomer = event;
+    this.total_amount = bill_amount;
   }
 }
