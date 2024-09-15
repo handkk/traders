@@ -1,6 +1,7 @@
 .shop-title {
     color: rgb(6, 247, 6);
     font-weight: 700;
+    font-size: 15px;
 }
 
 .print-box-width {
@@ -84,7 +85,8 @@ h2, h3 {
 
 .bill_customer_name {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
+    color: #df7c24;
 }
 
 .bill_item_name {

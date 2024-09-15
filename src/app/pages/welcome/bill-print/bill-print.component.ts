@@ -200,6 +200,7 @@ export class BillPrintComponent implements OnInit {
   }
 
   onChange(result: any): void {
+    this.finalArray = [];
     this.printCustomerBills();
   }
 
