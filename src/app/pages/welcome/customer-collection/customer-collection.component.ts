@@ -214,17 +214,17 @@ export class CustomerCollectionComponent {
   }
 
   customerSelected(event: any) {
-    let bill_amount = 0;
-    if (event && event.customerCollection && event.customerCollection.length > 0) {
-      if (event.customerCollection[event.customerCollection.length - 1].records.length > 0) {
-        const records = event.customerCollection[event.customerCollection.length - 1].records;
-        const bills = records[records.length - 1];
-        if (bills) {
-          bill_amount = bills['total_amount'];
-        }
-      }
-    }
+    // let bill_amount = 0;
+    // if (event && event.customerCollection && event.customerCollection.length > 0) {
+    //   if (event.customerCollection[event.customerCollection.length - 1].records.length > 0) {
+    //     const records = event.customerCollection[event.customerCollection.length - 1].records;
+    //     const bills = records[records.length - 1];
+    //     if (bills) {
+    //       bill_amount = bills['total_amount'];
+    //     }
+    //   }
+    // }
     this.selectedCustomer = event;
-    this.total_amount = bill_amount;
+    // this.total_amount = bill_amount;
   }
 }

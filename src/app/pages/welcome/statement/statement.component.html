@@ -34,7 +34,7 @@
         <div nz-col nzSpan="6">
             <nz-form-item nz-row class="register-area">
                 <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                    <button nz-button nzType="primary" (click)="getStatement()">Submit</button>&nbsp;
+                    <button nz-button nzType="primary" (click)="getStatement()" [disabled]="selectedCustomer == null || date == null">Submit</button>&nbsp;
                 </nz-form-control>
             </nz-form-item>
         </div>
@@ -53,7 +53,7 @@
         <tr *ngFor="let data of statement" style="text-align: left;">
             <td class="border-line">{{ data.bill_date | date: 'dd-MM-yy' }}</td>
             <td class="border-line" *ngIf="data.items">
-                <tr *ngFor="let item of data.items;index as IT;">
+                <tr *ngFor="let item of data.items;">
                     <td class="padding-5">{{item.vegetable_name}}</td>
                     <td class="padding-5">{{item.quantity}}</td>
                     <td class="padding-5">{{item.rate}}</td>
@@ -65,8 +65,12 @@
             <td class="border-line text-right padding-r5" *ngIf="!data.bill_amount"></td>
             <td class="border-line text-right padding-r5" *ngIf="data.collected_amount">{{data.collected_amount}}.00</td>
             <td class="border-line text-right padding-r5" *ngIf="!data.collected_amount"></td>
-            <td class="border-line text-right padding-r5" *ngIf="data.balance">{{data.balance}}.00</td>
-            <td class="border-line text-right padding-r5" *ngIf="!data.balance"></td>
+            <td class="border-line text-right padding-r5" *ngIf="data.items">
+                <tr *ngFor="let it of data.items;">
+                    <td class="padding-5" *ngIf="it.balance_amount">{{it.balance_amount}}.00</td>
+                </tr>
+            </td>
+            <td class="border-line text-right padding-r5" *ngIf="!data.items"></td>
         </tr>
     </table>
     

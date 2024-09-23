@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MainService } from '../../main.service';
 import * as moment from 'moment';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-statement',
@@ -18,7 +19,8 @@ export class StatementComponent implements OnInit {
   statement: any[] = [];
 
   constructor(
-    private mainService: MainService
+    private mainService: MainService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -26,12 +28,15 @@ export class StatementComponent implements OnInit {
   }
 
   getCustomerStatement(id: any) {
-    // this.todayDate = moment(this.date).format('DD-MM-YYYY');
-    const requestBody = {
-      'customer_id': id,
-      'from_date': this.from_date,
-      'to_date': this.to_date
+    let requestBody: any = {
+      'customer_id': id
     };
+    if (this.from_date !== '') {
+      requestBody['from_date'] = this.from_date
+    }
+    if (this.to_date !== '') {
+      requestBody['to_date'] = this.to_date
+    }
     this.mainService.getStatement(requestBody).subscribe(
       (data: any) => {
         if (data && data.length > 0) {
@@ -42,14 +47,21 @@ export class StatementComponent implements OnInit {
       },
       err => {
         console.log('get customers err ', err);
-        return err;
+        this.message.create('error', err.error.message);
       }
     );
   }
 
   onChange(result: Date[]) {
-    this.from_date = moment(result[0]).format('YYYY-MM-DD');
-    this.to_date = moment(result[1]).format('YYYY-MM-DD');
+    if (result && result.length > 0) {
+      this.from_date = moment(result[0]).format('YYYY-MM-DD');
+      this.to_date = moment(result[1]).format('YYYY-MM-DD');
+    } else {
+      this.from_date = '';
+      this.to_date = ''
+      this.date = null;
+    }
+    this.statement = [];
   }
 
   getCustomers() {
@@ -70,48 +82,12 @@ export class StatementComponent implements OnInit {
   }
 
   onCustomerSelect(event: any) {
-    // console.log('onCustomerSelect event: ', event);
-    // this.getCustomerStatement(event._id);
+    this.statement = [];
   }
 
   getStatement() {
     this.statement = [];
-    this.getCustomerStatement(this.selectedCustomer._id)
-    // const startDate = moment(this.date).format('DD');
-    // console.log('startDate: ', startDate);
-    // const toDate = moment(this.to_date).format('DD');
-    // console.log('toDate: ', toDate);
-    // let fromCollection = this.selectedCustomer.customerCollection.find((coll: any) => coll.bill_date === from_date);
-    // console.log('fromCollection: ', this.from_date.getDate());
-    // let collections: any = [];
-    // let date: any;
-    // let firstIndex = -1;
-    // let secondIndex = -1;
-    // this.selectedCustomer.customerCollection.forEach((coll: any, i: number) => {
-    //   // console.log('i: ', i);
-    //   if (from_date === coll.bill_date) {
-    //     firstIndex = i;
-    //   }
-    //   if (to_date === coll.bill_date) {
-    //     secondIndex = i;
-    //   }
-    // });
-    // console.log('firstIndex: ', firstIndex);
-    // console.log('secondIndex: ', secondIndex);
-    // this.selectedCustomer.customerCollection.forEach((coll: any, i: number) => {
-    //   if (i === firstIndex || i <= secondIndex) {
-    //     console.log('coll i: ', i);
-    //     console.log('coll firstIndex: ', firstIndex);
-    //     console.log('coll secondIndex: ', secondIndex);
-    //     collections.push(coll);
-    //   }
-    // });
-    // console.log('collections: ', collections);
-    // collections.forEach((col: any) => {
-    //   col.records.forEach((colss: any) => {
-    //     this.statement.push(colss);
-    //   });
-    // });
+    this.getCustomerStatement(this.selectedCustomer._id);
   }
 
 }

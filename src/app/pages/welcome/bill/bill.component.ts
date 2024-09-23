@@ -203,7 +203,7 @@ export class BillComponent implements OnInit {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DDTHH:mm:ss.000')
+      const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DD')
       const requestBody: any = {
         bill_date: this.edit ? this.bill_data.bill_date : billdate,
         customer_name: this.validateForm.value.customer.name,
