@@ -113,7 +113,6 @@ export class BillPrintComponent implements OnInit {
       this.maxRecordsCount(filteredArray)
     } else {
       this.finalArray = filteredArray;
-      console.log('this.finalArray: ', this.finalArray);
       this.mainService.spinning.emit(false);
     }
   }

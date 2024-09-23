@@ -1,16 +1,15 @@
 <h2>Statement</h2>
 <div class="date-picker">
-    <div nz-row>
+    <div nz-row class="date-selection">
         <div nz-col nzSpan="6">
             <nz-form-item>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <nz-date-picker [(ngModel)]="from_date" (ngModelChange)="onChange($event)"
-                        [nzAllowClear]="false"></nz-date-picker>
+                    <nz-range-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
                 </nz-form-control>
             </nz-form-item>
         </div>
-        <div nz-col nzSpan="6">
+        <!-- <div nz-col nzSpan="6">
             <nz-form-item>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -18,7 +17,7 @@
                         [nzAllowClear]="false"></nz-date-picker>
                 </nz-form-control>
             </nz-form-item>
-        </div>
+        </div> -->
         <div nz-col nzSpan="6">
             <nz-form-item>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
@@ -40,19 +39,34 @@
             </nz-form-item>
         </div>
     </div>
+    <h3 style="text-align: center;" *ngIf="statement && statement.length === 0">No Records</h3>
+    <h4 *ngIf="statement && statement.length > 0">Sri Sainath Traders <span class="float-right">Date: {{todayDate | date: 'dd-MM-yy'}}</span></h4>
+    <h5 *ngIf="statement && statement.length > 0">{{selectedCustomer.name}}</h5>
     <table style="width: 100%;" *ngIf="statement && statement.length > 0">
         <tr style="text-align: left;">
-            <th>Date</th>
-            <th>Quantity</th>
-            <th>Rate</th>
-            <th>Amount</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Items</th>
+            <th class="text-center">Bill Amount</th>
+            <th class="text-center">Collected Amount</th>
+            <th class="text-center">Balance</th>
         </tr>
         <tr *ngFor="let data of statement" style="text-align: left;">
-            <td>{{ data.bill_date | date: 'dd/MM/yy' }}</td>
-            <td>{{ data.quantity }}</td>
-            <td>{{ data.rate }}</td>
-            <td>{{ data.total_amount }}</td>
-            <td></td>
+            <td class="border-line">{{ data.bill_date | date: 'dd-MM-yy' }}</td>
+            <td class="border-line" *ngIf="data.items">
+                <tr *ngFor="let item of data.items;index as IT;">
+                    <td class="padding-5">{{item.vegetable_name}}</td>
+                    <td class="padding-5">{{item.quantity}}</td>
+                    <td class="padding-5">{{item.rate}}</td>
+                    <td class="padding-5 text-right padding-r5">{{item.total_amount}}.00</td>
+                </tr>
+            </td>
+            <td class="border-line" *ngIf="data.type">{{data.type}}</td>
+            <td class="border-line text-right padding-r5" *ngIf="data.bill_amount > 0">{{data.bill_amount}}.00</td>
+            <td class="border-line text-right padding-r5" *ngIf="!data.bill_amount"></td>
+            <td class="border-line text-right padding-r5" *ngIf="data.collected_amount">{{data.collected_amount}}.00</td>
+            <td class="border-line text-right padding-r5" *ngIf="!data.collected_amount"></td>
+            <td class="border-line text-right padding-r5" *ngIf="data.balance">{{data.balance}}.00</td>
+            <td class="border-line text-right padding-r5" *ngIf="!data.balance"></td>
         </tr>
     </table>
     
