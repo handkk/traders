@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class FarmerService {
-  // api_host = 'http://localhost:3000/';
-  api_host = 'https://api.srisainathtraders.com/';
+  api_host = '/';
 
   constructor(
     private http: HttpClient

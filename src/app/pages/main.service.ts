@@ -7,8 +7,7 @@ import { map } from 'rxjs';
 })
 export class MainService {
 
-  // api_host = '/';
-  api_host = 'https://rajeshkeerthi.co.in/';
+  api_host = '/';
   spinning = new EventEmitter();
 
   constructor(
