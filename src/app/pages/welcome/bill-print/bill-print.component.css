@@ -42,6 +42,10 @@ tr td {
     text-transform: uppercase;
 }
 
+.date-picker {
+    margin-bottom: 10px;
+}
+
 @page {
     size: A4;
     margin: 5mm 5mm 5mm -8mm;
@@ -96,4 +100,12 @@ h2, h3 {
 
 .width_customs {
     width: 50px;
+}
+
+.align-right {
+    float: right;
+}
+
+.margin-right25 {
+    margin-right: 25px;
 }

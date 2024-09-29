@@ -47,9 +47,9 @@
                                 <th>Paid</th>
                             </tr>
                             <tr *ngFor="let data of dayBillsList1" style="text-align: left;">
-                                <td>{{ data.customer_name }}</td>
-                                <td>{{ data.today_amount }}</td>
-                                <td>{{ data.balance_amount }}</td>
+                                <td>{{ data.name }}</td>
+                                <td>{{ data.bill_amount | number: '1.2-2' }}</td>
+                                <td>{{ data.balance_amount | number: '1.2-2' }}</td>
                                 <td></td>
                             </tr>
                         </table>

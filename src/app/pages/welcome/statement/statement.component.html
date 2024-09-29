@@ -50,27 +50,40 @@
             <th class="text-center">Collected Amount</th>
             <th class="text-center">Balance</th>
         </tr>
+        <tr>
+            <td colspan="3" class="border-line padding-10 text-center">Opening Balance</td>
+            <td colspan="2" class="border-line padding-10">{{open_balance | number: '1.2-2'}}</td>
+        </tr>
         <tr *ngFor="let data of statement" style="text-align: left;">
-            <td class="border-line">{{ data.bill_date | date: 'dd-MM-yy' }}</td>
-            <td class="border-line" *ngIf="data.items">
+            <td class="border-line padding-10">{{ data.bill_date | date: 'dd-MM-yy' }}</td>
+            <td class="border-line padding-10" *ngIf="data.items">
                 <tr *ngFor="let item of data.items;">
                     <td class="padding-5">{{item.vegetable_name}}</td>
                     <td class="padding-5">{{item.quantity}}</td>
-                    <td class="padding-5">{{item.rate}}</td>
-                    <td class="padding-5 text-right padding-r5">{{item.total_amount}}.00</td>
+                    <td class="padding-5">{{item.rate}}/-</td>
+                    <td class="padding-5 text-right padding-r5">{{item.total_amount | number: '1.2-2'}}</td>
                 </tr>
             </td>
-            <td class="border-line" *ngIf="data.type">{{data.type}}</td>
-            <td class="border-line text-right padding-r5" *ngIf="data.bill_amount > 0">{{data.bill_amount}}.00</td>
-            <td class="border-line text-right padding-r5" *ngIf="!data.bill_amount"></td>
-            <td class="border-line text-right padding-r5" *ngIf="data.collected_amount">{{data.collected_amount}}.00</td>
-            <td class="border-line text-right padding-r5" *ngIf="!data.collected_amount"></td>
-            <td class="border-line text-right padding-r5" *ngIf="data.items">
-                <tr *ngFor="let it of data.items;">
-                    <td class="padding-5" *ngIf="it.balance_amount">{{it.balance_amount}}.00</td>
+            <td class="border-line padding-10 padding-l5" *ngIf="data.type">{{data.type | titlecase}}</td>
+            <td class="border-line padding-10" *ngIf="data.bill_amount > 0">{{data.bill_amount | number: '1.2-2'}}</td>
+            <td class="border-line padding-10" *ngIf="!data.bill_amount"></td>
+            <td class="border-line padding-10" *ngIf="data.collected_amount">{{data.collected_amount | number: '1.2-2'}}</td>
+            <td class="border-line padding-10" *ngIf="!data.collected_amount"></td>
+            <td class="border-line padding-10" *ngIf="data.items">
+                <tr *ngFor="let it of data.items;index as IT;">
+                    <td *ngIf="it.balance_amount && (IT === data.items.length - 1)">{{it.balance_amount | number: '1.2-2'}}</td>
                 </tr>
             </td>
-            <td class="border-line text-right padding-r5" *ngIf="!data.items"></td>
+            <td class="border-line padding-10" *ngIf="!data.items">{{data.customer_balance | number: '1.2-2'}}</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="border-line padding-10 text-center">Total</td>
+            <td class="border-line padding-10">{{total_bill_amount | number: '1.2-2'}}</td>
+            <td colspan="2" class="border-line padding-10">{{total_collected_amount | number: '1.2-2'}}</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="border-line padding-10 text-center">Balance</td>
+            <td colspan="2" class="border-line padding-10">{{total_balance | number: '1.2-2'}}</td>
         </tr>
     </table>
     

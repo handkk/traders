@@ -151,8 +151,8 @@
                         <td>{{ data.customer_name }}</td>
                         <td>{{ data.vegetable_name }}</td>
                         <td>{{ data.quantity }}</td>
-                        <td>{{ data.rate }}</td>
-                        <td>{{ data.total_amount }}</td>
+                        <td>{{ data.rate | number: '1.2-2' }}</td>
+                        <td>{{ data.total_amount | number: '1.2-2' }}</td>
                         <td>
                             <a (click)="editBill(data)" nz-tooltip nzTooltipTitle="Edit Bill" nzTooltipPlacement="left"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
                             <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Bill"

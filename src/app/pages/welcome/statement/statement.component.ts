@@ -17,6 +17,10 @@ export class StatementComponent implements OnInit {
   customersData: any[] = [];
   selectedCustomer: any;
   statement: any[] = [];
+  total_bill_amount = 0;
+  total_collected_amount = 0;
+  total_balance = 0;
+  open_balance = 0;
 
   constructor(
     private mainService: MainService,
@@ -39,8 +43,12 @@ export class StatementComponent implements OnInit {
     }
     this.mainService.getStatement(requestBody).subscribe(
       (data: any) => {
-        if (data && data.length > 0) {
-          this.statement = data;
+        if (data && data.statement && data.statement.length > 0) {
+          this.statement = data.statement;
+          this.total_bill_amount = data.total_bill_amount;
+          this.total_collected_amount = data.total_collected_amount;
+          this.total_balance = this.total_bill_amount - this.total_collected_amount;
+          this.open_balance = data.open_balance;
         } else {
           this.statement = [];
         }

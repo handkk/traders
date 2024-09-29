@@ -44,7 +44,7 @@ export class BillPrintComponent implements OnInit {
   }
 
   print() {
-    window.open();
+    window.print();
   }
 
   getCollectionsByCustomerId(id: string) {
