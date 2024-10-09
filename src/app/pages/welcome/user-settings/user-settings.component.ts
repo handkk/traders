@@ -39,6 +39,17 @@ export class UserSettingsComponent {
   edit = false;
   userId: string = '';
   loggedInUser: any;
+  isVisible: boolean = false;
+  userPermissions: any = {
+    'customer': { 'isEdit': false, 'isView': false },
+    'bill': { 'isEdit': false, 'isView': false },
+    'collection': { 'isEdit': false, 'isView': false },
+    'farmer': { 'isEdit': false, 'isView': false },
+    'vegetable': { 'isEdit': false, 'isView': false },
+    'billprint': { 'isView': false },
+    'statement': { 'isView': false }
+  };
+  username: string = '';
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService, private router: Router
@@ -74,7 +85,10 @@ export class UserSettingsComponent {
       (data: any) => {
         const users = data.data;
         this.usersData = users;
-        this.total = data.total;
+        const adminIndex = this.usersData.findIndex(user => user.username === 'admin');
+        this.usersData.splice(adminIndex, 1);
+        // const decryptPwd = this.mainService.decrypt(this.usersData[0].password);
+        this.total = data.total - 1;
         this.loading = false;
       },
       err => {
@@ -225,4 +239,56 @@ export class UserSettingsComponent {
     this.index = event;
     this.getAllUsers();
   }
+
+  handleOk(): void {
+    this.mainService.spinning.emit(true);
+    console.log('this.userPermissions: ', this.userPermissions);
+    this.mainService.updateUserPermissions({'apps': this.userPermissions, 'id': this.userId}).subscribe(
+      (data: any) => {
+        this.isVisible = false;
+        this.mainService.spinning.emit(false);
+        this.message.create('success', 'User Permissions updated');
+        this.getAllUsers();
+      },
+      err => {
+        console.log('get users err ', err);
+        this.mainService.spinning.emit(false);
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
+        this.message.create('error', err.error.message);
+      }
+    );
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  roles(data: any) {
+    this.isVisible = true;
+    this.userId = data._id;
+    this.userPermissions = data.apps;
+    this.username = data.name;
+    console.log('this.userPermissions: ', this.userPermissions);
+  }
+
+  permissionsUpdate(type: string) {
+    if (type === 'customer' && this.userPermissions.customer.isEdit) {
+      this.userPermissions.customer.isView = true;
+    } else if (type === 'bill' && this.userPermissions.bill.isEdit) {
+      this.userPermissions.bill.isView = true;
+    } else if (type === 'collection' && this.userPermissions.collection.isEdit) {
+      this.userPermissions.collection.isView = true;
+    } else if (type === 'farmer' && this.userPermissions.farmer.isEdit) {
+      this.userPermissions.farmer.isView = true;
+    } else if (type === 'vegetable' && this.userPermissions.vegetable.isEdit) {
+      this.userPermissions.vegetable.isView = true;
+    }
+  }
+
 }

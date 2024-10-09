@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class FarmerService {
   api_host = '/';
+  // api_host = 'http://localhost:3000/';
 
   constructor(
     private http: HttpClient

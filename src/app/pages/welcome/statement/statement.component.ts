@@ -41,8 +41,10 @@ export class StatementComponent implements OnInit {
     if (this.to_date !== '') {
       requestBody['to_date'] = this.to_date
     }
+    this.mainService.spinning.emit(true);
     this.mainService.getStatement(requestBody).subscribe(
       (data: any) => {
+        this.mainService.spinning.emit(false);
         if (data && data.statement && data.statement.length > 0) {
           this.statement = data.statement;
           this.total_bill_amount = data.total_bill_amount;
@@ -56,6 +58,7 @@ export class StatementComponent implements OnInit {
       err => {
         console.log('get customers err ', err);
         this.message.create('error', err.error.message);
+        this.mainService.spinning.emit(false);
       }
     );
   }

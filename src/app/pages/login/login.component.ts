@@ -13,6 +13,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm!: UntypedFormGroup;
 
+  // // process.env.CRYPTO_KEY should be a 32 BYTE key
+  // key: string = process.env.CRYPTO_KEY;
+
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private router: Router,
     private mainService: MainService) {
@@ -45,6 +48,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         "username": username,
         "password": password
       };
+      // const encryptPwd = this.encrypt(password);
+      // console.log('encrypt pwd ', encryptPwd);
+      // const decryptPwd = this.decrypt(encryptPwd);
+      // console.log('decryptPwd: ', decryptPwd);
       this.mainService.spinning.emit(true);
       this.mainService.login(requestBody).subscribe(
         (data: any) => {
@@ -77,5 +84,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   forgotPassword() {
     this.router.navigateByUrl('/forgotpassword');
   }
+
+  
 
 }

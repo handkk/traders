@@ -23,6 +23,7 @@ import { ExportAsModule } from 'ngx-export-as';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     ExportAsModule,
     NzSpinModule,
     NzModalModule,
-    NzCardModule
+    NzCardModule,
+    NzCheckboxModule
   ],
   exports: [
     CommonModule,
@@ -74,7 +76,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     ExportAsModule,
     NzSpinModule,
     NzModalModule,
-    NzCardModule
+    NzCardModule,
+    NzCheckboxModule
   ]
 })
 export class SharedModule { }

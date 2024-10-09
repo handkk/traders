@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { map } from 'rxjs';
+import * as crypto from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,9 @@ import { map } from 'rxjs';
 export class MainService {
 
   api_host = '/';
+  // api_host = 'http://localhost:3000/';
   spinning = new EventEmitter();
+  secretKey: string = 'traders';
 
   constructor(
     private http: HttpClient
@@ -301,5 +304,22 @@ export class MainService {
           return lastcollection;
         })
       )
+  }
+
+  encrypt(value: string): string {
+    return crypto.AES.encrypt(value, this.secretKey.trim()).toString();
+  }
+
+  decrypt(textToDecrypt: string) {
+    return crypto.AES.decrypt(textToDecrypt, this.secretKey.trim()).toString(crypto.enc.Utf8);
+  }
+
+  updateUserPermissions(body: any) {
+    const url = this.api_host + 'update_permissions';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
   }
 }
