@@ -1,0 +1,111 @@
+.shop-title {
+    color: rgb(6, 247, 6);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.print-box-width {
+    width: 386px;
+    height: 365px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    grid-gap: 20px;
+}
+
+.bill {
+    width: 396.85px;
+    height: 374.7px;
+    border: 1px solid #000;
+    padding: 5px;
+    box-sizing: border-box;
+    page-break-inside: avoid;
+}
+
+tr td {
+    font-size: 12px;
+    padding: 0px;
+}
+
+.number {
+    text-align: right !important;
+}
+
+.upper-case {
+    text-transform: uppercase;
+}
+
+.date-picker {
+    margin-bottom: 10px;
+}
+
+@page {
+    size: A4;
+    margin: 5mm 5mm 5mm -8mm;
+}
+
+@media print {
+    body {
+        width: 0;
+        height: 0;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+        margin: 0;
+        padding: 0;
+    }
+
+    .bill {
+        width: 396.85px;
+        height: 370.7px;
+        border: 1px solid #000;
+        box-sizing: border-box;
+        page-break-inside: avoid;
+    }
+    .header-print {
+        display: none;
+    }
+    .date-picker {
+        display: none;
+    }
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+.header-print {
+    margin-top: 10px;
+}
+
+.bill_customer_name {
+    font-weight: bold;
+    font-size: 13px;
+    color: #df7c24;
+}
+
+.bill_item_name {
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.width_customs {
+    width: 50px;
+}
+
+.align-right {
+    float: right;
+}
+
+.margin-right25 {
+    margin-right: 25px;
+}

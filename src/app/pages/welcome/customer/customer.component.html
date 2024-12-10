@@ -6,7 +6,7 @@
 </div>
   <div nz-row>
     <div nz-col nzSpan="12">
-      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" *ngIf="userinfo.apps.customer.isEdit">
         <nz-form-item>
           <nz-form-label
             [nzSm]="6"
@@ -113,8 +113,8 @@
                             <td>{{ data.address }}</td>
                             <td>{{ data.notes }}</td>
                             <td>
-                              <a (click)="editCustomer(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
-                              <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Customer" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()">
+                              <a (click)="editCustomer(data)" *ngIf="userinfo.apps.customer.isEdit"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                              <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Customer" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()" *ngIf="userinfo.apps.customer.isEdit">
                                   <span nz-icon nzType="delete" nzTheme="fill"></span>
                               </a>
                             </td>

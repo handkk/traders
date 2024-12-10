@@ -119,7 +119,7 @@ export class BillPrintComponent implements OnInit {
   printCustomerBills() {
     const today_date = new Date();
     this.day = this.date.getDay();
-    const new1 = moment(this.date).format('YYYY-MM-DD')
+    const new1 = moment(this.date).format('DD-MM-YYYY')
     const requestBody = {
       'skip': 0,
       'limit': 1000,

@@ -129,7 +129,7 @@ export class CustomerCollectionComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DD') + 'T00:00:00.000+00:00';
+      const billdate = moment(this.validateForm.value.date).format('DD-MM-YYYY');
       const requestBody = {
         customer_name: this.validateForm.value.customer.name,
         customer_id: this.validateForm.value.customer._id,

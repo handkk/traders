@@ -50,28 +50,24 @@ export class CustomerComponent implements OnInit {
     type: 'pdf', // the type you want to download
     elementIdOrContent: 'sampleTable', // the id of html/table element
   };
+  userinfo: any;
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService,
     private exportAsService: ExportAsService,
     private router: Router) {
-      let userinfo: any = this.mainService.getLoggedInUser();
-      if (!userinfo) {
+      this.userinfo = this.mainService.getLoggedInUser();
+      if (!this.userinfo) {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');
-      } 
-      // else if (userinfo && userinfo.apps.bill) {
-      //   this.router.navigateByUrl('/bill');
-      // } else if (userinfo && userinfo.apps.billprint) {
-      //   this.router.navigateByUrl('/bill_print');
-      // } else if (userinfo && userinfo.apps.collection) {
-      //   this.router.navigateByUrl('/customer-collection');
-      // } else if (userinfo && userinfo.apps.farmer) {
-      //   this.router.navigateByUrl('/farmer');
-      // } else if (userinfo && userinfo.apps.vegetable) {
-      //   this.router.navigateByUrl('/vegetables');
-      // }
+      } else {
+        if (!this.userinfo.apps.customer.isEdit && !this.userinfo.apps.customer.isView) {
+          this.router.navigateByUrl('/main')
+        } else if (!this.userinfo.apps.customer.isView) {
+          this.router.navigateByUrl('/main')
+        }
+      }
     }
 
   ngOnInit(): void {

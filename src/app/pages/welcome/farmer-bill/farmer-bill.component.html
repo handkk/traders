@@ -1,0 +1,140 @@
+<h2 class="header-print">Farmer Bills</h2>
+<div class="date-picker">
+    <div nz-row class="date-selection">
+        <div nz-col nzSpan="6">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>
+                    <span>Farmer</span>
+                </nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <nz-select nzShowSearch nzAllowClear [nzAutoFocus]="true" [(ngModel)]="selectedFarmer"
+                        (ngModelChange)="onFarmerSelect($event)">
+                        <nz-option *ngFor="let c of farmersData;index as CI;" [nzLabel]="c.name" [nzValue]="c"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="6">
+            <nz-form-item nz-row class="register-area">
+                <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <button nz-button nzType="primary" (click)="printFarmerBills()" [disabled]="selectedFarmer == null || date == null">Submit</button>&nbsp;
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+    <a (click)="print()" class="align-right margin-right25" *ngIf="finalArray && finalArray.length > 0">
+        <span nz-icon nzType="printer" nzTheme="fill"></span>
+    </a>
+</div>
+<h3 class="text-center" *ngIf="finalArray && finalArray.length === 0">No Bills</h3>
+
+<body *ngIf="finalArray && finalArray.length > 0">
+    <div class="container">
+        <div class="bill" *ngFor="let print of finalArray;">
+
+            <table style="width: 100%;">
+                <tr>
+                    <td class="text-center" colspan="3"><span class="shop-title">SRI SAINATH TRADERS</span>&nbsp;&nbsp;&nbsp;&nbsp;9640443322,&nbsp;9640443322</td>
+                    <!-- <td class="text-right">&nbsp;&nbsp;&nbsp;&nbsp;9640443322,&nbsp;9640443322</td> -->
+                </tr>
+                <tr>
+                    <td>&nbsp;&nbsp;&nbsp;<span class="bill_customer_name">{{print.farmer_name | uppercase}}</span><br />&nbsp;&nbsp;&nbsp;Ph. {{print.phone_number}}</td>
+                    <td>
+                        <span *ngIf="print.continue !== ''">{{print.continue}}</span>
+                        <span *ngIf="print.second">{{print.second}}</span>
+                        <span *ngIf="print.third">{{print.third}}</span>
+                        <span *ngIf="print.end">{{print.end}}</span>
+                    </td>
+                    <td style="text-align: right;">
+                        <span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' :
+                            (day
+                            === 4 ? 'Thu,' : (day === 5 ? 'Fri,' : (day === 6 ? 'Sat,' : ''))))))}}</span> {{date |
+                        date: 'dd-MM-yyyy'}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 100%;">
+                        <hr style="border: 1px dashed #000;" />
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 100%;">
+                <tr *ngFor="let bill of print.vegetables;index as I;">
+                    <td class="upper-case">&nbsp;&nbsp;&nbsp;<strong class="bill_item_name">{{I+1}}.</strong>&nbsp;<strong class="bill_item_name">{{bill.name}}</strong></td>
+                    <td class="upper-case">{{bill.notes}}</td>
+                    <td class="bill_item_name">{{bill.quantity}}</td>
+                    <td class="number bill_item_name">{{bill.rate}}/-</td>
+                    <td class="number bill_item_name">{{bill.amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <hr style="border: 1px dashed #000;" />
+                    </td>
+                </tr> -->
+                <!-- <tr>
+                    <td>&nbsp;&nbsp;&nbsp;<span style="text-decoration: underline;">Last 2 Collections</span></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr> -->
+                <!-- <tr *ngFor="let collection of print.collectionData;">
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{collection.collection_date | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{collection.amount | number: '1.2-2'}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <hr style="border: 1px dashed #000;" />
+                    </td>
+                </tr> -->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.balance_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td></td>
+                </tr>
+                <!-- <tr>
+                    <td colspan="4"></td>
+                    <td>
+                        <hr style="border: 1px dashed #000;" />
+                    </td>
+                </tr> -->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>

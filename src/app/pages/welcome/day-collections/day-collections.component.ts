@@ -92,7 +92,7 @@ export class DayCollectionsComponent {
 
   submitForm(): void {
     if (this.dayCollectionForm.valid) {
-      const billdate = moment(this.dayCollectionForm.value.date).format('YYYY-MM-DD');
+      const billdate = moment(this.dayCollectionForm.value.date).format('DD-MM-YYYY');
       let requestBody: any =  {
         'skip': 0,
         'limit': 1000,

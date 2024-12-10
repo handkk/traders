@@ -11,17 +11,7 @@ import { MainService } from '../main.service';
 export class LandingComponent implements OnInit {
 
   loggedInUser: any;
-  cardsList: any[] = [
-    {
-      name: 'Customers', link: 'customer'
-    },
-    {
-      name: 'Bills', link: 'bill'
-    },
-    {
-      name: 'Collections', link: 'customer-collection'
-    }
-  ];
+  cardsList: any[] = [];
 
   constructor(
     private router: Router,
@@ -33,6 +23,37 @@ export class LandingComponent implements OnInit {
       sessionStorage.clear();
       this.message.create('warning', 'User session expired please login');
       this.router.navigateByUrl('/login');
+    } else if (this.loggedInUser.username !== 'admin') {
+      if (this.loggedInUser.apps.customer.isEdit || this.loggedInUser.apps.customer.isView) {
+        this.cardsList.push({
+          name: 'Customers', link: 'customer'
+        })
+      }
+      if (this.loggedInUser.apps.bill.isEdit || this.loggedInUser.apps.bill.isView) {
+        this.cardsList.push({
+          name: 'Bills', link: 'bill'
+        })
+      }
+      if (this.loggedInUser.apps.collection.isEdit || this.loggedInUser.apps.collection.isView) {
+        this.cardsList.push({
+          name: 'Collections', link: 'customer-collection'
+        })
+      }
+      if (this.loggedInUser.apps.farmer.isEdit || this.loggedInUser.apps.farmer.isView) {
+        this.cardsList.push({
+          name: 'Farmer', link: 'farmer'
+        })
+      }
+    } else {
+      this.cardsList = [{
+        name: 'Customers', link: 'customer'
+      },{
+        name: 'Bills', link: 'bill'
+      },{
+        name: 'Collections', link: 'customer-collection'
+      },{
+        name: 'Farmer', link: 'farmer'
+      }]
     }
   }
 

@@ -36,6 +36,10 @@ const routes: Routes = [
   {
     path: 'statement', loadChildren: () => import('../statement/statement.module').then(m => m.StatementModule),
     title: 'S S T | Statement'
+  },
+  {
+    path: 'farmer_bill', loadChildren: () => import('../farmer-bill/farmer-bill.module').then(m => m.FarmerBillModule),
+    title: 'S S T | Farmer Bill'
   }
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];

@@ -16,6 +16,13 @@
     </nz-header>
     <nz-content class="outer-content">
       <ul nz-menu nzMode="horizontal">
+        <!-- <li *ngFor="let p of pages;" nz-submenu [nzTitle]="p.name">
+          <ul>
+            <li nz-menu-item *ngFor="let sp of p.children">
+              <a routerLink="{{sp.link}}">{{sp.name}}</a>
+            </li>
+          </ul>
+        </li> -->
         <li nz-submenu nzTitle="Customers">
           <ul>
             <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.customer.isView">
@@ -45,7 +52,9 @@
             <li nz-menu-item>
               <a [routerLink]="['farmer']">New Farmer</a>
             </li>
-            <li nz-menu-item>Bill</li>
+            <li nz-menu-item>
+              <a [routerLink]="['farmer_bill']">Bill</a>
+            </li>
             <li nz-menu-item>Hamali</li>
             <li nz-menu-item>Payment</li>
             <li nz-menu-item>Statement</li>

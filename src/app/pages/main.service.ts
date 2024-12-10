@@ -322,4 +322,13 @@ export class MainService {
     body['sessionId'] = userinfo.sessionId;
     return this.http.post(url, body);
   }
+
+  getFarmerBills(body: any) {
+    const url = this.api_host + 'farmer/bills';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
 }

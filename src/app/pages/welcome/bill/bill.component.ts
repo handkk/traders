@@ -44,6 +44,7 @@ export class BillComponent implements OnInit {
   dateDisable = false;
   bill_data: any;
   disabledDate: any;
+  userinfo: any;
 
   constructor(private fb: UntypedFormBuilder,
     public el: ElementRef,
@@ -52,11 +53,17 @@ export class BillComponent implements OnInit {
     private farmerService: FarmerService,
     private router: Router
   ) {
-    let userinfo: any = sessionStorage.getItem('userinfo');
-    if (!userinfo) {
+    this.userinfo = this.mainService.getLoggedInUser();
+    if (!this.userinfo) {
       sessionStorage.clear();
       this.message.create('warning', 'User session expired please login');
       this.router.navigateByUrl('/login');
+    } else {
+      if (!this.userinfo?.apps?.bill?.isView && !this.userinfo?.apps?.bill?.isEdit) {
+        this.router.navigateByUrl('/main')
+      } else if (!this.userinfo?.apps?.bill?.isView) {
+        this.router.navigateByUrl('/main')
+      }
     }
   }
 
@@ -96,7 +103,7 @@ export class BillComponent implements OnInit {
     const requestBody = {
       // 'skip': this.index,
       // 'limit': this.pageSize,
-      'bill_date': moment(date).format('YYYY-MM-DD')
+      'bill_date': moment(date).format('DD-MM-YYYY')
     };
     this.mainService.spinning.emit(true);
     this.mainService.getBills(requestBody).subscribe(
@@ -203,7 +210,7 @@ export class BillComponent implements OnInit {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const billdate = moment(this.validateForm.value.date).format('YYYY-MM-DD')
+      const billdate = moment(this.validateForm.value.date).format('DD-MM-YYYY')
       const requestBody: any = {
         bill_date: this.edit ? this.bill_data.bill_date : billdate,
         customer_name: this.validateForm.value.customer.name,

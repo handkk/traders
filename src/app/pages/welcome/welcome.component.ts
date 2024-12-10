@@ -11,6 +11,28 @@ import { MainService } from '../main.service';
 export class WelcomeComponent implements OnInit {
 
   loggedInUser: any;
+  pages: any[] = [
+    {
+      name: 'Customers',
+      children: [
+        {
+          name: 'New Customer', link: 'customer'
+        },
+        {
+          name: 'Bill', link: 'bill'
+        },
+        {
+          name: 'Collection', link: 'customer-collection'
+        },
+        {
+          name: 'Today Bills', link: 'today_bills'
+        },
+        {
+          name: 'Statement', link: 'statement'
+        }
+      ]
+    }
+  ];
 
   constructor(
     private router: Router,

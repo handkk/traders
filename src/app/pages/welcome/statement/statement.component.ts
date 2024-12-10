@@ -65,8 +65,8 @@ export class StatementComponent implements OnInit {
 
   onChange(result: Date[]) {
     if (result && result.length > 0) {
-      this.from_date = moment(result[0]).format('YYYY-MM-DD');
-      this.to_date = moment(result[1]).format('YYYY-MM-DD');
+      this.from_date = moment(result[0]).format('DD-MM-YYYY');
+      this.to_date = moment(result[1]).format('DD-MM-YYYY');
     } else {
       this.from_date = '';
       this.to_date = ''
