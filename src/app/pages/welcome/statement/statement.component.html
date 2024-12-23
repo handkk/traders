@@ -40,7 +40,7 @@
         </div>
     </div>
     <h3 style="text-align: center;" *ngIf="statement && statement.length === 0">No Records</h3>
-    <h4 *ngIf="statement && statement.length > 0">Sri Sainath Traders <span class="float-right">Date: {{todayDate | date: 'dd-MM-yy'}}</span></h4>
+    <h4 *ngIf="statement && statement.length > 0">Sri Sainath Traders <span class="float-right">Date: {{todayDate}}</span></h4>
     <h5 *ngIf="statement && statement.length > 0">{{selectedCustomer.name}}</h5>
     <table style="width: 100%;" *ngIf="statement && statement.length > 0">
         <tr style="text-align: left;">
@@ -55,7 +55,7 @@
             <td colspan="2" class="border-line padding-10">{{open_balance | number: '1.2-2'}}</td>
         </tr>
         <tr *ngFor="let data of statement" style="text-align: left;">
-            <td class="border-line padding-10">{{ data.bill_date | date: 'dd-MM-yy' }}</td>
+            <td class="border-line padding-10">{{ data.bill_date }}</td>
             <td class="border-line padding-10" *ngIf="data.items">
                 <tr *ngFor="let item of data.items;">
                     <td class="padding-5">{{item.vegetable_name}}</td>

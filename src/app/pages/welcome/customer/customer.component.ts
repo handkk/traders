@@ -57,11 +57,12 @@ export class CustomerComponent implements OnInit {
     private exportAsService: ExportAsService,
     private router: Router) {
       this.userinfo = this.mainService.getLoggedInUser();
+      console.log('this.userinfo: ', this.userinfo);
       if (!this.userinfo) {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');
-      } else {
+      } else if (this.userinfo.username !== 'admin') {
         if (!this.userinfo.apps.customer.isEdit && !this.userinfo.apps.customer.isView) {
           this.router.navigateByUrl('/main')
         } else if (!this.userinfo.apps.customer.isView) {
@@ -78,15 +79,20 @@ export class CustomerComponent implements OnInit {
       address: [null],
       notes: [null]
     });
+    setTimeout(() => {
+      document.getElementById('customerName')?.focus();
+    }, 100);
     this.getCustomers();
   }
 
   getCustomers() {
+    setTimeout(() => {
+      document.getElementById('customerName')?.focus();
+    }, 100);
     const requestBody = {
       'skip': this.index,
       'limit': this.pageSize
     };
-    document.getElementById('customerName')?.focus();
     this.mainService.spinning.emit(true);
     this.mainService.getCustomers(requestBody).subscribe(
       (data: any) => {

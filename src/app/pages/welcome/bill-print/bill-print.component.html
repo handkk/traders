@@ -64,7 +64,7 @@
                     <td class="number" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr *ngFor="let collection of print.collectionData;">
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{collection.collection_date | date: 'dd/MM/yyyy'}}</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{collection.collection_date}}</td>
                     <td>{{collection.amount | number: '1.2-2'}}</td>
                     <td></td>
                     <td></td>

@@ -8,8 +8,8 @@ import * as crypto from 'crypto-js';
 })
 export class MainService {
 
-  api_host = '/';
-  // api_host = 'http://localhost:3000/';
+  // api_host = '/';
+  api_host = 'http://localhost:3000/';
   spinning = new EventEmitter();
   secretKey: string = 'traders';
 
@@ -325,6 +325,34 @@ export class MainService {
 
   getFarmerBills(body: any) {
     const url = this.api_host + 'farmer/bills';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
+
+  createCollectionReport(body: any) {
+    const url = this.api_host + 'collection_report';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    body['created_by'] = userinfo.username;
+    return this.http.post(url, body);
+  }
+
+  getcollection_reports(body: any) {
+    const url = this.api_host + 'collection_reports';
+    const user: any = sessionStorage.getItem('userinfo');
+    const userinfo: any = JSON.parse(user);
+    body['userId'] = userinfo.userId;
+    body['sessionId'] = userinfo.sessionId;
+    return this.http.post(url, body);
+  }
+
+  getCollectionAmountByUser(body: any) {
+    const url = this.api_host + 'getCollectionAmountByUser';
     const user: any = sessionStorage.getItem('userinfo');
     const userinfo: any = JSON.parse(user);
     body['userId'] = userinfo.userId;

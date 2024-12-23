@@ -58,7 +58,7 @@ export class BillComponent implements OnInit {
       sessionStorage.clear();
       this.message.create('warning', 'User session expired please login');
       this.router.navigateByUrl('/login');
-    } else {
+    } else if (this.userinfo.username !== 'admin') {
       if (!this.userinfo?.apps?.bill?.isView && !this.userinfo?.apps?.bill?.isEdit) {
         this.router.navigateByUrl('/main')
       } else if (!this.userinfo?.apps?.bill?.isView) {

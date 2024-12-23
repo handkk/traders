@@ -73,7 +73,7 @@
                     <tbody>
                         <tr *ngFor="let data of collectionsData;index as CI;">
                             <td>{{CI + 1}}</td>
-                            <td>{{data.collection_date | date: 'dd-MM-yy'}}</td>
+                            <td>{{data.collection_date}}</td>
                             <td>{{ data.customer_name }}</td>
                             <td>{{ data.amount | number: '1.2-2' }}</td>
                             <td>{{ data.notes }}</td>

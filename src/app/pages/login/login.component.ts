@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -9,7 +9,7 @@ import { MainService } from '../main.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loginForm!: UntypedFormGroup;
 
@@ -85,6 +85,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/forgotpassword');
   }
 
-  
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      document.getElementById('username_login')?.focus();
+    }, 100);
+  }
 
 }

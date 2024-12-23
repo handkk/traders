@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -9,7 +9,7 @@ import { MainService } from '../main.service';
   templateUrl: './forgotpassword.component.html',
   styleUrls: ['./forgotpassword.component.css']
 })
-export class ForgotpasswordComponent {
+export class ForgotpasswordComponent implements AfterViewInit {
   forgotPasswordForm!: UntypedFormGroup;
 
   constructor(
@@ -65,5 +65,11 @@ export class ForgotpasswordComponent {
 
   loginPage() {
     this.router.navigateByUrl('/login');
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      document.getElementById('username_forgot')?.focus();
+    }, 100);
   }
 }

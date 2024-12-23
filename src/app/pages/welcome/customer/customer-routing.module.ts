@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: 'farmer_bill', loadChildren: () => import('../farmer-bill/farmer-bill.module').then(m => m.FarmerBillModule),
     title: 'S S T | Farmer Bill'
+  },
+  {
+    path: 'collections_report', loadChildren: () => import('../report-collections/report-collections.module').then(m => m.ReportCollectionsModule),
+    title: 'S S T | Report Collections'
   }
   // { path: '', pathMatch: 'full', redirectTo: '/' }
 ];

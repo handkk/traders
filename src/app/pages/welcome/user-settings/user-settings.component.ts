@@ -74,7 +74,6 @@ export class UserSettingsComponent {
       notes: [null]
     });
     this.loggedInUser = this.mainService.getCurrentUser();
-    console.log('loggedInUser ', this.loggedInUser);
     this.getAllUsers();
   }
 
@@ -242,7 +241,6 @@ export class UserSettingsComponent {
 
   handleOk(): void {
     this.mainService.spinning.emit(true);
-    console.log('this.userPermissions: ', this.userPermissions);
     this.mainService.updateUserPermissions({'apps': this.userPermissions, 'id': this.userId}).subscribe(
       (data: any) => {
         this.isVisible = false;
@@ -272,9 +270,8 @@ export class UserSettingsComponent {
   roles(data: any) {
     this.isVisible = true;
     this.userId = data._id;
-    this.userPermissions = data.apps;
+    this.userPermissions = data.apps ? data.apps : this.userPermissions;
     this.username = data.name;
-    console.log('this.userPermissions: ', this.userPermissions);
   }
 
   permissionsUpdate(type: string) {

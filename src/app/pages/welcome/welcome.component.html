@@ -25,29 +25,29 @@
         </li> -->
         <li nz-submenu nzTitle="Customers">
           <ul>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.customer.isView">
+            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.customer && loggedInUser.apps.customer.isView)">
               <a [routerLink]="['customer']">New Customer</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.bill.isView">
+            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.bill && loggedInUser.apps.bill.isView)">
                 <a [routerLink]="['bill']">Bill</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.collection.isView">
+            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.collection && loggedInUser.apps.collection.isView)">
               <a [routerLink]="['customer-collection']">Collection</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.collection.isView || loggedInUser.apps.billprint.isView">
+            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.collection && loggedInUser.apps.collection.isView) || (loggedInUser.apps.billprint && loggedInUser.apps.billprint.isView)">
               <a [routerLink]="['today_bills']">Today Bills</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.statement.isView">
+            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.statement && loggedInUser.apps.statement.isView)">
               <a [routerLink]="['statement']">Statement</a>
             </li>
             <li nz-menu-item>Balance Statement</li>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.billprint.isView">
+            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.billprint && loggedInUser.apps.billprint.isView)">
               <a [routerLink]="['bill_print']">Bill Print</a>
             </li>
             <li nz-menu-item>Customer Account</li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="Farmer" *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.farmer.isView">
+        <li nz-submenu nzTitle="Farmer" *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.farmer && loggedInUser.apps.farmer.isView)">
           <ul>
             <li nz-menu-item>
               <a [routerLink]="['farmer']">New Farmer</a>
@@ -60,7 +60,7 @@
             <li nz-menu-item>Statement</li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="Vegetables" [routerLink]="['vegetables']" *ngIf="loggedInUser.username === 'admin' || loggedInUser.apps.vegetable.isView">
+        <li nz-submenu nzTitle="Vegetables" [routerLink]="['vegetables']" *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.vegetable && loggedInUser.apps.vegetable.isView)">
         </li>
         <li nz-submenu nzTitle="Settings" *ngIf="loggedInUser.username === 'admin'">
           <ul>
@@ -69,6 +69,14 @@
             </li>
             <li nz-menu-item>Account Details</li>
             <li nz-menu-item>Delete All</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="Reports">
+          <ul>
+            <li nz-menu-item>
+              <!-- <a>Collection</a> -->
+              <a [routerLink]="['collections_report']">Collection</a>
+            </li>
           </ul>
         </li>
       </ul>
