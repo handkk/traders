@@ -54,6 +54,8 @@ export class CustomerCollectionComponent {
   loading: boolean = false;
   selectedCustomer: any = null;
   total_amount: number = 0;
+  dateFormat = 'dd-MM-yyyy';
+  dateDisable = false;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
@@ -62,6 +64,9 @@ export class CustomerCollectionComponent {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');
+      }
+      if (userinfo.username !== 'admin') {
+        this.dateDisable = true;
       }
     }
 

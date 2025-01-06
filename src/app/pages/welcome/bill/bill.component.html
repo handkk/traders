@@ -14,7 +14,7 @@
                             <nz-form-control [nzSm]="14" [nzXs]="24">
                                 <nz-date-picker formControlName="date" [(ngModel)]="date"
                                     (ngModelChange)="onChange($event)" [nzAllowClear]="false"
-                                    [nzDisabled]="dateDisable"></nz-date-picker>
+                                    [nzDisabled]="dateDisable" [nzFormat]="dateFormat"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>

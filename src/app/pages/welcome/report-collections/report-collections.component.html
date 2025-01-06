@@ -6,37 +6,49 @@
   </div>
     <div nz-row>
       <div nz-col nzSpan="12">
-        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <form nz-form [formGroup]="validateForm">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24">Date</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-date-picker formControlName="date" [(ngModel)]="date"
+                    (ngModelChange)="onChange($event)" [nzAllowClear]="false"
+                    [nzDisabled]="dateDisable" [nzFormat]="dateFormat"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
           <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="amount" nzRequired>
                 <span>Amount</span>
             </nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter Amount">
-                <nz-input-number id="amount" formControlName="amount" [nzMin]="0"
+                <nz-input-number type="number" id="amount" formControlName="amount" [nzMin]="0"
                     [nzStep]="1"></nz-input-number>
             </nz-form-control>
           </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24">
-                <span>Reason Type</span>
-            </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-select nzShowSearch nzAllowClear [nzAutoFocus]="true" formControlName="reason_type">
-                    <nz-option *ngFor="let r of reasonTypes;index as CI;" [nzLabel]="r"
-                        [nzValue]="r"></nz-option>
-                </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item *ngIf="this.validateForm.controls['reason_type'].value !== 'Farmer'">
+          <div formArrayName="reasonType" *ngFor="let item of reasonType.controls; let i = index">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">
+                  <span>Reason Type</span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                  <nz-select nzShowSearch nzAllowClear [nzAutoFocus]="true" formControlName="reason_type">
+                      <nz-option *ngFor="let r of reasonTypes;index as CI;" [nzLabel]="r"
+                          [nzValue]="r"></nz-option>
+                  </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <button nz-button nzType="primary" (click)="removeField(i)" style="float: right;" *ngIf="reasonType.controls.length > 1">remove</button>
+          </div>
+          <button nz-button nzType="primary" (click)="addfield()">Add</button>
+          <!-- <nz-form-item *ngIf="this.validateForm.controls['reason_type'].value !== 'Farmer'">
             <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="reason_amount">
                 <span>Spent Amount</span>
             </nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter Amount">
-                <nz-input-number id="reason_amount" formControlName="reason_amount" [nzMin]="0"
+                <nz-input-number type="number" id="reason_amount" formControlName="reason_amount" [nzMin]="0"
                     [nzStep]="1"></nz-input-number>
             </nz-form-control>
-          </nz-form-item>
-          <table class="reason_type_custom" *ngIf="this.validateForm.controls['reason_type'].value === 'Farmer'">
+          </nz-form-item> -->
+          <!-- <table class="reason_type_custom" *ngIf="this.validateForm.controls['reason_type'].value === 'Farmer'">
             <tr>
               <td>
                 <nz-form-item style="width: 350px;">
@@ -63,7 +75,7 @@
                 </nz-form-item>
               </td>
             </tr>
-          </table>
+          </table> -->
           
           
           <nz-form-item>
@@ -83,7 +95,7 @@
         </nz-form-item>
           <nz-form-item nz-row class="register-area">
             <nz-form-control [nzSpan]="14" [nzOffset]="6">
-              <button nz-button nzType="primary" [disabled]="!validateForm.valid">{{ edit ? 'Update' : 'Submit' }}</button>&nbsp;
+              <button nz-button nzType="primary" [disabled]="!validateForm.valid" (click)="submitForm()">{{ edit ? 'Update' : 'Submit' }}</button>&nbsp;
               <button nz-button nzType="default" (click)="reset()">Reset</button>
             </nz-form-control>
           </nz-form-item>

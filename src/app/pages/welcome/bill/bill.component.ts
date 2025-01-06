@@ -45,6 +45,7 @@ export class BillComponent implements OnInit {
   bill_data: any;
   disabledDate: any;
   userinfo: any;
+  dateFormat = 'dd-MM-yyyy';
 
   constructor(private fb: UntypedFormBuilder,
     public el: ElementRef,

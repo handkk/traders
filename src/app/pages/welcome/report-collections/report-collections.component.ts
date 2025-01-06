@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as FileSaver from 'file-saver';
@@ -57,6 +57,9 @@ export class ReportCollectionsComponent implements OnInit {
   reasonTypes: any[] = ['Petrol', 'Farmer', 'Transport', 'Cooli'];
   farmersData: any;
   totalCollectedAmount: number = 0;
+  date = new Date();
+  dateDisable = false;
+  dateFormat = 'dd-MM-yyyy';
 
   constructor(
     private fb: UntypedFormBuilder, 
@@ -69,16 +72,42 @@ export class ReportCollectionsComponent implements OnInit {
       this.userinfo = this.mainService.getLoggedInUser();
       this.validateForm = this.fb.group({
         amount: [null, [Validators.required]],
-        reason_type: [null],
-        reason_amount: [null],
+        // reason_type: [null],
+        // reason_amount: [null],
         notes: [null],
-        farmer: [null]
+        // farmer: [null],
+        date: [this.date, [Validators.required]],
+        reasonType: this.fb.array([this.addReasonTpes()])
       });
-      this.validateForm.controls['reason_type'].valueChanges.subscribe(data => {
-        console.log('data: ', data);
-        this.validateForm.controls['reason_amount'].reset();
-        this.validateForm.controls['farmer'].reset();
-      })
+      // this.validateForm.controls['reason_type'].valueChanges.subscribe(data => {
+      //   console.log('data: ', data);
+      //   this.validateForm.controls['reason_amount'].reset();
+      //   this.validateForm.controls['farmer'].reset();
+      // })
+      if (this.userinfo.username !== 'admin') {
+        this.dateDisable = true;
+      }
+  }
+
+  get reasonType(): FormArray {
+    return this.validateForm.get("reasonType") as FormArray;
+  }
+
+  addReasonTpes(): FormGroup {
+    return this.fb.group({
+      reason_type: new FormControl(''),
+      reason_amount: new FormControl('')
+    })
+  }
+
+  addfield() {
+    this.reasonType.push(this.addReasonTpes())
+  }
+
+  removeField(index: number): void {
+    if (this.reasonType.length > 1) {
+      this.reasonType.removeAt(index);
+    }
   }
 
   ngOnInit(): void {
@@ -87,17 +116,16 @@ export class ReportCollectionsComponent implements OnInit {
   }
 
   submitForm() {
-    const today = new Date();
-    const requestBody = {
-      date: '16-12-2024',
-      // date: moment(today).format('DD-MM-YYYY'),
-      reason_type: this.validateForm.value.reason_type,
-      farmer_id: this.validateForm.value.reason_type === 'Farmer' ? this.validateForm.value.farmer._id : '',
-      amount: this.validateForm.value.amount,
-      spent_amount: this.validateForm.value.reason_amount,
-      notes: this.validateForm.value.notes
-    }
-    this.getCollectionAmountByUser(requestBody.date);
+    // const requestBody = {
+    //   date: moment(this.validateForm.value.date).format('DD-MM-YYYY'),
+    //   reason_type: this.validateForm.value.reason_type,
+    //   farmer_id: this.validateForm.value.reason_type === 'Farmer' ? this.validateForm.value.farmer._id : '',
+    //   amount: this.validateForm.value.amount,
+    //   spent_amount: this.validateForm.value.reason_amount,
+    //   notes: this.validateForm.value.notes
+    // }
+    // console.log('requestBody: ', requestBody);
+    // this.getCollectionAmountByUser(requestBody.date);
     // this.mainService.createCollectionReport(requestBody).subscribe(
     //   (data: any) => {
     //     this.message.create('success', data.message);
@@ -119,9 +147,9 @@ export class ReportCollectionsComponent implements OnInit {
 
   reset() {
     this.validateForm.controls['amount'].reset();
-    this.validateForm.controls['reason_type'].reset();
-    this.validateForm.controls['reason_amount'].reset();
-    this.validateForm.controls['farmer'].reset();
+    // this.validateForm.controls['reason_type'].reset();
+    // this.validateForm.controls['reason_amount'].reset();
+    // this.validateForm.controls['farmer'].reset();
     this.validateForm.controls['notes'].reset();
   }
 
@@ -280,5 +308,7 @@ export class ReportCollectionsComponent implements OnInit {
       }
     );
   }
+
+  onChange(result: Date): void { }
 
 }
