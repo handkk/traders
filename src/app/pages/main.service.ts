@@ -8,8 +8,8 @@ import * as crypto from 'crypto-js';
 })
 export class MainService {
 
-  // api_host = '/';
-  api_host = 'http://localhost:3000/';
+  api_host = '/';
+  // api_host = 'http://localhost:3000/';
   spinning = new EventEmitter();
   secretKey: string = 'traders';
 

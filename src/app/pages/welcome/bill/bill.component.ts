@@ -46,6 +46,8 @@ export class BillComponent implements OnInit {
   disabledDate: any;
   userinfo: any;
   dateFormat = 'dd-MM-yyyy';
+  total_quantity: number = 0;
+  total_amount: number = 0;
 
   constructor(private fb: UntypedFormBuilder,
     public el: ElementRef,
@@ -114,6 +116,10 @@ export class BillComponent implements OnInit {
         this.total = data.total;
         this.mainService.spinning.emit(false);
         this.loading = false;
+        this.billsData.forEach(bil => {
+          this.total_quantity = this.total_quantity + bil.quantity;
+          this.total_amount = this.total_amount + bil.total_amount;
+        });
         this.getCustomers();
         setTimeout(() => {
           const select = document.getElementById('customerSelection');

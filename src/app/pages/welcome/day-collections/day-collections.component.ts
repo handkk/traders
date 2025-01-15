@@ -105,12 +105,14 @@ export class DayCollectionsComponent {
           this.mainService.spinning.emit(false);
           if (data && data.length > 0) {
             this.dayBillsList = data;
-            if (this.dayBillsList.length <= 50) {
+            if (this.dayBillsList.length <= 28) {
               this.dayBillsList1 = this.dayBillsList;
-            } else if (this.dayBillsList.length > 50) {
+            } else if (this.dayBillsList.length > 28) {
               let temp = this.dayBillsList;
-              let first = temp.slice(0, 50);
-              let second = temp.slice(50);
+              let first = temp.slice(0, 28);
+              console.log('first: ', first);
+              let second = temp.slice(28);
+              console.log('second: ', second);
               this.dayBillsList1 = first;
               this.dayBillsList2 = second;
             }

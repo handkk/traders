@@ -67,13 +67,17 @@ td {
   float: right;
 }
 
+@page {
+  size: A4;
+  margin: 5mm 5mm 5mm -8mm;
+}
+
 @media print {
-  /* @page {
-    margin: 2.5cm;
-  } */
 
   body * {
     visibility: hidden;
+    width: 0;
+    height: 0;
   }
 
   .print-container, .print-container * {

@@ -56,7 +56,7 @@
                         <hr style="border: 1px dashed #000;" />
                     </td>
                 </tr> -->
-                <tr>
+                <!-- <tr>
                     <td>&nbsp;&nbsp;&nbsp;<span style="text-decoration: underline;">Last 2 Collections</span></td>
                     <td></td>
                     <td></td>
@@ -69,7 +69,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
+                </tr> -->
                 <!-- <tr>
                     <td></td>
                     <td></td>
@@ -105,7 +105,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="number" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td class="number" style="border-top: 1px dashed #000;">{{print.balance_amount != print.bill_amount ? (print.balance_amount + print.bill_amount) : print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
             </table>
         </div>

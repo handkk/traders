@@ -147,7 +147,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of billsData;index as i;">
-                        <td>{{ i + 1 }}</td>
+                        <td>{{ billsData.length - i }}</td>
                         <td>{{ data.customer_name }}</td>
                         <td>{{ data.vegetable_name }}</td>
                         <td>{{ data.quantity }}</td>
@@ -161,6 +161,15 @@
                                 <span nz-icon nzType="delete" nzTheme="fill"></span>
                             </a>
                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{total_quantity}}</td>
+                        <td></td>
+                        <td>{{total_amount | number: '1.2-2'}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </nz-table>
