@@ -60,6 +60,10 @@ export class ReportCollectionsComponent implements OnInit {
   date = new Date();
   dateDisable = false;
   dateFormat = 'dd-MM-yyyy';
+  collectionsByUser: any[] = [];
+  user_collected_total_amount: number = 0;
+  CollectionsAllUser: any[] = [];
+  expandSet = new Set<number>();
 
   constructor(
     private fb: UntypedFormBuilder, 
@@ -85,7 +89,7 @@ export class ReportCollectionsComponent implements OnInit {
       //   this.validateForm.controls['farmer'].reset();
       // })
       if (this.userinfo.username !== 'admin') {
-        this.dateDisable = true;
+        this.dateDisable = false;
       }
   }
 
@@ -112,25 +116,44 @@ export class ReportCollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllFarmers();
+    const date = new Date();
     this.getcollection_reports();
+    if (this.userinfo.username !== 'admin') {
+      this.getCollectionsByUser(moment(date).format('DD-MM-YYYY'));
+    } else {
+      this.getCollectionsAllUser(moment(date).format('DD-MM-YYYY'));
+    }
   }
 
   submitForm() {
-    // const requestBody = {
-    //   date: moment(this.validateForm.value.date).format('DD-MM-YYYY'),
-    //   reason_type: this.validateForm.value.reason_type,
-    //   farmer_id: this.validateForm.value.reason_type === 'Farmer' ? this.validateForm.value.farmer._id : '',
-    //   amount: this.validateForm.value.amount,
-    //   spent_amount: this.validateForm.value.reason_amount,
-    //   notes: this.validateForm.value.notes
-    // }
-    // console.log('requestBody: ', requestBody);
-    // this.getCollectionAmountByUser(requestBody.date);
+    console.log('this.validateForm.value: ', this.validateForm.value);
+    const requestBody = {
+      date: moment(this.validateForm.value.date).format('DD-MM-YYYY'),
+      reason_type: this.validateForm.value.reason_type,
+      farmer_id: this.validateForm.value.reason_type === 'Farmer' ? this.validateForm.value.farmer._id : '',
+      amount: this.validateForm.value.amount,
+      spent_amount: this.validateForm.value.reason_amount,
+      notes: this.validateForm.value.notes
+    }
+  //   {
+  //     "date": "16-01-2025",
+  //     "farmer_id": "",
+  //     "amount": 600,
+  //     "spent_reasons": [],
+  //     "notes": "",
+  //     "created_by": "seenu",
+  //     "sessionId": "4923c15c-f523-46a7-9ed4-67973eff7084",
+  //     "userId": "78a02c57-fa86-4936-acf5-339fe93114c6",
+  //     "spent_amount": 0
+  // }
+    console.log('requestBody: ', requestBody);
     // this.mainService.createCollectionReport(requestBody).subscribe(
     //   (data: any) => {
-    //     this.message.create('success', data.message);
-    //     this.reset();
-    //     this.getcollection_reports();
+    //     if (data.statusCode && data.statusCode === 200) {
+    //       this.message.create('success', data.message);
+    //       this.reset();
+    //       this.getcollection_reports();
+    //     }
     //   },
     //   err => {
     //     console.log('get customers err ', err);
@@ -252,10 +275,14 @@ export class ReportCollectionsComponent implements OnInit {
   }
 
   getcollection_reports() {
-    const requestBody = {
-      // 'skip': this.index,
-      // 'limit': this.pageSize
-    };
+    let requestBody: any = {};
+    const date = new Date();
+    if (this.userinfo.username === 'admin') {
+      requestBody['date'] = moment(date).format('DD-MM-YYYY');
+    } else {
+      requestBody['date'] = moment(date).format('DD-MM-YYYY');
+      requestBody['username'] = this.userinfo.username;
+    }
     this.mainService.getcollection_reports(requestBody).subscribe(
       (data: any) => {
         console.log('data: ', data);
@@ -310,5 +337,70 @@ export class ReportCollectionsComponent implements OnInit {
   }
 
   onChange(result: Date): void { }
+
+  getCollectionsByUser(date: string) {
+    let request_body = {
+      'user_id': this.userinfo.userId,
+      'collection_date': date
+    };
+    console.log('request_body: ', request_body);
+    this.mainService.getCollectionsByUser(request_body).subscribe(
+      (data: any) => {
+        if (data && data.length > 0) {
+          this.collectionsByUser = data;
+          this.collectionsByUser.forEach(coll => {
+            this.user_collected_total_amount = this.user_collected_total_amount + coll.amount;
+          });
+          console.log('this.collectionsByUser: ', this.collectionsByUser);
+        }
+      },
+      err => {
+        console.log('get Collections By User err ', err);
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
+      }
+    );
+  }
+
+  getCollectionsAllUser(date: string) {
+    let request_body = {
+      'collection_date': date
+    };
+    console.log('request_body: ', request_body);
+    this.mainService.getCollectionsByUser(request_body).subscribe(
+      (data: any) => {
+        if (data && data.length > 0) {
+          this.CollectionsAllUser = data;
+        }
+      },
+      err => {
+        console.log('get Collections By User err ', err);
+        if (err && err.error) {
+          if (!err.error.success && err.error.code === 1000) {
+            this.message.create('error', err.error.message);
+            sessionStorage.clear();
+            this.router.navigateByUrl('/login');
+          }
+        }
+      }
+    );
+  }
+
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
+  approveReport(data: any) {
+    console.log('data: ', data);
+  }
 
 }

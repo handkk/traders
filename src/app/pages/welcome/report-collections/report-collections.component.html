@@ -1,45 +1,60 @@
 <div class="customer-form">
-    <div nz-row>
-      <div nz-col nzSpan="24">
-          <h2 class="text-center">Collection Report</h2>
-      </div>
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <h2 class="text-center">Collection Report</h2>
+    </div>
   </div>
-    <div nz-row>
-      <div nz-col nzSpan="12">
-        <form nz-form [formGroup]="validateForm">
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24">Date</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-                <nz-date-picker formControlName="date" [(ngModel)]="date"
-                    (ngModelChange)="onChange($event)" [nzAllowClear]="false"
-                    [nzDisabled]="dateDisable" [nzFormat]="dateFormat"></nz-date-picker>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="amount" nzRequired>
-                <span>Amount</span>
-            </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter Amount">
-                <nz-input-number type="number" id="amount" formControlName="amount" [nzMin]="0"
-                    [nzStep]="1"></nz-input-number>
-            </nz-form-control>
-          </nz-form-item>
-          <div formArrayName="reasonType" *ngFor="let item of reasonType.controls; let i = index">
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <form nz-form [formGroup]="validateForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24">Date</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-date-picker formControlName="date" [(ngModel)]="date" (ngModelChange)="onChange($event)"
+              [nzAllowClear]="false" [nzDisabled]="dateDisable" [nzFormat]="dateFormat"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="amount" nzRequired>
+            <span>Amount</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter Amount">
+            <nz-input-number type="number" id="amount" formControlName="amount" [nzMin]="0"
+              [nzStep]="1"></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+        <!-- <div formArrayName="reasonType" *ngFor="let item of reasonType.controls; let i = index" nz-row>
+          <div nz-col nzSpan="6">
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24">
-                  <span>Reason Type</span>
+                <span>Reason Type</span>
               </nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
-                  <nz-select nzShowSearch nzAllowClear [nzAutoFocus]="true" formControlName="reason_type">
-                      <nz-option *ngFor="let r of reasonTypes;index as CI;" [nzLabel]="r"
-                          [nzValue]="r"></nz-option>
-                  </nz-select>
+                <nz-select nzShowSearch nzAllowClear [nzAutoFocus]="true" formControlName="reason_type">
+                  <nz-option *ngFor="let r of reasonTypes;index as CI;" [nzLabel]="r" [nzValue]="r"></nz-option>
+                </nz-select>
               </nz-form-control>
             </nz-form-item>
-            <button nz-button nzType="primary" (click)="removeField(i)" style="float: right;" *ngIf="reasonType.controls.length > 1">remove</button>
           </div>
-          <button nz-button nzType="primary" (click)="addfield()">Add</button>
-          <!-- <nz-form-item *ngIf="this.validateForm.controls['reason_type'].value !== 'Farmer'">
+          <div nz-col nzSpan="5">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">
+                <span>Reason Amount</span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter Amount">
+                <nz-input-number type="number" id="reason_amount_{{i}}" formControlName="reason_amount" [nzMin]="0"
+                  [nzStep]="1"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="1">
+            <button nz-button nzType="primary" (click)="removeField(i)" style="float: right;"
+              *ngIf="reasonType.controls.length > 1">remove</button>
+          </div>
+
+        </div> -->
+        <button nz-button nzType="primary" (click)="addfield()">Add</button>
+        <!-- <nz-form-item *ngIf="this.validateForm.controls['reason_type'].value !== 'Farmer'">
             <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="reason_amount">
                 <span>Spent Amount</span>
             </nz-form-label>
@@ -48,7 +63,7 @@
                     [nzStep]="1"></nz-input-number>
             </nz-form-control>
           </nz-form-item> -->
-          <!-- <table class="reason_type_custom" *ngIf="this.validateForm.controls['reason_type'].value === 'Farmer'">
+        <!-- <table class="reason_type_custom" *ngIf="this.validateForm.controls['reason_type'].value === 'Farmer'">
             <tr>
               <td>
                 <nz-form-item style="width: 350px;">
@@ -76,70 +91,147 @@
               </td>
             </tr>
           </table> -->
-          
-          
-          <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notes">Notes</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['notes']"
-                nzErrorTip="Please input your notes!">
-                <nz-input-group [nzSuffix]="textAreaClearNotes"
-                    class="ant-input-affix-wrapper-textarea-with-clear-btn">
-                    <textarea nz-input formControlName="notes" placeholder="Notes"></textarea>
-                </nz-input-group>
-                <ng-template #textAreaClearNotes>
-                    <span nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
-                        *ngIf="validateForm.controls['notes'].value"
-                        (click)="clearfield('notes')"></span>
-                </ng-template>
-            </nz-form-control>
+
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notes">Notes</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['notes']"
+            nzErrorTip="Please input your notes!">
+            <nz-input-group [nzSuffix]="textAreaClearNotes" class="ant-input-affix-wrapper-textarea-with-clear-btn">
+              <textarea nz-input formControlName="notes" placeholder="Notes"></textarea>
+            </nz-input-group>
+            <ng-template #textAreaClearNotes>
+              <span nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle"
+                *ngIf="validateForm.controls['notes'].value" (click)="clearfield('notes')"></span>
+            </ng-template>
+          </nz-form-control>
         </nz-form-item>
-          <nz-form-item nz-row class="register-area">
-            <nz-form-control [nzSpan]="14" [nzOffset]="6">
-              <button nz-button nzType="primary" [disabled]="!validateForm.valid" (click)="submitForm()">{{ edit ? 'Update' : 'Submit' }}</button>&nbsp;
-              <button nz-button nzType="default" (click)="reset()">Reset</button>
-            </nz-form-control>
-          </nz-form-item>
-        </form>
-      </div>
-      <div nz-col nzSpan="12">
-        <!-- <div>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            <button nz-button nzType="primary" [disabled]="!validateForm.valid" (click)="submitForm()">{{ edit ?
+              'Update' : 'Submit' }}</button>&nbsp;
+            <button nz-button nzType="default" (click)="reset()">Reset</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    <div nz-col nzSpan="12">
+      <!-- <div>
           <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
         </div> -->
-        <nz-table *ngIf="collectionsData" #customerTable [nzData]="collectionsData" [nzLoading]="loading" [nzShowPagination]="false">
-                  <thead>
-                      <tr>
-                          <th>Name</th>
-                          <th>Amount</th>
-                          <th>Date</th>
-                          <th>Spent Reason</th>
-                          <th>Spent Amount</th>
-                          <th>Notes</th>
-                          <!-- <th>Actions</th> -->
-                      </tr>
-                      </thead>
-                      <tbody>
-                          <tr *ngFor="let data of collectionsData">
-                              <td>{{ data.created_name }}</td>
-                              <td>{{ data.amount }}</td>
-                              <td>{{ data.date }}</td>
-                              <td>{{ data.reason_type }}</td>
-                              <td>{{ data.spent_amount }}</td>
-                              <td>{{ data.notes }}</td>
-                              <!-- <td>
-                                <a (click)="editCustomer(data)" *ngIf="userinfo.username === 'admin' || (userinfo.apps.customer && userinfo.apps.customer.isEdit)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
-                                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Customer" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()" *ngIf="userinfo.username === 'admin' || (userinfo.apps.customer && userinfo.apps.customer.isEdit)">
-                                    <span nz-icon nzType="delete" nzTheme="fill"></span>
-                                </a>
-                              </td> -->
-                              </tr>
-                          </tbody>
-                      </nz-table>
-                      <!-- <div class="text-right">
+      <nz-table *ngIf="collectionsData && collectionsData.length > 0" #customerTable [nzData]="collectionsData" [nzLoading]="loading">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Spent Reason</th>
+            <th>Spent Amount</th>
+            <th>Notes</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of collectionsData;index as CI;">
+            <td>{{ CI + 1 }}</td>
+            <td>{{ data.created_name }}</td>
+            <td>{{ data.amount }}</td>
+            <td>{{ data.date }}</td>
+            <td>{{ data.reason_type }}</td>
+            <td>{{ data.spent_amount }}</td>
+            <td>{{ data.notes }}</td>
+            <td>
+              <a *ngIf="!data.report_approved" nz-popconfirm nzPopconfirmTitle="Are you sure for approve report" nzPopconfirmPlacement="left" (nzOnConfirm)="approveReport(data)" (nzOnCancel)="cancel()">
+                Approve
+              </a>
+              <span *ngIf="data.report_approved" style="color: green;">
+                Approved
+              </span>&nbsp;&nbsp;
+              <!-- <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Customer" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()" *ngIf="userinfo.username === 'admin' || (userinfo.apps.customer && userinfo.apps.customer.isEdit)">
+                  <span nz-icon nzType="delete" nzTheme="fill"></span>
+              </a> -->
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <!-- <div class="text-right">
                         <br />
                         <nz-pagination [nzPageIndex]="index" [nzTotal]="total" [nzShowSizeChanger]="true" [nzPageSize]="pageSize" (nzPageIndexChange)="onPageChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
                         <br />
                       </div> -->
+      <div class="margin-top-15" *ngIf="collectionsByUser && collectionsByUser.length > 0">
+        <h3>Today Collections</h3>
+        <nz-table #collectionsByUs [nzData]="collectionsByUser">
+          <thead>
+            <tr>
+              <th>S.No.</th>
+              <th>Customer Name</th>
+              <th>Amount</th>
+              <th>Collected Name</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of collectionsByUser;index as CUI;">
+              <td>{{ CUI + 1 }}</td>
+              <td>{{ data.customer_name }}</td>
+              <td>{{ data.amount | number: '1.2-2' }}</td>
+              <td>{{ data.collected_name }}</td>
+              <td>{{ data.notes }}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{user_collected_total_amount | number: '1.2-2' }}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </nz-table>
       </div>
+      <div class="margin-top-15" *ngIf="CollectionsAllUser && CollectionsAllUser.length > 0">
+        <h3>Today All Collections</h3>
+        <nz-table #CollectionsAllUse [nzData]="CollectionsAllUser">
+          <thead>
+            <tr>
+              <th nzWidth="60px"></th>
+              <th>S.No.</th>
+              <th>User</th>
+              <th>Collected Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let data of CollectionsAllUser;index as CAI;">
+              <tr>
+                <td [nzExpand]="expandSet.has(data.collected_user_id)" (nzExpandChange)="onExpandChange(data.collected_user_id, $event)"></td>
+                <td>{{ CAI + 1 }}</td>
+                <td>{{ data.collected_user_name }}</td>
+                <td>{{ data.collectedAmount | number: '1.2-2' }}</td>
+              </tr>
+              <tr [nzExpand]="expandSet.has(data.collected_user_id)">
+                <nz-table #usercollections [nzData]="data.collections">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Date</th>
+                      <th>Customer Name</th>
+                      <th>Amount</th>
+                    </tr>
+                    <tr *ngFor="let col of data.collections;index as CAIC;">
+                      <td>{{ CAIC + 1 }}</td>
+                      <td>{{ col.collection_date }}</td>
+                      <td>{{ col.customer_name }}</td>
+                      <td>{{ col.amount | number: '1.2-2' }}</td>
+                    </tr>
+                  </thead>
+                </nz-table>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
       </div>
-      
+    </div>
   </div>
+
+</div>
