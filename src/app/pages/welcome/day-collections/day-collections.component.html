@@ -13,7 +13,7 @@
                             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24">
                                 <nz-date-picker formControlName="date" [(ngModel)]="date"
-                                    (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
+                                    (ngModelChange)="onChange($event)" [nzAllowClear]="false" [nzFormat]="dateFormat"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>

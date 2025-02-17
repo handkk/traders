@@ -15,6 +15,7 @@ export class FarmerBillComponent implements OnInit {
   todayDate = '';
   selectedFarmer: any;
   farmersData: any[] = [];
+  dateFormat = 'dd-MM-yyyy';
   
   constructor(
     private mainService: MainService,

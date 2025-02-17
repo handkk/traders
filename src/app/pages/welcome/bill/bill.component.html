@@ -133,6 +133,7 @@
             </form>
         </div>
         <div nz-col nzSpan="12">
+            <p style="float: right;" *ngIf="billsData && billsData.length > 0"><strong>Total Quantity:</strong> {{total_quantity}} &nbsp;&nbsp; <strong>Total Amount:</strong> {{total_amount | number: '1.2-2'}} &nbsp;&nbsp;&nbsp;</p>
             <nz-table #basicTable [nzData]="billsData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                     <tr>
@@ -154,7 +155,7 @@
                         <td>{{ data.rate | number: '1.2-2' }}</td>
                         <td>{{ data.total_amount | number: '1.2-2' }}</td>
                         <td>
-                            <a (click)="editBill(data)" nz-tooltip nzTooltipTitle="Edit Bill" nzTooltipPlacement="left"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                            <!-- <a (click)="editBill(data)" nz-tooltip nzTooltipTitle="Edit Bill" nzTooltipPlacement="left"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp; -->
                             <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Bill"
                                 nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)"
                                 (nzOnCancel)="cancel()" nz-tooltip nzTooltipTitle="Remove Bill" nzTooltipPlacement="right">
@@ -162,7 +163,7 @@
                             </a>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -170,7 +171,7 @@
                         <td></td>
                         <td>{{total_amount | number: '1.2-2'}}</td>
                         <td></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </nz-table>
             <!-- <div class="text-right">

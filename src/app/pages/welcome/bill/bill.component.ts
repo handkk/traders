@@ -94,7 +94,12 @@ export class BillComponent implements OnInit {
     this.getAllVegetables();
     this.getBills();
     this.switchValue = false;
-
+    setTimeout(() => {
+      const select = document.getElementById('customerSelection');
+      const select1 = select?.children[0].children[0];
+      select1?.children[0].setAttribute('id', 'customerselect')
+      document.getElementById('customerselect')?.focus();
+    }, 500);
   }
 
   clearfield(input: string) {
@@ -102,6 +107,8 @@ export class BillComponent implements OnInit {
   }
 
   getBills() {
+    this.total_amount = 0;
+    this.total_quantity = 0;
     const date = new Date();
     const requestBody = {
       // 'skip': this.index,
@@ -109,6 +116,7 @@ export class BillComponent implements OnInit {
       'bill_date': moment(date).format('DD-MM-YYYY')
     };
     this.mainService.spinning.emit(true);
+    this.loading = true;
     this.mainService.getBills(requestBody).subscribe(
       (data: any) => {
         const bills = data.data;
@@ -120,13 +128,7 @@ export class BillComponent implements OnInit {
           this.total_quantity = this.total_quantity + bil.quantity;
           this.total_amount = this.total_amount + bil.total_amount;
         });
-        this.getCustomers();
-        setTimeout(() => {
-          const select = document.getElementById('customerSelection');
-          const select1 = select?.children[0].children[0];
-          select1?.children[0].setAttribute('id', 'customerselect')
-          document.getElementById('customerselect')?.focus();
-        }, 500);
+        // this.getCustomers();
       },
       err => {
         console.log('get customers err ', err);

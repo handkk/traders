@@ -43,6 +43,7 @@ export class DayCollectionsComponent {
   dayBillsList1: any[] = [];
   dayBillsList2: any[] = [];
   @ViewChild('dayBillTable') dayBillTable!: ElementRef;
+  dateFormat = 'dd-MM-yyyy';
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {

@@ -21,6 +21,7 @@ export class StatementComponent implements OnInit {
   total_collected_amount = 0;
   total_balance = 0;
   open_balance = 0;
+  dateFormat = 'dd-MM-yyyy';
 
   constructor(
     private mainService: MainService,

@@ -1,7 +1,7 @@
 <h2 class="header-print">Bill Print</h2>
 <div class="date-picker">
     <br />
-    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false"></nz-date-picker>
+    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false" [nzFormat]="dateFormat"></nz-date-picker>
     <a (click)="print()" class="align-right margin-right25" *ngIf="finalArray && finalArray.length > 0">
         <span nz-icon nzType="printer" nzTheme="fill"></span>
     </a>
@@ -56,14 +56,15 @@
                         <hr style="border: 1px dashed #000;" />
                     </td>
                 </tr> -->
-                <!-- <tr>
-                    <td>&nbsp;&nbsp;&nbsp;<span style="text-decoration: underline;">Last 2 Collections</span></td>
+                <tr>
+                    <td></td>
+                    <!-- <td>&nbsp;&nbsp;&nbsp;<span style="text-decoration: underline;">Last 2 Collections</span></td> -->
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="number" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
-                <tr *ngFor="let collection of print.collectionData;">
+                <!-- <tr *ngFor="let collection of print.collectionData;">
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;{{collection.collection_date}}</td>
                     <td>{{collection.amount | number: '1.2-2'}}</td>
                     <td></td>

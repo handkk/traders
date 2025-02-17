@@ -20,6 +20,7 @@ export class BillPrintComponent implements OnInit {
   maxCount = 2
   breakCount: number = 10; // if u want max 3 set 2 , if u want 10 recourd set 9
   finalArray: any[] = [];
+  dateFormat = 'dd-MM-yyyy';
   constructor(
     private mainService: MainService
   ) { }
