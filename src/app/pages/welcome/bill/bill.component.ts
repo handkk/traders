@@ -244,6 +244,12 @@ export class BillComponent implements OnInit {
             this.validateForm.controls['notes'].reset();
             this.index = 1;
             this.pageSize = 10;
+            setTimeout(() => {
+              const select = document.getElementById('customerSelection');
+              const select1 = select?.children[0].children[0];
+              select1?.children[0].setAttribute('id', 'customerselect')
+              document.getElementById('customerselect')?.focus();
+            }, 500);
             this.getBills();
           },
           err => {
