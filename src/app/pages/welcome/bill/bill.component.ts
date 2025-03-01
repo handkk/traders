@@ -253,13 +253,14 @@ export class BillComponent implements OnInit {
             this.getBills();
           },
           err => {
-            console.log('get customers err ', err);
             this.mainService.spinning.emit(false);
             if (err && err.error) {
               if (!err.error.success && err.error.code === 1000) {
                 this.message.create('error', err.error.message);
                 sessionStorage.clear();
                 this.router.navigateByUrl('/login');
+              } else {
+                this.message.create('error', err.error.message);
               }
             }
           }

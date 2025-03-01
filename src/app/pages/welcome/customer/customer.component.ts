@@ -174,6 +174,8 @@ export class CustomerComponent implements OnInit {
                 this.message.create('error', err.error.message);
                 sessionStorage.clear();
                 this.router.navigateByUrl('/login');
+              } else {
+                this.message.create('error', err.error.message);
               }
             } else {
               this.getCustomers();
