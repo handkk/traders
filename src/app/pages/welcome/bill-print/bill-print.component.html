@@ -55,7 +55,7 @@
                     <td style="height: 5px;"></td>
                 </tr>
                 <tr>
-                    <td class="bill_item_name upper-case">&nbsp;&nbsp;&nbsp;Bill amount: </td>
+                    <td class="bill_item_name upper-case">&nbsp;&nbsp;&nbsp;Bill: </td>
                     <!-- <td>&nbsp;&nbsp;&nbsp;<span style="text-decoration: underline;">Last 2 Collections</span></td> -->
                     <td></td>
                     <td></td>
@@ -93,7 +93,7 @@
                     <td class="number" style="border-top: 1px dashed #000;">{{print.balance_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr *ngIf="print.total_balance">
                     <td class="bill_item_name upper-case">&nbsp;&nbsp;&nbsp;Total Balance: </td>
                     <td></td>
                     <td></td>

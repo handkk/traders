@@ -67,7 +67,6 @@ tr td {
     .bill {
         width: 396.85px;
         height: 370.7px;
-        border: 1px solid #000;
         box-sizing: border-box;
         page-break-inside: avoid;
     }
