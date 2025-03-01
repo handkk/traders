@@ -64,8 +64,8 @@
                             </tr>
                             <tr *ngFor="let data2 of dayBillsList2" style="text-align: left;">
                                 <td>{{ data2.name }}</td>
-                                <td>{{ data2.bill_amount }}</td>
-                                <td>{{ data2.balance_amount }}</td>
+                                <td>{{ data2.bill_amount | number: '1.2-2' }}</td>
+                                <td>{{ data2.balance_amount | number: '1.2-2' }}</td>
                                 <td style="width: 100px;"></td>
                             </tr>
                         </table>

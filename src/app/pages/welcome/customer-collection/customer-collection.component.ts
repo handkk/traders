@@ -59,7 +59,7 @@ export class CustomerCollectionComponent {
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
-      let userinfo: any = sessionStorage.getItem('userinfo');
+      let userinfo: any = JSON.parse(sessionStorage.getItem('userinfo') || '');
       if (!userinfo) {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
@@ -82,9 +82,11 @@ export class CustomerCollectionComponent {
   }
 
   getCollections() {
+    const date = new Date();
     const requestBody = {
       'skip': this.index,
-      'limit': this.pageSize
+      'limit': this.pageSize,
+      'collection_date': moment(date).format('DD-MM-YYYY')
     };
     setTimeout(() => {
       const select = document.getElementById('collectionCustomerInput');
