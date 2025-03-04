@@ -60,7 +60,7 @@
                     <td class="bill_item_name upper-case" style="text-align: right;">Bill: &nbsp;&nbsp;&nbsp;</td>
                     <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
-                <tr *ngIf="print.balance_amount >= 0">
+                <tr *ngIf="print.balance_amount < 0 || print.balance_amount >= 0">
                     <td></td>
                     <td></td>
                     <td></td>
