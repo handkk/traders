@@ -19,12 +19,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;&nbsp;<span class="bill_customer_name">{{print.name | uppercase}}</span>&nbsp;- {{print.phone_number}}</td>
-                    <td>
-                        <span *ngIf="print.continue !== ''">{{print.continue}}</span>
-                        <span *ngIf="print.second">{{print.second}}</span>
-                        <span *ngIf="print.third">{{print.third}}</span>
-                        <span *ngIf="print.end">{{print.end}}</span>
-                    </td>
+                    <td></td>
                     <td style="text-align: right;" class="bill_item_name">
                         <span>{{day === 0 ? 'Sun,' : (day === 1 ? 'Mon,' : (day === 2 ? 'Tue,' : (day === 3 ? 'Wed,' :
                             (day
@@ -75,6 +70,9 @@
                     <td class="bill_item_name upper-case" style="text-align: right;">Total: &nbsp;&nbsp;&nbsp;</td>
                     <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.total_balance | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td></td>
+                </tr>
+                <tr *ngIf="print.continue">
+                    <td colspan="5" class="text-center"><span *ngIf="print.continue !== ''" class="bill_item_name" style="letter-spacing: 1px;">{{print.continue}}</span></td>
                 </tr>
             </table>
         </div>
