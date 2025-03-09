@@ -33,3 +33,13 @@ input[type=number]:focus {
 .text-right {
 text-align: right !important;
 }
+
+::ng-deep .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: green;
+  color: #ffffff;
+}
+
+::ng-deep .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: green;
+  color: #ffffff;
+}

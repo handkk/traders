@@ -134,6 +134,9 @@
         </div>
         <div nz-col nzSpan="12">
             <p style="float: right;" *ngIf="billsData && billsData.length > 0"><strong>Total Quantity:</strong> {{total_quantity}} &nbsp;&nbsp; <strong>Total Amount:</strong> {{total_amount | number: '1.2-2'}} &nbsp;&nbsp;&nbsp;</p>
+            <nz-date-picker [(ngModel)]="bill_date"
+                                    (ngModelChange)="onBillChange($event)" [nzAllowClear]="false"
+                                    [nzDisabled]="dateDisable" [nzFormat]="dateFormat"></nz-date-picker>
             <nz-table #basicTable [nzData]="billsData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>
                     <tr>

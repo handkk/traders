@@ -39,7 +39,7 @@
                     <td class="upper-case">{{bill.notes}}</td>
                     <td class="bill_item_name">{{bill.quantity}}</td>
                     <td class="number bill_item_name">{{bill.rate}}/-</td>
-                    <td class="number bill_item_name">{{bill.total_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td class="number bill_item_name">{{bill.total_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr>
                     <td style="height: 5px;"></td>
@@ -49,26 +49,26 @@
                     <td style="height: 5px;"></td>
                 </tr>
                 <tr *ngIf="print.bill_amount">
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;Last 2 Collections</td>
                     <td class="bill_item_name upper-case" style="text-align: right;">Bill: &nbsp;&nbsp;&nbsp;</td>
-                    <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.bill_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.bill_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr *ngIf="print.balance_amount < 0 || print.balance_amount >= 0">
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td *ngIf="print.collections.length >= 1" colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;1. &nbsp;{{print.collections[0].collection_date}} &nbsp;{{print.collections[0].amount | number: '1.2-2'}}</td>
+                    <td *ngIf="print.collections.length < 1 || print.collections.length === 0"></td>
+                    <td *ngIf="print.collections.length < 1 || print.collections.length === 0"></td>
+                    <td *ngIf="print.collections.length < 1 || print.collections.length === 0"></td>
                     <td class="bill_item_name upper-case" style="text-align: right;">Balance: &nbsp;&nbsp;&nbsp;</td>
-                    <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.balance_amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.balance_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td></td>
                 </tr>
                 <tr *ngIf="print.total_balance">
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td *ngIf="print.collections.length === 2" colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;2. &nbsp;{{print.collections[1].collection_date}} &nbsp;{{print.collections[1].amount | number: '1.2-2'}}</td>
+                    <td *ngIf="print.collections.length < 2 || print.collections.length === 0"></td>
+                    <td *ngIf="print.collections.length < 2 || print.collections.length === 0"></td>
+                    <td *ngIf="print.collections.length < 2 || print.collections.length === 0"></td>
                     <td class="bill_item_name upper-case" style="text-align: right;">Total: &nbsp;&nbsp;&nbsp;</td>
-                    <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.total_balance | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.total_balance}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td></td>
                 </tr>
                 <tr *ngIf="print.continue">

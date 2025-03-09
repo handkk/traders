@@ -48,6 +48,7 @@ export class BillComponent implements OnInit {
   dateFormat = 'dd-MM-yyyy';
   total_quantity: number = 0;
   total_amount: number = 0;
+  bill_date = new Date();
 
   constructor(private fb: UntypedFormBuilder,
     public el: ElementRef,
@@ -109,11 +110,10 @@ export class BillComponent implements OnInit {
   getBills() {
     this.total_amount = 0;
     this.total_quantity = 0;
-    const date = new Date();
     const requestBody = {
       // 'skip': this.index,
       // 'limit': this.pageSize,
-      'bill_date': moment(date).format('DD-MM-YYYY')
+      'bill_date': moment(this.bill_date).format('DD-MM-YYYY')
     };
     this.mainService.spinning.emit(true);
     this.loading = true;
@@ -369,5 +369,10 @@ export class BillComponent implements OnInit {
     this.validateForm.controls['farmer'].setValue(farmerData);
     this.switchValue = data.unit_wise;
     this.dateDisable = true;
+  }
+
+  onBillChange(event: Date) {
+    this.bill_date = event;
+    this.getBills();
   }
 }
