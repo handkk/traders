@@ -21,6 +21,8 @@ export class BillPrintComponent implements OnInit {
   breakCount: number = 10; // if u want max 3 set 2 , if u want 10 recourd set 9
   finalArray: any[] = [];
   dateFormat = 'dd-MM-yyyy';
+  userinfo: any;
+  dateDisable = false;
   constructor(
     private mainService: MainService
   ) { }
@@ -29,6 +31,10 @@ export class BillPrintComponent implements OnInit {
     const today_date: Date = new Date();
     this.day = this.date.getDay();
     this.todayDate = moment(today_date).format('DD-MM-YYYY');
+    this.userinfo = this.mainService.getLoggedInUser();
+    if (this.userinfo.username !== 'admin') {
+      this.dateDisable = true;
+    }
     this.printCustomerBills();
   }
 

@@ -6,7 +6,7 @@
     </div>
     <div nz-row>
         <div nz-col nzSpan="12">
-            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" appFocus>
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" appFocus *ngIf="userinfo.username === 'admin' || (userinfo.apps.collection && userinfo.apps.collection.isEdit)">
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -79,7 +79,7 @@
                             <td>{{ data.notes }}</td>
                             <td>
                                 <!-- <a (click)="editCustomer(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp; -->
-                                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Collection" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()">
+                                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Collection" nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)" (nzOnCancel)="cancel()" *ngIf="userinfo.username === 'admin' || (userinfo.apps.collection && userinfo.apps.collection.isEdit)">
                                     <span nz-icon nzType="delete" nzTheme="fill"></span>
                                 </a>
                             </td>

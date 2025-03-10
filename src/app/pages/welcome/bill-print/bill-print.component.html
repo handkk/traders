@@ -1,7 +1,7 @@
 <h2 class="header-print">Bill Print</h2>
 <div class="date-picker">
     <br />
-    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false" [nzFormat]="dateFormat"></nz-date-picker>
+    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzAllowClear]="false" [nzFormat]="dateFormat" [nzDisabled]="dateDisable"></nz-date-picker>
     <a (click)="print()" class="align-right margin-right25" *ngIf="finalArray && finalArray.length > 0">
         <span nz-icon nzType="printer" nzTheme="fill"></span>
     </a>
@@ -54,7 +54,7 @@
                     <td class="number bill_item_name" style="border-top: 1px dashed #000;">{{print.bill_amount}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr *ngIf="print.balance_amount < 0 || print.balance_amount >= 0">
-                    <td *ngIf="print.collections.length >= 1" colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;1. &nbsp;{{print.collections[0].collection_date}} &nbsp;{{print.collections[0].amount | number: '1.2-2'}}</td>
+                    <td *ngIf="print.collections.length >= 1" colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;1. &nbsp;{{print.collections[0].collection_date}} - &nbsp;{{print.collections[0].amount | number: '1.2-2'}}</td>
                     <td *ngIf="print.collections.length < 1 || print.collections.length === 0"></td>
                     <td *ngIf="print.collections.length < 1 || print.collections.length === 0"></td>
                     <td *ngIf="print.collections.length < 1 || print.collections.length === 0"></td>
@@ -63,7 +63,7 @@
                     <td></td>
                 </tr>
                 <tr *ngIf="print.total_balance">
-                    <td *ngIf="print.collections.length === 2" colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;2. &nbsp;{{print.collections[1].collection_date}} &nbsp;{{print.collections[1].amount | number: '1.2-2'}}</td>
+                    <td *ngIf="print.collections.length === 2" colspan="3" class="bill_item_name">&nbsp;&nbsp;&nbsp;2. &nbsp;{{print.collections[1].collection_date}} - &nbsp;{{print.collections[1].amount | number: '1.2-2'}}</td>
                     <td *ngIf="print.collections.length < 2 || print.collections.length === 0"></td>
                     <td *ngIf="print.collections.length < 2 || print.collections.length === 0"></td>
                     <td *ngIf="print.collections.length < 2 || print.collections.length === 0"></td>

@@ -44,15 +44,18 @@ export class DayCollectionsComponent {
   dayBillsList2: any[] = [];
   @ViewChild('dayBillTable') dayBillTable!: ElementRef;
   dateFormat = 'dd-MM-yyyy';
+  dateDisable = false;
+  userinfo: any;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
-      let userinfo: any = sessionStorage.getItem('userinfo');
-      if (!userinfo) {
+      this.userinfo = this.mainService.getLoggedInUser();
+      if (!this.userinfo) {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');
       }
+      
     }
 
   ngOnInit(): void {
@@ -60,6 +63,10 @@ export class DayCollectionsComponent {
       customer: [null],
       date: [this.date, [Validators.required]]
     });
+    if (this.userinfo.username !== 'admin') {
+      this.dateDisable = true;
+      this.submitForm();
+    }
   }
 
   downloadPDF() {

@@ -40,14 +40,15 @@ export class FarmerComponent {
   loading = true;
   edit = false;
   farmerId: string = '';
+  userinfo: any;
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private farmerService: FarmerService,
     private mainService: MainService,
     private router: Router
     ) {
-      let userinfo: any = sessionStorage.getItem('userinfo');
-      if (!userinfo) {
+      this.userinfo = this.mainService.getLoggedInUser();
+      if (!this.userinfo) {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');

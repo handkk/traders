@@ -6,7 +6,7 @@
     </div>
     <div nz-row>
         <div nz-col nzSpan="12">
-            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" *ngIf="userinfo.username === 'admin' || (userinfo.apps.bill && userinfo.apps.bill.isEdit)">
                 <div nz-row>
                     <div nz-col nzSpan="14">
                         <nz-form-item>
@@ -161,7 +161,7 @@
                             <!-- <a (click)="editBill(data)" nz-tooltip nzTooltipTitle="Edit Bill" nzTooltipPlacement="left"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp; -->
                             <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Bill"
                                 nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data._id)"
-                                (nzOnCancel)="cancel()" nz-tooltip nzTooltipTitle="Remove Bill" nzTooltipPlacement="right">
+                                (nzOnCancel)="cancel()" nz-tooltip nzTooltipTitle="Remove Bill" nzTooltipPlacement="right" *ngIf="userinfo.username === 'admin' || (userinfo?.apps?.bill && userinfo?.apps?.bill?.isEdit)">
                                 <span nz-icon nzType="delete" nzTheme="fill"></span>
                             </a>
                         </td>

@@ -6,7 +6,7 @@
     </div>
     <div nz-row>
         <div nz-col nzSpan="12">
-            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" *ngIf="userinfo.username === 'admin' || (userinfo.apps.vegetable && userinfo.apps.vegetable.isEdit)">
                 <!-- <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="number" nzRequired>
                         <span>Vegetable No</span>
@@ -66,8 +66,8 @@
                         <td>{{ data.name }}</td>
                         <td>{{ data.notes }}</td>
                         <td>
-                            <a (click)="editVeg(data)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
-                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Vegetable" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()">
+                            <a (click)="editVeg(data)" *ngIf="userinfo.username === 'admin' || (userinfo.apps.vegetable && userinfo.apps.vegetable.isEdit)"><span nz-icon nzType="edit" nzTheme="fill"></span></a>&nbsp;&nbsp;
+                            <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this Vegetable" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirm(data._id)" (nzOnCancel)="cancel()" *ngIf="userinfo.username === 'admin' || (userinfo.apps.vegetable && userinfo.apps.vegetable.isEdit)">
                                 <span nz-icon nzType="delete" nzTheme="fill"></span>
                             </a>
                         </td>

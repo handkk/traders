@@ -266,8 +266,8 @@ export class BillComponent implements OnInit {
           }
         );
       } else {
-          requestBody['isCustEdited'] = this.bill_data.customer_id == this.validateForm.value.customer._id ? false : true;
-          requestBody['oldCustId']=this.bill_data.customer_id;
+        requestBody['isCustEdited'] = this.bill_data.customer_id == this.validateForm.value.customer._id ? false : true;
+        requestBody['oldCustId'] = this.bill_data.customer_id;
         this.mainService.updateBill(this.bill_data._id, requestBody).subscribe(
           (data: any) => {
             this.message.create('success', `Bill updated Successfully`);

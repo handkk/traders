@@ -16,6 +16,8 @@ export class FarmerBillComponent implements OnInit {
   selectedFarmer: any;
   farmersData: any[] = [];
   dateFormat = 'dd-MM-yyyy';
+  userinfo: any;
+  dateDisable = false;
   
   constructor(
     private mainService: MainService,
@@ -26,6 +28,10 @@ export class FarmerBillComponent implements OnInit {
     const today_date: Date = new Date();
     this.day = this.date.getDay();
     this.todayDate = moment(today_date).format('DD-MM-YYYY');
+    this.userinfo = this.mainService.getLoggedInUser();
+    if (this.userinfo.username !== 'admin') {
+      this.dateDisable = true;
+    }
     this.getFarmers();
   }
 

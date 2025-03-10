@@ -13,14 +13,14 @@
                             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date</nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24">
                                 <nz-date-picker formControlName="date" [(ngModel)]="date"
-                                    (ngModelChange)="onChange($event)" [nzAllowClear]="false" [nzFormat]="dateFormat"></nz-date-picker>
+                                    (ngModelChange)="onChange($event)" [nzAllowClear]="false" [nzFormat]="dateFormat" [nzDisabled]="dateDisable"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                     <div nz-col nzSpan="8">
                         <nz-form-item nz-row class="register-area">
                             <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                                <button nz-button nzType="primary">Submit</button>&nbsp;
+                                <button nz-button nzType="primary" [disabled]="dateDisable">Submit</button>&nbsp;
                             </nz-form-control>
                         </nz-form-item>
                     </div>

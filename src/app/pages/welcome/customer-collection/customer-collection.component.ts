@@ -56,16 +56,17 @@ export class CustomerCollectionComponent {
   total_amount: number = 0;
   dateFormat = 'dd-MM-yyyy';
   dateDisable = false;
+  userinfo: any;
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
-      let userinfo: any = JSON.parse(sessionStorage.getItem('userinfo') || '');
-      if (!userinfo) {
+      this.userinfo = this.mainService.getLoggedInUser();
+      if (!this.userinfo) {
         sessionStorage.clear();
         this.message.create('warning', 'User session expired please login');
         this.router.navigateByUrl('/login');
       }
-      if (userinfo.username !== 'admin') {
+      if (this.userinfo.username !== 'admin') {
         this.dateDisable = true;
       }
     }
