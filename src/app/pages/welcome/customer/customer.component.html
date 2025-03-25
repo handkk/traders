@@ -94,7 +94,10 @@
     </div>
     <div nz-col nzSpan="12">
       <div>
-        <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
+        <nz-form-control [nzSm]="14" [nzXs]="24" style="display: inline-block;width: 200px;margin-bottom: 15px;">
+          <input nz-input id="customer_search" [(ngModel)]="search_customer" placeholder="Search Customer" autocomplete="off" (ngModelChange)="searchCustomer()" />
+        </nz-form-control>
+        <a (click)="exportToExcel()" nz-tooltip nzTooltipTitle="Export as Excel" style="float: right;"><span nz-icon nzType="file-excel" nzTheme="fill"></span></a>
       </div>
       <nz-table *ngIf="customersData" #customerTable [nzData]="customersData" [nzLoading]="loading" [nzShowPagination]="false">
                 <thead>

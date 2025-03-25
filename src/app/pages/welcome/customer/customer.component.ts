@@ -51,6 +51,7 @@ export class CustomerComponent implements OnInit {
     elementIdOrContent: 'sampleTable', // the id of html/table element
   };
   userinfo: any;
+  search_customer = '';
 
   constructor(private fb: UntypedFormBuilder, private message: NzMessageService,
     private mainService: MainService,
@@ -85,13 +86,19 @@ export class CustomerComponent implements OnInit {
     this.getCustomers();
   }
 
+  searchCustomer() {
+    if (this.search_customer.length >= 2) {
+      this.getCustomers();
+    } else if (this.search_customer.length === 0) {
+      this.getCustomers();
+    }
+  }
+
   getCustomers() {
-    setTimeout(() => {
-      document.getElementById('customerName')?.focus();
-    }, 100);
     const requestBody = {
       'skip': this.index,
-      'limit': this.pageSize
+      'limit': this.pageSize,
+      'name': this.search_customer ? this.search_customer : ''
     };
     this.mainService.spinning.emit(true);
     this.mainService.getCustomers(requestBody).subscribe(
@@ -163,6 +170,9 @@ export class CustomerComponent implements OnInit {
             this.reset();
             this.loading = true;
             this.mainService.spinning.emit(false);
+            setTimeout(() => {
+              document.getElementById('customerName')?.focus();
+            }, 100);
             this.getCustomers();
           },
           err => {

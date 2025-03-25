@@ -1,10 +1,11 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, QueryList, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import { FarmerService } from '../farmer/farmer.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-bill',
@@ -55,12 +56,18 @@ export class BillComponent implements OnInit {
     private message: NzMessageService,
     private mainService: MainService,
     private farmerService: FarmerService,
-    private router: Router
+    private router: Router,
+    private notificationService: NzNotificationService
   ) {
     this.userinfo = this.mainService.getLoggedInUser();
     if (!this.userinfo) {
       sessionStorage.clear();
-      this.message.create('warning', 'User session expired please login');
+      this.notificationService
+      .create(
+        'warning',
+        'Session Expired',
+        'User session expired please login', { nzPlacement: 'top' }
+      );
       this.router.navigateByUrl('/login');
     } else if (this.userinfo.username !== 'admin') {
       if (!this.userinfo?.apps?.bill?.isView && !this.userinfo?.apps?.bill?.isEdit) {
@@ -137,7 +144,12 @@ export class BillComponent implements OnInit {
         this.loading = false;
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
-            this.message.create('error', err.error.message);
+            this.notificationService
+            .create(
+              'error',
+              'Get Bills',
+              err.error.message, { nzPlacement: 'top' }
+            );
             sessionStorage.clear();
             this.router.navigateByUrl('/login');
           }
@@ -162,7 +174,12 @@ export class BillComponent implements OnInit {
         this.customers = [];
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
-            this.message.create('error', err.error.message);
+            this.notificationService
+            .create(
+              'error',
+              'Get Customers',
+              err.error.message, { nzPlacement: 'top' }
+            );
             sessionStorage.clear();
             this.router.navigateByUrl('/login');
           }
@@ -183,7 +200,12 @@ export class BillComponent implements OnInit {
         this.farmersList = [];
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
-            this.message.create('error', err.error.message);
+            this.notificationService
+            .create(
+              'error',
+              'Get Farmers',
+              err.error.message, { nzPlacement: 'top' }
+            );
             sessionStorage.clear();
             this.router.navigateByUrl('/login');
           }
@@ -204,7 +226,12 @@ export class BillComponent implements OnInit {
         this.vegetablesList = [];
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
-            this.message.create('error', err.error.message);
+            this.notificationService
+            .create(
+              'error',
+              'Session Expired',
+              err.error.message, { nzPlacement: 'top' }
+            );
             sessionStorage.clear();
             this.router.navigateByUrl('/login');
           }
@@ -238,7 +265,12 @@ export class BillComponent implements OnInit {
       if (!this.edit) {
         this.mainService.createBill(requestBody).subscribe(
           (data: any) => {
-            this.message.create('success', `Bill added Successfully`);
+            this.notificationService
+            .create(
+              'success',
+              'New Bill',
+              'Bill added Successfully', { nzPlacement: 'top' }
+            );
             this.mainService.spinning.emit(false);
             this.validateForm.controls['quantity'].reset();
             this.validateForm.controls['notes'].reset();
@@ -256,11 +288,21 @@ export class BillComponent implements OnInit {
             this.mainService.spinning.emit(false);
             if (err && err.error) {
               if (!err.error.success && err.error.code === 1000) {
-                this.message.create('error', err.error.message);
+                this.notificationService
+                .create(
+                  'error',
+                  'Session Expired',
+                  err.error.message, { nzPlacement: 'top' }
+                );
                 sessionStorage.clear();
                 this.router.navigateByUrl('/login');
               } else {
-                this.message.create('error', err.error.message);
+                this.notificationService
+                .create(
+                  'error',
+                  'Session Expired',
+                  err.error.message, { nzPlacement: 'top' }
+                );
               }
             }
           }
@@ -270,7 +312,12 @@ export class BillComponent implements OnInit {
         requestBody['oldCustId'] = this.bill_data.customer_id;
         this.mainService.updateBill(this.bill_data._id, requestBody).subscribe(
           (data: any) => {
-            this.message.create('success', `Bill updated Successfully`);
+            this.notificationService
+            .create(
+              'success',
+              'Update Bill',
+              'Bill updated Successfully', { nzPlacement: 'top' }
+            );
             this.mainService.spinning.emit(false);
             this.validateForm.controls['quantity'].reset();
             this.validateForm.controls['notes'].reset();
@@ -285,7 +332,12 @@ export class BillComponent implements OnInit {
             this.mainService.spinning.emit(false);
             if (err && err.error) {
               if (!err.error.success && err.error.code === 1000) {
-                this.message.create('error', err.error.message);
+                this.notificationService
+                .create(
+                  'error',
+                  'Session Expired',
+                  err.error.message, { nzPlacement: 'top' }
+                );
                 sessionStorage.clear();
                 this.router.navigateByUrl('/login');
               }
@@ -322,7 +374,12 @@ export class BillComponent implements OnInit {
         this.loading = false;
         this.mainService.spinning.emit(false);
         if (data && data.success) {
-          this.message.create('success', data.message);
+          this.notificationService
+          .create(
+            'success',
+            'Delete Bill',
+            data.message, { nzPlacement: 'top' }
+          );
           this.getBills();
         }
       },
@@ -332,7 +389,12 @@ export class BillComponent implements OnInit {
         this.mainService.spinning.emit(false);
         if (err && err.error) {
           if (!err.error.success && err.error.code === 1000) {
-            this.message.create('error', err.error.message);
+            this.notificationService
+            .create(
+              'error',
+              'Get Bill',
+              err.error.message, { nzPlacement: 'top' }
+            );
             sessionStorage.clear();
             this.router.navigateByUrl('/login');
           }
