@@ -31,7 +31,7 @@
             <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.bill && loggedInUser.apps.bill.isView)">
                 <a [routerLink]="['bill']">Bill</a>
             </li>
-            <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.collection && loggedInUser.apps.collection.isView)">
+            <li nz-menu-item>
               <a [routerLink]="['customer-collection']">Collection</a>
             </li>
             <li nz-menu-item *ngIf="loggedInUser.username === 'admin' || (loggedInUser.apps.collection && loggedInUser.apps.collection.isView) || (loggedInUser.apps.billprint && loggedInUser.apps.billprint.isView)">

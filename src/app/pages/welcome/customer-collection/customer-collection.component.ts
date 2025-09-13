@@ -137,38 +137,42 @@ export class CustomerCollectionComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      const billdate = moment(this.validateForm.value.date).format('DD-MM-YYYY');
-      const requestBody = {
-        customer_name: this.validateForm.value.customer.name,
-        customer_id: this.validateForm.value.customer._id,
-        notes: this.validateForm.value.notes,
-        amount: this.validateForm.value.amount,
-        collection_date: billdate
-      };
-      this.mainService.createCollection(requestBody).subscribe(
-        (data: any) => {
-          this.message.create('success', `Collection added Successfully`);
-          this.reset();
-          this.loading = true;
-          this.selectedCustomer = null;
-          this.getCollections();
-          setTimeout(() => {
-            this.getCustomers();
-          }, 200);
-        },
-        err => {
-          this.loading = false;
-          if (err && err.error) {
-            if (!err.error.success && err.error.code === 1000) {
-              this.message.create('error', err.error.message);
-              sessionStorage.clear();
-              this.router.navigateByUrl('/login');
-            }
-          } else {
+      if (this.userinfo.username === 'admin' || (this.userinfo.apps.collection && this.userinfo.apps.collection.isEdit)) {
+        const billdate = moment(this.validateForm.value.date).format('DD-MM-YYYY');
+        const requestBody = {
+          customer_name: this.validateForm.value.customer.name,
+          customer_id: this.validateForm.value.customer._id,
+          notes: this.validateForm.value.notes,
+          amount: this.validateForm.value.amount,
+          collection_date: billdate
+        };
+        this.mainService.createCollection(requestBody).subscribe(
+          (data: any) => {
+            this.message.create('success', `Collection added Successfully`);
+            this.reset();
+            this.loading = true;
+            this.selectedCustomer = null;
             this.getCollections();
+            setTimeout(() => {
+              this.getCustomers();
+            }, 200);
+          },
+          err => {
+            this.loading = false;
+            if (err && err.error) {
+              if (!err.error.success && err.error.code === 1000) {
+                this.message.create('error', err.error.message);
+                sessionStorage.clear();
+                this.router.navigateByUrl('/login');
+              }
+            } else {
+              this.getCollections();
+            }
           }
-        }
-      );
+        );
+      } else {
+        this.message.create('warning', 'No Permission for Create Collection');
+      }
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
