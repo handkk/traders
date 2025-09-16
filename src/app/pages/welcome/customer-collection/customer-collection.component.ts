@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { MainService } from '../../main.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { differenceInCalendarDays } from 'date-fns';
 
 @Component({
   selector: 'app-customer-collection',
@@ -57,6 +58,11 @@ export class CustomerCollectionComponent {
   dateFormat = 'dd-MM-yyyy';
   dateDisable = false;
   userinfo: any;
+  collections_date = new Date();
+  disabledFDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) > 0;
+
   
   constructor(private fb: UntypedFormBuilder, public el: ElementRef, private message: NzMessageService,
     private mainService: MainService, private router: Router) {
@@ -83,11 +89,10 @@ export class CustomerCollectionComponent {
   }
 
   getCollections() {
-    const date = new Date();
     const requestBody = {
       'skip': this.index,
       'limit': this.pageSize,
-      'collection_date': moment(date).format('DD-MM-YYYY')
+      'collection_date': moment(this.collections_date).format('DD-MM-YYYY')
     };
     setTimeout(() => {
       const select = document.getElementById('collectionCustomerInput');
@@ -238,5 +243,11 @@ export class CustomerCollectionComponent {
     // }
     this.selectedCustomer = event;
     // this.total_amount = bill_amount;
+  }
+
+  onDateChange(event: Date) {
+    this.collections_date = event;
+    this.index = 1;
+    this.getCollections();
   }
 }
