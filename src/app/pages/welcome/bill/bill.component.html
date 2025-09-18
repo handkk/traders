@@ -58,14 +58,12 @@
                                     [nzStep]="1"></nz-input-number>
                             </nz-form-control>
                         </nz-form-item>
-                    </div>
-                    <div nz-col nzSpan="10">
                         <nz-form-item>
                             <nz-form-label [nzSm]="6" [nzXs]="24">
                                 <span>Unit wise</span>
                             </nz-form-label>
                             <nz-form-control [nzSm]="14" [nzXs]="24">
-                                <nz-switch [(ngModel)]="switchValue" [ngModelOptions]="{standalone: true}"></nz-switch>
+                                <nz-switch [(ngModel)]="switchValue" [ngModelOptions]="{standalone: true}" nzCheckedChildren="Yes" nzUnCheckedChildren="No"></nz-switch>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
