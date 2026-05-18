@@ -37,6 +37,7 @@
                 *ngIf="dayBillsList && dayBillsList.length > 0"><span nz-icon nzType="printer"
                     nzTheme="fill"></span></a>
             <div #dayBillTable class="print-container">
+                <h4 *ngIf="dayBillsList && dayBillsList.length > 0">Sri Sainath Traders <span class="float-right">Date: {{date | date}}</span></h4>
                 <div nz-row *ngIf="dayBillsList && dayBillsList.length > 0" [nzGutter]="16">
                     <div nz-col nzSpan="12">
                         <table style="width: 100%;" *ngIf="dayBillsList1 && dayBillsList1.length > 0">
