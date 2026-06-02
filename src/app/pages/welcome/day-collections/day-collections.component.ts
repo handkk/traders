@@ -113,17 +113,18 @@ export class DayCollectionsComponent {
           this.mainService.spinning.emit(false);
           if (data && data.length > 0) {
             this.dayBillsList = data;
-            if (this.dayBillsList.length <= 28) {
-              this.dayBillsList1 = this.dayBillsList;
-            } else if (this.dayBillsList.length > 28) {
-              let temp = this.dayBillsList;
-              let first = temp.slice(0, 28);
-              console.log('first: ', first);
-              let second = temp.slice(28);
-              console.log('second: ', second);
-              this.dayBillsList1 = first;
-              this.dayBillsList2 = second;
-            }
+            this.dayBillsList1 = this.dayBillsList;
+            // if (this.dayBillsList.length <= 28) {
+            //   this.dayBillsList1 = this.dayBillsList;
+            // } else if (this.dayBillsList.length > 28) {
+            //   let temp = this.dayBillsList;
+            //   let first = temp.slice(0, 28);
+            //   console.log('first: ', first);
+            //   let second = temp.slice(28);
+            //   console.log('second: ', second);
+            //   this.dayBillsList1 = first;
+            //   this.dayBillsList2 = second;
+            // }
           }
         },
         err => {
@@ -180,5 +181,9 @@ export class DayCollectionsComponent {
 
   printTable() {
     window.print();
+  }
+
+  getFormattedDate(): string {
+    return new Date(this.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
 }

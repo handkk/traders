@@ -42,11 +42,11 @@
 
             <table style="width: 100%;">
                 <tr>
-                    <td class="text-center" colspan="3"><span class="shop-title">SRI SAINATH TRADERS</span>&nbsp;&nbsp;&nbsp;&nbsp;9640443322,&nbsp;9640443322</td>
+                    <td class="text-center" colspan="3"><span class="shop-title">SRI SAINATH TRADERS Shop No: 12</span> 9640443322,&nbsp;9959928487</td>
                     <!-- <td class="text-right">&nbsp;&nbsp;&nbsp;&nbsp;9640443322,&nbsp;9640443322</td> -->
                 </tr>
                 <tr>
-                    <td>&nbsp;&nbsp;&nbsp;<span class="bill_customer_name">{{print.farmer_name | uppercase}}</span><br />&nbsp;&nbsp;&nbsp;Ph. {{print.phone_number}}</td>
+                    <td>&nbsp;&nbsp;&nbsp;<span class="bill_customer_name">{{print.farmer_name | uppercase}}</span>&nbsp;- {{print.phone_number}}</td>
                     <td>
                         <span *ngIf="print.continue !== ''">{{print.continue}}</span>
                         <span *ngIf="print.second">{{print.second}}</span>
@@ -73,6 +73,13 @@
                     <td class="bill_item_name">{{bill.quantity}}</td>
                     <td class="number bill_item_name">{{bill.rate}}/-</td>
                     <td class="number bill_item_name">{{bill.amount | number: '1.2-2'}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="height: 5px;"></td>
+                    <td style="height: 5px;"></td>
+                    <td style="height: 5px;"></td>
+                    <td style="height: 5px;"></td>
+                    <td style="height: 5px;"></td>
                 </tr>
                 <!-- <tr>
                     <td></td>
